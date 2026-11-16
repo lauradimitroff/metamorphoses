@@ -1,0 +1,96 @@
+.essai {
+  position: relative;
+  height: 100svh;
+}
+
+.essai-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.essai-panneau {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 248px;
+  padding: 20px 20px 8px;
+  background: rgb(18 22 26 / 0.86);
+  border: 1px solid rgb(184 155 94 / 0.45);
+  /* Double filet, à la manière d'un cartouche gravé */
+  outline: 1px solid rgb(184 155 94 / 0.2);
+  outline-offset: -6px;
+}
+
+.essai-surtitre {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--laiton);
+}
+
+.essai-panneau h1 {
+  margin: 4px 0 16px;
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.essai-choix {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+}
+
+.essai-choix legend {
+  margin-bottom: 6px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgb(233 223 200 / 0.7);
+}
+
+.essai-boutons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.essai-boutons button {
+  min-height: 44px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--velin);
+  background: transparent;
+  border: 1px solid rgb(184 155 94 / 0.35);
+  cursor: pointer;
+  transition:
+    border-color 180ms ease-out,
+    color 180ms ease-out,
+    background-color 180ms ease-out;
+}
+
+.essai-boutons button:hover {
+  border-color: var(--laiton);
+}
+
+.essai-boutons button[aria-pressed='true'] {
+  color: var(--encre-de-nuit);
+  background: var(--laiton);
+  border-color: var(--laiton);
+}
+
+.essai-boutons button:focus-visible {
+  outline: 2px solid var(--laiton);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .essai-panneau {
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+  }
+}
