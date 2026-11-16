@@ -114,3 +114,21 @@ Le détail est au § 6 du cahier des charges.
 - le choix définitif de l'HDRI (Atelier par défaut pour l'instant).
 
 **Leçon technique** : le fichier de la fougère contenait des couleurs par sommet presque noires, qui assombrissaient la texture. Il faudra toujours inspecter un modèle téléchargé (matériaux, couleurs, échelle) avant de l'intégrer.
+
+## D8 · Périmètre recentré : un site vitrine avec un produit à configurer — 16/11/2026
+
+**Contexte** : le périmètre de D5, complété par l'accueil vitrine, représentait environ 60 heures. C'est trop pour le temps disponible.
+
+**Décision** : la V1 devient un **site vitrine complet** autour d'**un seul produit à configurer**.
+- **Quatre pages** : un accueil soigné, le configurateur, une page À propos avec un lore, une page Contact, plus le registre des crédits.
+- **Le produit** : le chaudron, en fonte ou en cuivre.
+- **Cinq éléments** pour commencer : mousse, fougère, galets, améthyste, champignons luminescents.
+- On garde le placement de D1, le prix, la jauge et le passage à la nuit.
+- **Reporté en V2** : la cloche et les huit autres éléments, l'annulation, la caméra qui suit l'élément sélectionné, le partage par URL, l'étiquette de spécimen, les spécimens de l'accueil.
+- Estimation : **environ 30 heures**.
+
+**Pourquoi** :
+- Les pages À propos et Contact montrent le travail de design et d'interface, qui est le point fort de Laura.
+- Cinq éléments suffisent à prouver le concept. Le catalogue s'enrichira ensuite en ajoutant des données et un générateur par élément, sans réécrire l'architecture.
+
+**La règle qui protège le concept** : le configurateur reste le cœur du site. L'accueil s'ouvre sur la 3D et non sur une photo, chaque page mène au configurateur, et les photos évoquent l'univers sans jamais montrer le produit.

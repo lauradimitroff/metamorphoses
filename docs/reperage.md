@@ -73,3 +73,18 @@ Toutes sont en CC0. Ce sont des fichiers bruts, à compresser avant la mise en l
 | `textures/noyer/{couleur,normale,rugosite}.jpg` | [Poly Haven — Smoked Walnut Veneer](https://polyhaven.com/a/smoked_walnut_veneer) (1K) | Poly Haven | CC0 | 1,3 Mo |
 
 Ces lignes alimenteront la source unique des crédits (F7) lors de l'architecture.
+
+## 7. Photos d'ambiance retenues (16/11/2026)
+
+Licence Unsplash : usage libre, y compris commercial, sans obligation de crédit. On les crédite quand même dans le registre. Elles ne montrent ni personne ni marque. **Pas encore téléchargées** : elles le seront au moment de leur intégration, retraitées pour s'accorder à la palette (désaturation légère, ombres vers l'encre de nuit, grain discret).
+
+| Photo | Auteur | Usage pressenti |
+|---|---|---|
+| [Mousse à contre-jour](https://unsplash.com/fr/photos/une-photo-floue-dun-oiseau-sur-une-colline-herbeuse-upq1bkSh9Ww) | [Lucas van Oort](https://unsplash.com/fr/@switch_dtp_fotografie) | Accueil |
+| [Papillon de nuit sur une fougère](https://unsplash.com/fr/photos/un-gros-plan-dune-feuille-avec-un-insecte-dessus-zaj4z_atuZA) | [Erik Karits](https://unsplash.com/fr/@erik_karits) | À propos |
+| [Champignons luminescents](https://unsplash.com/fr/photos/un-groupe-de-champignons-rougeoyant-dans-la-foret-sombre-qu-upKvvRHg) | [Igor Omilaev](https://unsplash.com/fr/@omilaev) | Accueil, temps « attendre la nuit » |
+| [Papillon dans la lumière](https://unsplash.com/fr/photos/papillon-dans-la-lumiere-JWKW9LOsdUg) | [Jack Chen](https://unsplash.com/fr/@silverarrow) | À propos ou Contact |
+
+**Règle** : les photos évoquent l'univers, jamais le produit. Le chaudron n'existe qu'en 3D.
+
+Écartées : la bougie près de la fenêtre (sous licence Unsplash+, donc payante), ainsi que l'herbe ensoleillée, les bougies de Noël et les bouteilles à étiquettes (moins cohérentes). D'autres photos (minéral, bougie) seront cherchées seulement si un emplacement l'exige.
