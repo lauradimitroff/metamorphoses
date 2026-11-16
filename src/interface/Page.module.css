@@ -1,0 +1,27 @@
+.page {
+  width: min(100% - 2 * var(--marge-page), var(--largeur-page));
+  margin-inline: auto;
+  padding-block: var(--espace-9) var(--espace-8);
+}
+
+.entete {
+  max-width: 52rem;
+  margin-bottom: var(--espace-7);
+}
+
+.surtitre {
+  margin-bottom: var(--espace-4);
+  font-size: var(--taille-petite);
+  letter-spacing: var(--chasse-capitales);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.titre {
+  font-size: var(--taille-titre-1);
+  letter-spacing: -0.01em;
+}
+
+.titre:focus {
+  outline: none;
+}

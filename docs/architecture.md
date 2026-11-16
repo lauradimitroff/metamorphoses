@@ -40,7 +40,7 @@ Les pages À propos, Contact et Crédits n'utilisent ni l'état ni la scène : c
 | 3D | Three.js + React Three Fiber 9 + drei | La scène s'écrit en composants React, comme le reste | Three.js seul : plus de code pour synchroniser la scène et l'interface |
 | Post-traitement | @react-three/postprocessing | Halo et rendu AgX, validés par l'essai (D7) | — |
 | État | **Zustand** | Un petit magasin (*store*) lisible depuis la scène **sans** provoquer de rendu React à chaque image | Context React : chaque changement relancerait le rendu de tout l'arbre, y compris la scène |
-| Routes | **React Router 7** (mode déclaratif) | Standard connu, pages chargées à la demande | wouter : plus léger, mais moins connu en entretien |
+| Routes | **React Router 8** (mode déclaratif) | Standard connu, pages chargées à la demande | wouter : plus léger, mais moins connu en entretien |
 | Styles | **CSS Modules** + jetons en variables CSS | Styles isolés par composant, fournis par Vite, sans dépendance | Tailwind : ne sert pas un design aussi singulier ; CSS-in-JS : coût à l'exécution |
 | Polices | **@fontsource** (polices hébergées dans le projet) | Aucun appel à Google, donc pas de transmission d'adresse IP : un argument RGPD | Google Fonts en lien direct |
 | Apparitions au défilement | `IntersectionObserver` + transitions CSS | Natif, léger, facile à couper pour `prefers-reduced-motion` | Une bibliothèque d'animation : inutile pour des fondus discrets |

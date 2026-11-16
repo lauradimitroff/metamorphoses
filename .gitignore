@@ -25,3 +25,7 @@ dist-ssr
 
 # Réglages locaux de Claude Code
 .claude/settings.local.json
+
+# Playwright
+test-results/
+playwright-report/

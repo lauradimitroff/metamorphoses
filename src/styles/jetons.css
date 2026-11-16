@@ -1,0 +1,63 @@
+/*
+ * Jetons de design : la seule source des couleurs, typographies, espacements
+ * et mouvements du site. Les composants n'utilisent jamais de valeur en dur.
+ */
+:root {
+  /* Palette (cahier des charges, § 6.1) */
+  --encre-de-nuit: #12161a;
+  --noyer: #2b1f18;
+  --mousse: #4f6b3e;
+  --laiton: #b89b5e;
+  --ambre: #b8702a;
+  --velin: #e9dfc8;
+  --lueur: #9fe3c9;
+
+  /* Rôles : on nomme l'usage, pas la couleur */
+  --fond: var(--encre-de-nuit);
+  --fond-releve: #181d22;
+  --texte: var(--velin);
+  --texte-discret: rgb(233 223 200 / 0.68);
+  --accent: var(--laiton);
+  --filet: rgb(184 155 94 / 0.35);
+  --filet-leger: rgb(184 155 94 / 0.16);
+
+  /* Typographies */
+  --police-titre: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --police-texte: 'Alegreya Sans', 'Gill Sans', 'Trebuchet MS', sans-serif;
+  --police-calligraphie: 'Pinyon Script', cursive;
+
+  /* Échelle typographique fluide : la taille suit la largeur de l'écran, entre deux bornes */
+  --taille-petite: 0.875rem;
+  --taille-texte: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --taille-chapo: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --taille-titre-3: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  --taille-titre-2: clamp(2rem, 1.6rem + 1.8vw, 3.25rem);
+  --taille-titre-1: clamp(2.75rem, 2rem + 3.6vw, 5.5rem);
+  --interligne: 1.65;
+  --interligne-titre: 1.05;
+  --chasse-capitales: 0.22em;
+
+  /* Espacements, sur une progression régulière */
+  --espace-1: 0.25rem;
+  --espace-2: 0.5rem;
+  --espace-3: 0.75rem;
+  --espace-4: 1rem;
+  --espace-5: 1.5rem;
+  --espace-6: 2rem;
+  --espace-7: 3rem;
+  --espace-8: 4.5rem;
+  --espace-9: 7rem;
+
+  /* Mise en page */
+  --largeur-texte: 38rem;
+  --largeur-page: 76rem;
+  --marge-page: clamp(1rem, 4vw, 3rem);
+  --hauteur-cible: 44px;
+
+  /* Mouvement */
+  --duree-courte: 180ms;
+  --duree-moyenne: 420ms;
+  --duree-longue: 900ms;
+  --courbe-sortie: cubic-bezier(0.22, 1, 0.36, 1);
+  --courbe-douce: cubic-bezier(0.45, 0, 0.2, 1);
+}

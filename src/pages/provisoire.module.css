@@ -1,0 +1,16 @@
+/* Styles des pages provisoires : ils disparaîtront avec elles. */
+.chapo {
+  max-width: var(--largeur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  color: var(--texte-discret);
+}
+
+.suite {
+  margin-top: var(--espace-6);
+}
+
+.suite a {
+  color: var(--accent);
+}
