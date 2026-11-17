@@ -16,13 +16,18 @@ export function Fougere({ position }: { position: readonly [number, number, numb
     copie.traverse((objet) => {
       if (!(objet instanceof Mesh) || !(objet.material instanceof MeshStandardMaterial)) return
       objet.castShadow = true
-      objet.receiveShadow = true
+      // Les frondes sont presque à plat : si elles recevaient les ombres, chacune
+      // s'assombrirait sous sa propre ombre (le défaut appelé « acné d'ombre »).
+      objet.receiveShadow = false
       // Le fichier d'origine utilise la transparence « mélangée » (BLEND), qui pose
       // des problèmes d'ordre d'affichage. Un seuil (alphaTest) découpe
       // net les feuilles, et chaque pixel est alors soit opaque, soit invisible.
       const materiau = objet.material.clone()
       materiau.transparent = false
       materiau.alphaTest = 0.5
+      // En mode BLEND, le chargeur glTF coupe aussi l'écriture dans le tampon de profondeur.
+      // Sans la rétablir, les objets dessinés après la fougère (le sol) la recouvrent.
+      materiau.depthWrite = true
       materiau.side = DoubleSide
       // Le fichier contient des couleurs par sommet très sombres (de 0,05 à 0,22),
       // qui multiplient la texture et noircissent les feuilles : on les ignore.

@@ -4,16 +4,16 @@
  * un élément en V2 fait signaler par TypeScript tous les endroits à compléter.
  */
 
-export type MatiereId = 'fonte' | 'cuivre'
+export type MatiereId = 'verre-clair' | 'verre-ambre'
 
 export type FamilleId = 'vegetal' | 'mineral' | 'champignons'
 
 export type ElementId = 'mousse' | 'fougere' | 'galets' | 'amethyste' | 'champignons-luminescents'
 
-export interface DefinitionChaudron {
+export interface DefinitionBocal {
   /** Rayon du disque de sol, en unités de scène. */
   rayonSol: number
-  /** Hauteur du sol dans le repère du chaudron. */
+  /** Hauteur du sol dans le repère du bocal. */
   hauteurSol: number
   matieres: Readonly<Record<MatiereId, { nom: string; prixCentimes: number }>>
 }
@@ -42,7 +42,7 @@ export interface DefinitionElement {
 
 /** Le catalogue est passé en paramètre aux règles : on peut ainsi les tester avec des données inventées. */
 export interface Catalogue {
-  chaudron: DefinitionChaudron
+  bocal: DefinitionBocal
   elements: Readonly<Record<ElementId, DefinitionElement>>
 }
 

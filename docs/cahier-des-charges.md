@@ -1,8 +1,10 @@
 # Métamorphoses — Cahier des charges (V1)
 
-> Version 2.0 · 16/11/2026 · validé par Laura Dimitroff
+> Version 2.2 · 17/11/2026 · validé par Laura Dimitroff
 > 1.1 : origine des modèles après repérage (D6). 1.2 : page d'accueil vitrine.
 > **2.0 : périmètre recentré (D8)** sur un site vitrine avec un produit à configurer, pour environ 30 heures de travail.
+> 2.1 : le bocal d'apothicaire remplace le chaudron (D9) ; HDRI « Workshop » retenue (D10).
+> 2.2 : devise gravée à l'acide sur le verre ; gravure personnalisée en V1 (D11).
 > Boutique de démonstration : aucun produit n'est réellement vendu.
 
 ---
@@ -11,11 +13,11 @@
 
 **Métamorphoses** est une boutique fictive de terrariums qu'on **compose soi-même en 3D**, dans l'univers d'un cabinet de curiosités sans rien de macabre.
 
-Les boutiques existantes, comme La Green Touch (terrariums de 37 € à 119 €), proposent un catalogue de modèles tout faits. Ici, le visiteur pose chaque élément là où il le souhaite dans son chaudron, puis découvre sa création à la tombée de la nuit, quand la bougie s'allume et que les champignons se mettent à luire.
+Les boutiques existantes, comme La Green Touch (terrariums de 37 € à 119 €), proposent un catalogue de modèles tout faits. Ici, le visiteur pose chaque élément là où il le souhaite dans un bocal d'apothicaire, puis découvre sa création à la tombée de la nuit, quand la bougie s'allume et que les champignons se mettent à luire.
 
 - **URL** : https://metamorphoses-shop.vercel.app/
 - **Cadre** : projet n° 3 de la section « Lab » du portfolio. Il montre une maîtrise de la 3D temps réel sur le web, un niveau de finition visuelle élevé et un site complet, pensé comme une vraie marque.
-- **Devise** : *Vulnerant omnes, ultima necat* (« Toutes blessent, la dernière tue »), une devise de cadran solaire. Elle n'est pas le nom de la boutique : elle apparaît **gravée** dans l'univers (sur le chaudron, dans le lore, dans le pied de page).
+- **Devise** : *Vulnerant omnes, ultima necat* (« Toutes blessent, la dernière tue »), une devise de cadran solaire. Elle n'est pas le nom de la boutique : elle apparaît **gravée** dans l'univers (sur la collerette du couvercle, dans le lore, dans le pied de page).
 
 ## 2. Objectifs
 
@@ -40,6 +42,8 @@ Le détail et les raisons de chaque décision se trouvent dans [`decisions.md`](
 5. **Origine des modèles** : tout est généré dans le code, sauf la fougère (D6).
 6. **Direction visuelle de la scène** validée par l'essai d'éclairage (D7).
 7. **Périmètre** recentré : quatre pages, un produit et cinq éléments pour commencer (D8).
+8. **Le produit** : un bocal d'apothicaire en verre, à couvercle de laiton (D9), éclairé par l'HDRI « Workshop » (D10).
+9. **La gravure** : la devise gravée à l'acide sur le verre, et une gravure personnalisée en option (D11).
 
 ## 4. Périmètre fonctionnel de la V1
 
@@ -59,14 +63,18 @@ Sur toutes les pages :
 - un pied de page avec la devise et les liens ;
 - la mention discrète mais permanente « Boutique de démonstration — rien n'est vendu ».
 
-### 4.2 Le produit : le chaudron
+### 4.2 Le produit : le bocal d'apothicaire
 
-| Matière | Particularité | Prix |
+Un bocal élancé, généré dans le code : panse haute et droite sur un fond de verre épais, épaule arrondie, col resserré, lèvre évasée. Un couvercle en laiton, en dôme, surmonté d'un fleuron. La devise est gravée à l'acide sur le haut de la panse, en lettres dépolies. À travers le verre, on voit les couches du terrarium : drainage, puis terre.
+
+| Verre | Particularité | Prix |
 |---|---|---|
-| Fonte (par défaut) | Forme tournée générée dans le code, métal sombre et rugueux | 54 € |
-| Cuivre | Même forme, matière cuivrée et brillante | 64 € |
+| Clair (par défaut) | À peine verdi, comme le verre ancien | 54 € |
+| Ambré | Le verre des flacons d'apothicaire ; la teinte s'intensifie avec l'épaisseur | 64 € |
 
-Le prix comprend le sol (terre et substrat). Changer de matière conserve tous les éléments posés, puisque la forme est la même.
+Le prix comprend le substrat. Changer de verre conserve tous les éléments posés, puisque la forme est la même. Pour composer, le couvercle se soulève et se pose sur la table, à côté du bocal.
+
+**Gravure personnalisée (option, 6 €)** : une ligne de texte libre (un prénom, une date, « Pour Charlotte, 2026 »), gravée dans le verre sous la devise, de 24 caractères au plus.
 
 ### 4.3 Les éléments à placer (catalogue de départ)
 
@@ -78,29 +86,30 @@ Le prix comprend le sol (terre et substrat). Changer de matière conserve tous l
 | | Améthyste | Générée | 12 € |
 | Champignons | Groupe luminescent (lueur la nuit) | Généré | 7 € |
 
-Exemple : le chaudron en fonte avec trois mousses, une fougère, une améthyste et un groupe luminescent coûte 90 €.
+Exemple : le bocal en verre clair avec trois mousses, une fougère, une améthyste et un groupe luminescent coûte 90 €.
 
 Les **lucioles** ne se placent pas : elles font partie de l'ambiance de nuit. Le catalogue est pensé pour **s'enrichir ensuite** : ajouter un élément revient à ajouter une ligne de données et un générateur.
 
 ### 4.4 Fonctionnalités et critères d'acceptation
 
 **F1. Visionneuse 3D**
-- Rotation autour du chaudron et zoom entre deux limites. La caméra ne passe jamais sous la table ni à travers le chaudron.
+- Rotation autour du bocal et zoom entre deux limites. La caméra ne passe jamais sous la table ni à travers le bocal.
 - Le décor (table en noyer, bougie, fond sombre) est toujours présent. L'ombre au sol est douce.
 - Pendant le chargement, un écran d'attente reste dans l'univers du cabinet ; jamais de page blanche.
 
 **F2. Composition**
 - Un catalogue organisé par famille. Chaque fiche montre une vignette, un nom, un prix et une icône ⓘ (auteur et licence).
 - Un clic sur une fiche pose l'élément sur une place libre (D1). Si aucune place ne convient, un message l'explique.
-- On fait glisser l'élément pour le déplacer : il reste collé au sol, ne sort pas du chaudron et ne chevauche aucun autre élément.
+- On fait glisser l'élément pour le déplacer : il reste collé au sol, ne sort pas du bocal et ne chevauche aucun autre élément.
 - Rotation par crans de 15° (boutons, touche R) et suppression (bouton, touche Suppr).
 - Au clavier : Tab pour parcourir les éléments posés, les flèches pour déplacer, R pour tourner, Suppr pour retirer, Échap pour désélectionner.
 - Une description textuelle de la composition est annoncée aux lecteurs d'écran à chaque changement.
+- **Gravure personnalisée** : un champ de texte, avec un compteur des caractères restants (24 au plus). Le texte se grave dans le verre en direct, pendant la saisie. Les espaces superflus sont retirés ; un champ vide retire la gravure et son prix. Le texte gravé est repris dans la description textuelle.
 
 **F3. Jauge, prix et récapitulatif**
 - La jauge « Place restante » compare la surface occupée au sol disponible, avec un maximum de 70 %.
 - Le prix total est mis à jour à chaque action et affiché au format français (« 90,00 € »).
-- Le récapitulatif liste la matière du chaudron, puis les éléments regroupés avec leur quantité et leur sous-total.
+- Le récapitulatif liste le verre du bocal, la gravure personnalisée s'il y en a une, puis les éléments regroupés avec leur quantité et leur sous-total.
 
 **F4. Passage du jour à la nuit**
 - Un bouton bascule l'ambiance, avec une transition animée d'environ 2,5 secondes.
@@ -112,7 +121,7 @@ Les **lucioles** ne se placent pas : elles font partie de l'ambiance de nuit. Le
 - La CI échoue si `CREDITS.md` ne correspond plus au registre.
 
 **F6. Page d'accueil vitrine**
-- **Ouverture** : un chaudron composé, de nuit, en vraie 3D. La caméra tourne lentement autour, sans interaction obligatoire. Par-dessus : le logo, une phrase d'accroche et le bouton « Composer mon terrarium ».
+- **Ouverture** : un bocal composé, de nuit, en vraie 3D. La caméra tourne lentement autour, sans interaction obligatoire. Par-dessus : le logo, une phrase d'accroche et le bouton « Composer mon terrarium ».
 - **« Comment naît un spécimen »** : trois temps (choisir sa matière, y déposer mousses, cristaux et champignons, attendre la nuit), illustrés par les photos d'ambiance retenues et de petites gravures en SVG.
 - **Un aperçu du lore**, avec un lien vers la page À propos.
 - **Mise en page éditoriale** : grandes typographies, beaucoup d'espace, apparitions discrètes au défilement (désactivées si le système demande de réduire les animations).
@@ -210,15 +219,15 @@ Le site doit être **ultra soigné**, avec l'aspect d'un objet artisanal et non 
 
 ## 7. Système de prix
 
-- **Prix total** = prix du chaudron + somme des prix des éléments posés.
+- **Prix total** = prix du bocal + gravure personnalisée éventuelle (6 €) + somme des prix des éléments posés.
 - **Stockage en centimes**, en nombres entiers.
 - **Affichage** avec `Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })`.
 - **Limite de place** : la surface des cercles d'encombrement ne peut pas dépasser 70 % du sol.
 
 ## 8. Ressources et crédits
 
-- **Générés dans le code** : le chaudron, le sol, la mousse, les galets, l'améthyste et les champignons.
-- **Téléchargés** : la fougère (CC0), une HDRI et les textures de Poly Haven (CC0), et quatre photos Unsplash.
+- **Générés dans le code** : le bocal et son couvercle, le substrat, la mousse, les galets, l'améthyste et les champignons.
+- **Téléchargés** : la fougère (CC0), l'HDRI « Workshop » et la texture de noyer de Poly Haven (CC0), et quatre photos Unsplash.
 - Tout est crédité dans le registre (F5), même quand la licence ne l'exige pas.
 
 ## 9. Qualité et livrables
@@ -232,7 +241,7 @@ Le site doit être **ultra soigné**, avec l'aspect d'un objet artisanal et non 
 
 ## 10. Reporté en V2
 
-- **Catalogue** : la cloche en verre, la fiole, la tasse, la lanterne ; le lichen, la plante grasse, le quartz, la géode, le champignon simple, le sablier, la clé, la loupe, l'ammonite.
+- **Catalogue** : d'autres contenants (le chaudron, dont le code reste dans l'historique Git, la cloche, la fiole, la lanterne) ; le lichen, la plante grasse, le quartz, la géode, le champignon simple, le sablier, la clé, la loupe, l'ammonite.
 - **Composition** : l'annulation, la caméra qui suit l'élément sélectionné.
 - **Partage** : la composition dans l'URL, le lien de partage, la capture PNG.
 - **Étiquette de spécimen** (numéro, nom, PNG) : la première à ajouter.

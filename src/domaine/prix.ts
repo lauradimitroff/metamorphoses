@@ -12,12 +12,12 @@ export interface LigneDePrix {
   sousTotalCentimes: number
 }
 
-/** Le récapitulatif : le chaudron d'abord, puis chaque élément regroupé, dans l'ordre du catalogue. */
+/** Le récapitulatif : le bocal d'abord, puis chaque élément regroupé, dans l'ordre du catalogue. */
 export function detaillerPrix(composition: Composition, catalogue: Catalogue): LigneDePrix[] {
-  const matiere = catalogue.chaudron.matieres[composition.matiere]
+  const matiere = catalogue.bocal.matieres[composition.matiere]
   const lignes: LigneDePrix[] = [
     {
-      libelle: `Chaudron en ${matiere.nom.toLowerCase()}`,
+      libelle: `Bocal en ${matiere.nom.toLowerCase()}`,
       quantite: 1,
       prixUnitaireCentimes: matiere.prixCentimes,
       sousTotalCentimes: matiere.prixCentimes,

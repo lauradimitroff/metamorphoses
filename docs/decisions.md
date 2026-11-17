@@ -132,3 +132,47 @@ Le détail est au § 6 du cahier des charges.
 - Cinq éléments suffisent à prouver le concept. Le catalogue s'enrichira ensuite en ajoutant des données et un générateur par élément, sans réécrire l'architecture.
 
 **La règle qui protège le concept** : le configurateur reste le cœur du site. L'accueil s'ouvre sur la 3D et non sur une photo, chaque page mène au configurateur, et les photos évoquent l'univers sans jamais montrer le produit.
+
+## D9 · Le bocal d'apothicaire remplace le chaudron — 17/11/2026
+
+**Contexte** : le chaudron était original, mais il tirait l'univers vers la sorcellerie, avec le risque d'un côté « Halloween ». Un cabinet de curiosités, ce sont des bocaux de spécimens, et le bocal est ce qu'on attend d'un terrarium.
+
+**Décision** :
+- Un **bocal d'apothicaire élancé**, généré dans le code : panse haute et droite sur un fond de verre épais, épaule arrondie, col resserré, lèvre évasée.
+- Un **couvercle en laiton** en dôme, surmonté d'un fleuron. La devise est gravée sur sa collerette.
+- Deux verres : **clair** (54 €) et **ambré** (64 €).
+- Les couches du terrarium (drainage, terre) sont **visibles à travers le verre**.
+- Pour composer, **le couvercle se soulève et se pose sur la table**, à côté du bocal.
+
+**Comment le verre est rendu** : avec la *transmission* de Three.js. Le moteur dessine d'abord ce qui se trouve derrière le verre, puis l'affiche à travers la paroi, légèrement déformé. Cela coûte un rendu supplémentaire par image : on le mesurera sur mobile à l'étape 5a. Le verre ne projette pas d'ombre, sinon l'intérieur serait plongé dans le noir.
+
+**Ce qu'on accepte** : environ 2 h 30 de travail en plus, et un rendu un peu plus coûteux.
+
+**Leçon technique** : la fougère était invisible dans la vitrine. Dans son fichier d'origine, en transparence « mélangée », le chargeur glTF coupe l'écriture dans le tampon de profondeur ; le sol, dessiné après, la recouvrait. Il faut rétablir `depthWrite` en même temps qu'on retire la transparence.
+
+## D10 · L'HDRI « Workshop » — 17/11/2026
+
+**Options comparées** sur le bocal en verre clair : Workshop (Atelier), Vestibule, Moon Lab (Laboratoire).
+
+**Décision** : **Workshop**. Ses reflets vifs sur l'épaule et la panse font immédiatement comprendre que le bocal est en verre, et elle donne au laiton une teinte chaude.
+
+**Pourquoi pas les autres** : Vestibule rend le verre un peu laiteux ; Moon Lab, la plus sombre, fond le bocal dans le noir. Le côté mystérieux est porté par la nuit (bougie, lueurs, lucioles), pas par le jour.
+
+Les deux HDRI écartées sont retirées du projet et du registre des crédits.
+
+## D11 · La devise sur le verre, et une gravure personnalisée — 17/11/2026
+
+**Contexte** : gravée sur la collerette du couvercle, la devise mesurait à peine 3 mm à l'échelle de la scène : illisible. En la déplaçant, une idée est venue : si le verre peut porter la devise, il peut aussi porter un texte choisi par le visiteur.
+
+**Décision** :
+- **La devise est gravée à l'acide sur le haut de la panse** : des lettres dépolies, blanchâtres et translucides, comme sur les bocaux d'apothicaire. Elle reste visible pendant la composition, quand le couvercle est posé sur la table.
+- **Une gravure personnalisée, en option, dès la V1** : une ligne de 24 caractères au plus, gravée sous la devise, pour 6 €. Le texte se grave en direct pendant la saisie.
+
+**Pourquoi** :
+- La personnalisation est un vrai argument commercial pour une boutique de terrariums : c'est ce que propose La Green Touch pour ses cadeaux d'entreprise.
+- Pour le portfolio, l'effet est fort : on tape au clavier et le verre se grave sous nos yeux.
+- Le même composant `Gravure` sert à la devise et au texte du visiteur.
+
+**Règles** (dans le domaine, testées) : espaces superflus retirés, 24 caractères au plus (au-delà, le texte ferait le tour du bocal et deviendrait illisible), un champ vide retire la gravure et son prix.
+
+**Ce qu'on accepte** : environ 2 h de plus, à l'étape 3a.

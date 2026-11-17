@@ -1,0 +1,48 @@
+/* Provisoire (étape 2a) : la mise en page du configurateur arrive à l'étape 3a. */
+.atelier {
+  height: clamp(24rem, 65vh, 44rem);
+  border: 1px solid var(--filet-leger);
+}
+
+.commandes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-5) var(--espace-7);
+  margin-top: var(--espace-5);
+}
+
+.bascule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.bascule legend {
+  margin-bottom: var(--espace-2);
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
+
+.bascule button {
+  min-height: var(--hauteur-cible);
+  padding-inline: var(--espace-4);
+  background: transparent;
+  border: 1px solid var(--filet);
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.bascule button:hover {
+  border-color: var(--accent);
+}
+
+.bascule button[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--encre-de-nuit);
+}

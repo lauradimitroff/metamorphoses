@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { CATALOGUE } from '../catalogue/catalogue'
 import {
   emplacementValide,
-  estDansLeChaudron,
+  estDansLeBocal,
   normaliserRotation,
   OCCUPATION_MAXIMALE,
   resteDeLaPlace,
@@ -13,11 +13,11 @@ import {
 import { CATALOGUE_DE_TEST, composer, poser } from './fixtures'
 import type { Catalogue, Composition, ElementId } from './types'
 
-describe('estDansLeChaudron', () => {
+describe('estDansLeBocal', () => {
   it('accepte un cercle qui touche tout juste le bord, et refuse celui qui dépasse', () => {
-    expect(estDansLeChaudron({ x: 0, z: 0 }, 0.1, 1)).toBe(true)
-    expect(estDansLeChaudron({ x: 900, z: 0 }, 0.1, 1)).toBe(true)
-    expect(estDansLeChaudron({ x: 901, z: 0 }, 0.1, 1)).toBe(false)
+    expect(estDansLeBocal({ x: 0, z: 0 }, 0.1, 1)).toBe(true)
+    expect(estDansLeBocal({ x: 900, z: 0 }, 0.1, 1)).toBe(true)
+    expect(estDansLeBocal({ x: 901, z: 0 }, 0.1, 1)).toBe(false)
   })
 })
 
@@ -56,7 +56,7 @@ describe('tauxOccupation et resteDeLaPlace', () => {
   })
 })
 
-/** Remplit le chaudron en déposant l'élément jusqu'à ce qu'il n'y ait plus de place. */
+/** Remplit le bocal en déposant l'élément jusqu'à ce qu'il n'y ait plus de place. */
 function remplir(elementId: ElementId, catalogue: Catalogue): Composition {
   let composition = composer()
   for (let i = 0; i < 500; i++) {
@@ -79,16 +79,17 @@ describe('trouverPlaceLibre', () => {
     )
   })
 
-  it('ne propose que des emplacements valides, jusqu’à ce que le chaudron soit plein', () => {
+  it('ne propose que des emplacements valides, jusqu’à ce que le bocal soit plein', () => {
     for (const elementId of ['mousse', 'amethyste', 'fougere'] as const) {
-      const plein = remplir(elementId, CATALOGUE)
+      // Catalogue de test : ses rayons ne bougent pas, contrairement à ceux du vrai catalogue.
+      const plein = remplir(elementId, CATALOGUE_DE_TEST)
       expect(plein.elements.length).toBeGreaterThan(1)
       // Chaque élément posé est valide au regard de tous les autres.
       for (const pose of plein.elements) {
-        expect(emplacementValide(plein, elementId, pose, CATALOGUE, pose.uid)).toBe(true)
+        expect(emplacementValide(plein, elementId, pose, CATALOGUE_DE_TEST, pose.uid)).toBe(true)
       }
-      expect(tauxOccupation(plein, CATALOGUE)).toBeLessThanOrEqual(OCCUPATION_MAXIMALE)
-      expect(trouverPlaceLibre(plein, elementId, CATALOGUE)).toBeNull()
+      expect(tauxOccupation(plein, CATALOGUE_DE_TEST)).toBeLessThanOrEqual(OCCUPATION_MAXIMALE)
+      expect(trouverPlaceLibre(plein, elementId, CATALOGUE_DE_TEST)).toBeNull()
     }
   })
 

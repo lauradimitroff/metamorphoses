@@ -1,0 +1,61 @@
+.ecran {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--espace-5);
+  background: var(--encre-de-nuit);
+  color: var(--accent);
+  transition:
+    opacity var(--duree-longue) var(--courbe-douce),
+    visibility 0s linear var(--duree-longue);
+}
+
+/* Une fois la scène chargée, l'écran s'efface puis ne bloque plus les clics. */
+.ecran[data-termine='true'] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.papillon {
+  width: 7rem;
+  height: auto;
+}
+
+/* Chaque trait se dessine : sa longueur vaut 1 (pathLength), on la découvre de 1 à 0. */
+.papillon [stroke-width] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tracer 1.6s var(--courbe-douce) forwards;
+}
+
+/* Les aplats (corps, ocelles) apparaissent une fois le contour tracé. */
+.papillon [data-aplat] {
+  opacity: 0;
+  animation: apparaitre 0.6s ease-out 1.2s forwards;
+}
+
+.message {
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  color: var(--texte-discret);
+}
+
+@keyframes tracer {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes apparaitre {
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Moins d'animations : la règle globale réduit les durées à presque zéro,
+ * le papillon apparaît donc directement, entièrement dessiné.
+ */

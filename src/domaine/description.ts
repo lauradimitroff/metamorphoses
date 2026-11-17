@@ -4,7 +4,7 @@ import type { Appellation, Catalogue, Composition, ElementId } from './types'
  * Décrit la composition en une phrase, pour les lecteurs d'écran (zone aria-live)
  * et pour les tests de bout en bout, qui vérifient ainsi la scène sans comparer d'images.
  *
- * Repère : le visiteur regarde le chaudron depuis l'avant. L'axe z positif vient vers
+ * Repère : le visiteur regarde le bocal depuis l'avant. L'axe z positif vient vers
  * lui (« l'avant »), l'axe x positif part vers sa droite.
  */
 
@@ -90,13 +90,13 @@ export function enumerer(parties: readonly string[]): string {
 const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice(1)
 
 export function decrireComposition(composition: Composition, catalogue: Catalogue): string {
-  const matiere = catalogue.chaudron.matieres[composition.matiere].nom.toLowerCase()
-  if (composition.elements.length === 0) return `Chaudron en ${matiere}, encore vide.`
+  const matiere = catalogue.bocal.matieres[composition.matiere].nom.toLowerCase()
+  if (composition.elements.length === 0) return `Bocal en ${matiere}, encore vide.`
 
   // Pour chaque zone, le nombre de chaque élément qui s'y trouve.
   const parZone = new Map<Zone, Map<ElementId, number>>()
   for (const { elementId, x, z } of composition.elements) {
-    const zone = zoneDe(x, z, catalogue.chaudron.rayonSol)
+    const zone = zoneDe(x, z, catalogue.bocal.rayonSol)
     const quantites = parZone.get(zone) ?? new Map<ElementId, number>()
     quantites.set(elementId, (quantites.get(elementId) ?? 0) + 1)
     parZone.set(zone, quantites)
@@ -112,5 +112,5 @@ export function decrireComposition(composition: Composition, catalogue: Catalogu
     return [`${majuscule(EXPRESSIONS[zone])}, ${enumerer(parties)}.`]
   })
 
-  return [`Chaudron en ${matiere}.`, ...phrases].join(' ')
+  return [`Bocal en ${matiere}.`, ...phrases].join(' ')
 }

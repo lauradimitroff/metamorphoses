@@ -12,8 +12,6 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 ## Environnements lumineux
 
 - **[Workshop](https://polyhaven.com/a/workshop)** — Dimitrios Savva et Jarod Guest · CC0
-- **[Vestibule](https://polyhaven.com/a/vestibule)** — Sergej Majboroda · CC0
-- **[Moon Lab](https://polyhaven.com/a/moon_lab)** — Greg Zaal · CC0
 
 ## Textures
 
@@ -45,7 +43,7 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 
 Générées dans le code par Laura Dimitroff, sans ressource externe :
 
-- Le chaudron, en fonte et en cuivre
+- Le bocal, en verre clair et en verre ambré
 - Touffe de mousse
 - Galets de rivière
 - Améthyste

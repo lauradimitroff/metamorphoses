@@ -7,7 +7,7 @@ export default function Accueil() {
   return (
     <Page titre="Métamorphoses" surtitre="Cabinet de terrariums à composer">
       <p className={styles.chapo}>
-        Choisissez votre chaudron, déposez-y mousses, cristaux et champignons, puis attendez la nuit.
+        Choisissez votre bocal, déposez-y mousses, cristaux et champignons, puis attendez la nuit.
       </p>
       <p className={styles.suite}>
         <Link to="/composer">Composer mon terrarium</Link>

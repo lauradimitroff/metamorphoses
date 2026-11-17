@@ -5,7 +5,7 @@ import { LISTE_ELEMENTS } from '../catalogue/catalogue.ts'
  * externe. Partagé par la page /credits et par CREDITS.md, pour qu'ils restent identiques.
  */
 export const PIECES_ORIGINALES: readonly string[] = [
-  'Le chaudron, en fonte et en cuivre',
+  'Le bocal, en verre clair et en verre ambré',
   ...LISTE_ELEMENTS.filter((element) => element.creditIds.length === 0).map((element) => element.nom),
   'Le logo au papillon de nuit',
 ]

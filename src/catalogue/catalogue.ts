@@ -1,4 +1,4 @@
-import type { Catalogue, DefinitionChaudron, DefinitionElement, ElementId, FamilleId } from '../domaine/types'
+import type { Catalogue, DefinitionBocal, DefinitionElement, ElementId, FamilleId } from '../domaine/types'
 
 /*
  * Les données du catalogue. Ajouter un élément revient à ajouter une entrée ici,
@@ -6,12 +6,13 @@ import type { Catalogue, DefinitionChaudron, DefinitionElement, ElementId, Famil
  * ajustés à l'écran quand chaque élément aura sa forme définitive (étape 2b).
  */
 
-export const CHAUDRON: DefinitionChaudron = {
-  rayonSol: 0.605,
-  hauteurSol: 0.76,
+export const BOCAL: DefinitionBocal = {
+  rayonSol: 0.56,
+  // Au-dessus des couches de drainage et de terre, visibles à travers le verre.
+  hauteurSol: 0.36,
   matieres: {
-    fonte: { nom: 'Fonte', prixCentimes: 5400 },
-    cuivre: { nom: 'Cuivre', prixCentimes: 6400 },
+    'verre-clair': { nom: 'Verre clair', prixCentimes: 5400 },
+    'verre-ambre': { nom: 'Verre ambré', prixCentimes: 6400 },
   },
 }
 
@@ -81,4 +82,4 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
 /** Les éléments dans l'ordre d'affichage du catalogue. */
 export const LISTE_ELEMENTS: readonly DefinitionElement[] = Object.values(ELEMENTS)
 
-export const CATALOGUE: Catalogue = { chaudron: CHAUDRON, elements: ELEMENTS }
+export const CATALOGUE: Catalogue = { bocal: BOCAL, elements: ELEMENTS }

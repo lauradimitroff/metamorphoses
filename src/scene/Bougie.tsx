@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
-import { useRef, type RefObject } from 'react'
+import { useRef } from 'react'
 import type { Mesh, PointLight } from 'three'
-import type { Ambiance } from './types'
+import { useAmbiance } from './ambiance'
 
 const POSITION = [1.05, 0, -0.35] as const
 const HAUTEUR_CIRE = 0.3
@@ -15,7 +15,8 @@ function vacillement(temps: number): number {
   return 1 + 0.06 * Math.sin(temps * 13) + 0.04 * Math.sin(temps * 23.7 + 1) + 0.03 * Math.sin(temps * 7.3 + 2)
 }
 
-export function Bougie({ ambiance }: { ambiance: RefObject<Ambiance> }) {
+export function Bougie() {
+  const ambiance = useAmbiance()
   const lumiere = useRef<PointLight>(null)
   const flamme = useRef<Mesh>(null)
 

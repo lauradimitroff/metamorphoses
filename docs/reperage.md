@@ -88,3 +88,7 @@ Licence Unsplash : usage libre, y compris commercial, sans obligation de crédit
 **Règle** : les photos évoquent l'univers, jamais le produit. Le chaudron n'existe qu'en 3D.
 
 Écartées : la bougie près de la fenêtre (sous licence Unsplash+, donc payante), ainsi que l'herbe ensoleillée, les bougies de Noël et les bouteilles à étiquettes (moins cohérentes). D'autres photos (minéral, bougie) seront cherchées seulement si un emplacement l'exige.
+
+## 8. Choix final de l'HDRI (17/11/2026)
+
+**Workshop** est retenue (décision D10). Vestibule et Moon Lab ont été retirées de `public/hdri/` et du registre des crédits.

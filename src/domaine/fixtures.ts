@@ -15,7 +15,7 @@ const RAYONS_DE_TEST: Readonly<Record<ElementId, number>> = {
 }
 
 export const CATALOGUE_DE_TEST: Catalogue = {
-  chaudron: { ...CATALOGUE.chaudron, rayonSol: 1 },
+  bocal: { ...CATALOGUE.bocal, rayonSol: 1 },
   elements: Object.fromEntries(
     Object.values(CATALOGUE.elements).map((element) => [
       element.id,
@@ -32,6 +32,6 @@ export function poser(elementId: ElementId, x = 0, z = 0, rotation = 0): Element
   return { uid: `test-${compteur}`, elementId, x, z, rotation }
 }
 
-export function composer(elements: ElementPose[] = [], matiere: MatiereId = 'fonte'): Composition {
+export function composer(elements: ElementPose[] = [], matiere: MatiereId = 'verre-clair'): Composition {
   return { matiere, elements }
 }

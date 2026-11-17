@@ -26,8 +26,8 @@ export interface Emplacement {
 
 const enUnites = (milliemes: number) => milliemes / 1000
 
-/** Le cercle entier de l'élément reste-t-il sur le sol du chaudron ? */
-export function estDansLeChaudron(emplacement: Emplacement, rayon: number, rayonSol: number): boolean {
+/** Le cercle entier de l'élément reste-t-il sur le sol du bocal ? */
+export function estDansLeBocal(emplacement: Emplacement, rayon: number, rayonSol: number): boolean {
   const distanceAuCentre = Math.hypot(enUnites(emplacement.x), enUnites(emplacement.z))
   return distanceAuCentre + rayon <= rayonSol + EPSILON
 }
@@ -49,7 +49,7 @@ export function emplacementValide(
   uidIgnore?: string,
 ): boolean {
   const rayon = catalogue.elements[elementId].rayonEncombrement
-  if (!estDansLeChaudron(emplacement, rayon, catalogue.chaudron.rayonSol)) return false
+  if (!estDansLeBocal(emplacement, rayon, catalogue.bocal.rayonSol)) return false
 
   return composition.elements.every(
     (voisin) =>
@@ -63,7 +63,7 @@ export function emplacementValide(
  * Σ π r² / π R², où les π se simplifient.
  */
 export function tauxOccupation(composition: Composition, catalogue: Catalogue): number {
-  const rayonSol = catalogue.chaudron.rayonSol
+  const rayonSol = catalogue.bocal.rayonSol
   const surfaces = composition.elements.reduce(
     (somme, { elementId }) => somme + catalogue.elements[elementId].rayonEncombrement ** 2,
     0,
@@ -73,7 +73,7 @@ export function tauxOccupation(composition: Composition, catalogue: Catalogue): 
 
 /** Ajouter cet élément dépasserait-il la jauge ? */
 export function resteDeLaPlace(composition: Composition, elementId: ElementId, catalogue: Catalogue): boolean {
-  const ajout = (catalogue.elements[elementId].rayonEncombrement / catalogue.chaudron.rayonSol) ** 2
+  const ajout = (catalogue.elements[elementId].rayonEncombrement / catalogue.bocal.rayonSol) ** 2
   return tauxOccupation(composition, catalogue) + ajout <= OCCUPATION_MAXIMALE + EPSILON
 }
 
@@ -92,7 +92,7 @@ export function trouverPlaceLibre(
 ): Emplacement | null {
   if (!resteDeLaPlace(composition, elementId, catalogue)) return null
 
-  const rayonUtile = catalogue.chaudron.rayonSol - catalogue.elements[elementId].rayonEncombrement
+  const rayonUtile = catalogue.bocal.rayonSol - catalogue.elements[elementId].rayonEncombrement
   if (rayonUtile < 0) return null
 
   for (let i = 0; i < POINTS_DE_SPIRALE; i++) {

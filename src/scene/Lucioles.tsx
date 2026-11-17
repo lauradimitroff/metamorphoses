@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, type RefObject } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { AdditiveBlending, CanvasTexture, Color, type Points } from 'three'
-import type { Ambiance } from './types'
+import { useAmbiance } from './ambiance'
 
 const NOMBRE = 28
 const LUEUR = new Color('#9fe3c9')
@@ -29,10 +29,11 @@ function creerLucioles(): Luciole[] {
   const hasard = generateur(42)
   return Array.from({ length: NOMBRE }, () => {
     const angle = hasard() * Math.PI * 2
-    const distance = 0.35 + hasard() * 1.1
+    // Autour du bocal, jamais à l'intérieur du verre.
+    const distance = 0.85 + hasard() * 0.9
     return {
       x: Math.cos(angle) * distance,
-      y: 0.55 + hasard() * 1.1,
+      y: 0.4 + hasard() * 1.5,
       z: Math.sin(angle) * distance,
       amplitude: 0.05 + hasard() * 0.12,
       vitesse: 0.25 + hasard() * 0.5,
@@ -59,7 +60,8 @@ function creerHalo(): CanvasTexture {
   return new CanvasTexture(canevas)
 }
 
-export function Lucioles({ ambiance }: { ambiance: RefObject<Ambiance> }) {
+export function Lucioles() {
+  const ambiance = useAmbiance()
   const points = useRef<Points>(null)
   const lucioles = useMemo(() => creerLucioles(), [])
   const halo = useMemo(() => creerHalo(), [])

@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
-import { useRef, type RefObject } from 'react'
+import { useRef } from 'react'
 import type { MeshStandardMaterial, PointLight } from 'three'
-import type { Ambiance } from './types'
+import { useAmbiance } from '../ambiance'
 
 /** Chaque champignon : position relative, taille, inclinaison. */
 const GROUPE = [
@@ -12,13 +12,8 @@ const GROUPE = [
 
 const LUEUR_MAX = 3.5
 
-export function Champignons({
-  ambiance,
-  position,
-}: {
-  ambiance: RefObject<Ambiance>
-  position: readonly [number, number, number]
-}) {
+export function Champignons({ position }: { position: readonly [number, number, number] }) {
+  const ambiance = useAmbiance()
   // Une ref par chapeau : on anime leur lueur à chaque image, hors du cycle de rendu React.
   const chapeaux = useRef<Array<MeshStandardMaterial | null>>([])
   const halo = useRef<PointLight>(null)

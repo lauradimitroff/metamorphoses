@@ -26,15 +26,20 @@ const MIROIR = 'translate(120 0) scale(-1 1)'
 
 type Variante = 'gravure' | 'silhouette'
 
+/*
+ * `pathLength={1}` déclare la longueur de chaque trait égale à 1, quelle que soit sa
+ * longueur réelle. L'écran d'attente peut ainsi « dessiner » le papillon trait par trait
+ * en animant `stroke-dashoffset` de 1 à 0. Sans animation, ce réglage ne change rien.
+ */
 function AileGravee() {
   return (
     <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-      <path d={CONTOUR_AILE} strokeWidth={1.4} />
-      <path d={SEPARATION_AILES} strokeWidth={1} />
-      <path d={NERVURES_FINES} strokeWidth={0.6} />
-      <circle cx={88} cy={28} r={3.2} strokeWidth={1} />
-      <circle cx={88} cy={28} r={1.1} fill="currentColor" stroke="none" />
-      <path d={ANTENNE} strokeWidth={0.9} />
+      <path d={CONTOUR_AILE} strokeWidth={1.4} pathLength={1} />
+      <path d={SEPARATION_AILES} strokeWidth={1} pathLength={1} />
+      <path d={NERVURES_FINES} strokeWidth={0.6} pathLength={1} />
+      <circle cx={88} cy={28} r={3.2} strokeWidth={1} pathLength={1} />
+      <circle cx={88} cy={28} r={1.1} fill="currentColor" stroke="none" data-aplat="" />
+      <path d={ANTENNE} strokeWidth={0.9} pathLength={1} />
     </g>
   )
 }
@@ -96,8 +101,14 @@ export function Logo({
       )}
       {aile}
       <g transform={MIROIR}>{aile}</g>
-      <ellipse cx={60} cy={50} rx={epaisseurCorps} ry={variante === 'gravure' ? 13 : 14} fill="currentColor" />
-      <circle cx={60} cy={variante === 'gravure' ? 35 : 34.5} r={variante === 'gravure' ? 2.4 : 2.8} fill="currentColor" />
+      <ellipse cx={60} cy={50} rx={epaisseurCorps} ry={variante === 'gravure' ? 13 : 14} fill="currentColor" data-aplat="" />
+      <circle
+        cx={60}
+        cy={variante === 'gravure' ? 35 : 34.5}
+        r={variante === 'gravure' ? 2.4 : 2.8}
+        fill="currentColor"
+        data-aplat=""
+      />
     </svg>
   )
 }

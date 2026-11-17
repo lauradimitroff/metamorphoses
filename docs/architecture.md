@@ -1,8 +1,10 @@
 # Métamorphoses — Architecture (V1)
 
-> Version 1.1 · 16/11/2026 · à valider par Laura Dimitroff
-> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.0) et le [journal de décisions](decisions.md) (D1 à D8).
+> Version 1.3 · 17/11/2026 · validée par Laura Dimitroff
+> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.2) et le [journal de décisions](decisions.md) (D1 à D11).
 > 1.1 : quatre pages, un produit, cinq éléments ; partage et étiquette reportés en V2.
+> 1.2 : le bocal remplace le chaudron (D9), HDRI « Workshop » (D10).
+> 1.3 : gravure personnalisée (D11).
 
 ---
 
@@ -11,7 +13,7 @@
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │  Interface (DOM)            Scène 3D (React Three Fiber)     │
-│  catalogue, prix, jauge       chaudron, éléments, lumière    │
+│  catalogue, prix, jauge       bocal, éléments, lumière       │
 │            ╲                     ╱                           │
 │             ╲   lisent / agissent  ╱                         │
 │              ▼                   ▼                           │
@@ -58,7 +60,7 @@ metamorphoses/
 ├─ docs/                     cahier des charges, architecture, décisions, repérage
 ├─ public/
 │  ├─ models/                fougère compressée
-│  ├─ hdri/                  une seule HDRI retenue
+│  ├─ hdri/                  l'HDRI « Workshop » (D10)
 │  ├─ textures/              noyer, terre
 │  └─ photos/                photos d'ambiance retraitées (AVIF + WebP)
 ├─ scripts/
@@ -73,13 +75,13 @@ metamorphoses/
 │  │  ├─ prix.ts             total, sous-totaux, formatage
 │  │  ├─ encombrement.ts     jauge, chevauchements, recherche de place libre
 │  │  └─ description.ts      description textuelle (lecteurs d'écran)
-│  ├─ catalogue/             DONNÉES : chaudron, éléments
+│  ├─ catalogue/             DONNÉES : bocal, éléments
 │  ├─ credits/registre.ts    source unique des crédits (F5)
 │  ├─ etat/                  magasins Zustand : composition, interface
 │  ├─ scene/                 tout ce qui est 3D
 │  │  ├─ Vitrine.tsx         Canvas, éclairage, table, caméra, post-traitement
 │  │  ├─ ambiance/           jour/nuit, bougie, lucioles (repris de l'essai)
-│  │  ├─ Chaudron.tsx
+│  │  ├─ Bocal.tsx            verre, substrat, couvercle et devise
 │  │  ├─ elements/           un composant par élément + table id → composant
 │  │  ├─ generateurs/        géométries procédurales (profils, cristaux, bruit)
 │  │  └─ interaction/        sélection, glisser au sol
@@ -97,11 +99,11 @@ Le dossier `src/essai/` disparaîtra à l'étape 2a : son contenu sera repris da
 ### 4.1 Le catalogue (données fixes)
 
 ```ts
-type MatiereId = 'fonte' | 'cuivre'
+type MatiereId = 'verre-clair' | 'verre-ambre'
 type FamilleId = 'vegetal' | 'mineral' | 'champignons'
 type ElementId = 'mousse' | 'fougere' | 'galets' | 'amethyste' | 'champignons-luminescents'
 
-interface DefinitionChaudron {
+interface DefinitionBocal {
   rayonSol: number             // rayon du disque de sol, en unités de scène
   hauteurSol: number
   matieres: Record<MatiereId, { nom: string; prixCentimes: number }>
@@ -133,6 +135,7 @@ interface ElementPose {
 interface Composition {
   matiere: MatiereId
   elements: ElementPose[]
+  gravure: string | null   // texte gravé sous la devise (D11), null s'il n'y en a pas
 }
 ```
 
@@ -158,14 +161,14 @@ Ce même tableau produit la page `/credits`, le fichier `CREDITS.md` (par `scrip
 
 ### 5.1 Encombrement (D1, D4)
 
-- **Dans le chaudron** : `distance(centre) + rayon ≤ rayonSol`.
+- **Dans le bocal** : `distance(centre) + rayon ≤ rayonSol`.
 - **Pas de chevauchement** : pour chaque autre élément, `distance(a, b) ≥ rayonA + rayonB`.
 - **Jauge** : `Σ rayon² / rayonSol² ≤ 0,70`. C'est un rapport de surfaces : les π se simplifient.
-- **Place libre** pour le dépôt automatique : on essaie des points sur une **spirale de Vogel** (des points répartis selon l'angle d'or, comme les graines d'un tournesol), du centre vers le bord, et on garde le premier valide. Le résultat est déterministe et bien réparti. Si aucun point ne convient, on renvoie `null` et l'interface affiche « Plus de place dans le chaudron ».
+- **Place libre** pour le dépôt automatique : on essaie des points sur une **spirale de Vogel** (des points répartis selon l'angle d'or, comme les graines d'un tournesol), du centre vers le bord, et on garde le premier valide. Le résultat est déterministe et bien réparti. Si aucun point ne convient, on renvoie `null` et l'interface affiche « Plus de place dans le bocal ».
 
 ### 5.2 Description textuelle (accessibilité)
 
-`decrireComposition()` produit par exemple : « Chaudron en fonte. Au centre, une fougère ; à l'avant gauche, trois mousses ; à l'arrière, une améthyste. » Le texte est annoncé par une zone `aria-live` à chaque changement. Le test de bout en bout s'en sert aussi pour vérifier la scène **sans comparer de pixels**.
+`decrireComposition()` produit par exemple : « Bocal en verre clair. Au centre, une fougère. À l'avant gauche, trois touffes de mousse. À l'arrière, une améthyste. » Le texte est annoncé par une zone `aria-live` à chaque changement. Le test de bout en bout s'en sert aussi pour vérifier la scène **sans comparer de pixels**.
 
 ## 6. L'état (Zustand)
 
@@ -225,10 +228,10 @@ Chaque sous-étape se termine par une vérification dans le navigateur, une sect
 | 1c | Catalogue et crédits : données, registre, `CREDITS.md` généré, page `/credits` | 1 h 30 |
 | 1d | Domaine : prix, encombrement, place libre, description, avec leurs tests | 2 h |
 | **2 · La scène** | | |
-| 2a | Vitrine : reprise de l'essai, écran d'attente, HDRI définitive, devise gravée sur le chaudron | 1 h 30 |
+| 2a | Vitrine : reprise de l'essai, écran d'attente, HDRI définitive, bocal d'apothicaire (D9) et devise gravée | 1 h 30 + 2 h 30 |
 | 2b | Éléments : mousse, galets, améthyste, et la fougère compressée | 3 h |
 | **3 · Composer** | | |
-| 3a | Catalogue, dépôt automatique, prix, jauge et récapitulatif | 3 h |
+| 3a | Catalogue, dépôt automatique, prix, jauge et récapitulatif ; gravure personnalisée (règles, champ, texte gravé en direct) | 3 h + 2 h |
 | 3b | Sélection, glisser au sol, rotation, suppression, clavier, description `aria-live` | 3 h 30 |
 | **4 · Les pages** | | |
 | 4a | Accueil vitrine | 4 h à 5 h |

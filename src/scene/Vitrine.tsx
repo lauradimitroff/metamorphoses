@@ -1,20 +1,21 @@
 import { Environment, OrbitControls } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
 import { ToneMappingMode, type BloomEffect } from 'postprocessing'
-import { Suspense, useRef } from 'react'
+import { Suspense, useRef, type ReactNode } from 'react'
 import { MathUtils, type DirectionalLight, type HemisphereLight } from 'three'
+import type { MatiereId } from '../domaine/types'
+import { EcranAttente } from '../interface/EcranAttente'
+import { AmbianceContexte, COULEURS, type Ambiance, type Moment } from './ambiance'
+import { Bocal } from './Bocal'
 import { Bougie } from './Bougie'
-import { Champignons } from './Champignons'
-import { Chaudron, ELEVATION, HAUTEUR_SOL } from './Chaudron'
-import { Fougere } from './Fougere'
 import { Lucioles } from './Lucioles'
 import { Table } from './Table'
-import type { Ambiance, Hdri, Matiere, Moment } from './types'
+import styles from './Vitrine.module.css'
 
-const ENCRE_DE_NUIT = '#12161a'
 const DUREE_TRANSITION = 2.5 // secondes
-const SOL = ELEVATION + HAUTEUR_SOL
+
+const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /** Avance `valeur` vers `cible` d'au plus `pas`, sans la dépasser. */
 function avancerVers(valeur: number, cible: number, pas: number): number {
@@ -26,10 +27,67 @@ function adoucir(t: number): number {
   return t * t * (3 - 2 * t)
 }
 
-const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+interface ProprietesVitrine {
+  moment: Moment
+  matiere: MatiereId
+  /** Description de la scène pour les lecteurs d'écran. */
+  description: string
+  /** Rotation lente de la caméra (page d'accueil). Désactivée si l'on demande moins d'animations. */
+  rotationAuto?: boolean
+  /** Couvercle soulevé et posé sur la table, pour composer. */
+  couvercleOuvert?: boolean
+  /** Ce qui est posé dans le bocal. */
+  children?: ReactNode
+}
 
-export function Scene({ moment, hdri, matiere }: { moment: Moment; hdri: Hdri; matiere: Matiere }) {
-  const ambiance = useRef<Ambiance>({ progression: 0, nuit: 0 })
+/**
+ * Le décor commun à l'accueil et au configurateur : table, bocal, bougie, lumières,
+ * passage du jour à la nuit. Ce qu'on pose dans le bocal arrive par `children`.
+ */
+export function Vitrine({
+  moment,
+  matiere,
+  description,
+  rotationAuto = false,
+  couvercleOuvert = false,
+  children,
+}: ProprietesVitrine) {
+  return (
+    <div className={styles.vitrine}>
+      <Canvas
+        className={styles.scene}
+        shadows="percentage"
+        dpr={[1, 2]}
+        camera={{ position: [3.2, 2.9, 4], fov: 32, near: 0.1, far: 30 }}
+        role="img"
+        aria-label={description}
+      >
+        <Suspense fallback={null}>
+          <Scene
+            moment={moment}
+            matiere={matiere}
+            couvercleOuvert={couvercleOuvert}
+            rotationAuto={rotationAuto && !reduireAnimations}
+          >
+            {children}
+          </Scene>
+        </Suspense>
+      </Canvas>
+      <EcranAttente />
+    </div>
+  )
+}
+
+function Scene({
+  moment,
+  matiere,
+  rotationAuto,
+  couvercleOuvert,
+  children,
+}: Required<Omit<ProprietesVitrine, 'description' | 'children'>> & { children?: ReactNode }) {
+  // Si la scène s'ouvre de nuit (accueil), elle y est déjà : pas de transition au chargement.
+  const depart = moment === 'nuit' ? 1 : 0
+  const ambiance = useRef<Ambiance>({ progression: depart, nuit: depart })
   const soleil = useRef<DirectionalLight>(null)
   const clairDeLune = useRef<HemisphereLight>(null)
   const halo = useRef<BloomEffect>(null)
@@ -50,21 +108,20 @@ export function Scene({ moment, hdri, matiere }: { moment: Moment; hdri: Hdri; m
   })
 
   return (
-    <>
-      <color attach="background" args={[ENCRE_DE_NUIT]} />
+    <AmbianceContexte value={ambiance}>
+      <color attach="background" args={[COULEURS.encreDeNuit]} />
       {/* Le brouillard, de la couleur du fond, fait disparaître les bords de la table. */}
-      <fog attach="fog" args={[ENCRE_DE_NUIT, 5, 10]} />
+      <fog attach="fog" args={[COULEURS.encreDeNuit, 5.5, 11]} />
 
-      {/* Sa propre frontière de chargement : changer d'HDRI ne fait pas disparaître la scène. */}
-      <Suspense fallback={null}>
-        <Environment files={`/hdri/${hdri}_1k.hdr`} />
-      </Suspense>
+      {/* L'HDRI « Workshop » (Poly Haven), choisie pour les reflets qu'elle donne au verre (D10). */}
+      <Environment files="/hdri/workshop_1k.hdr" />
 
       {/* Lumière principale du jour : une fenêtre haute, sur la gauche. */}
       <directionalLight
         ref={soleil}
         position={[-2.5, 3.5, 1.5]}
         color="#fff1dc"
+        intensity={2.2 * (1 - depart)}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0004}
@@ -77,24 +134,25 @@ export function Scene({ moment, hdri, matiere }: { moment: Moment; hdri: Hdri; m
         shadow-camera-far={10}
       />
       {/* La nuit : un soupçon de bleu venu d'en haut, pour que les ombres ne soient pas d'un noir mort. */}
-      <hemisphereLight ref={clairDeLune} args={['#3a4a66', '#120e0b', 0]} />
+      <hemisphereLight ref={clairDeLune} args={['#3a4a66', '#120e0b', 0.18 * depart]} />
 
       <Table />
-      <Chaudron matiere={matiere} />
-      <Fougere position={[-0.2, SOL, 0.08]} />
-      <Champignons ambiance={ambiance} position={[0.24, SOL, -0.16]} />
-      <Bougie ambiance={ambiance} />
-      <Lucioles ambiance={ambiance} />
+      <Bocal matiere={matiere} couvercleOuvert={couvercleOuvert} />
+      {children}
+      <Bougie />
+      <Lucioles />
 
       <OrbitControls
         makeDefault
-        target={[0, 0.6, 0]}
+        target={[0, 0.85, 0]}
         enableDamping
         enablePan={false}
         minDistance={2}
-        maxDistance={7}
+        maxDistance={8}
         minPolarAngle={0.35}
         maxPolarAngle={1.32}
+        autoRotate={rotationAuto}
+        autoRotateSpeed={0.35}
       />
 
       {/*
@@ -106,6 +164,6 @@ export function Scene({ moment, hdri, matiere }: { moment: Moment; hdri: Hdri; m
         <Bloom ref={halo} mipmapBlur luminanceThreshold={1} luminanceSmoothing={0.2} intensity={0.15} />
         <ToneMapping mode={ToneMappingMode.AGX} />
       </EffectComposer>
-    </>
+    </AmbianceContexte>
   )
 }

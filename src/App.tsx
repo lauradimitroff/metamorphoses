@@ -10,8 +10,6 @@ const APropos = lazy(() => import('./pages/APropos'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Registre = lazy(() => import('./pages/Registre'))
 const Introuvable = lazy(() => import('./pages/Introuvable'))
-// Provisoire : l'essai d'éclairage reste consultable jusqu'à l'étape 2a.
-const EssaiEclairage = lazy(() => import('./essai/EssaiEclairage'))
 
 export default function App() {
   return (
@@ -25,7 +23,6 @@ export default function App() {
           <Route path="credits" element={<Registre />} />
           <Route path="*" element={<Introuvable />} />
         </Route>
-        <Route path="essai" element={<EssaiEclairage />} />
       </Routes>
     </Suspense>
   )

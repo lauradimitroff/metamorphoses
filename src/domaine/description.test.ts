@@ -34,8 +34,8 @@ describe('enumerer', () => {
 })
 
 describe('decrireComposition', () => {
-  it('signale un chaudron vide', () => {
-    expect(decrireComposition(composer([], 'cuivre'), CATALOGUE_DE_TEST)).toBe('Chaudron en cuivre, encore vide.')
+  it('signale un bocal vide', () => {
+    expect(decrireComposition(composer([], 'verre-ambre'), CATALOGUE_DE_TEST)).toBe('Bocal en verre ambré, encore vide.')
   })
 
   it('décrit le centre, puis la scène de l’avant vers l’arrière et de gauche à droite', () => {
@@ -48,7 +48,7 @@ describe('decrireComposition', () => {
       poser('mousse', -500, 520),
     ])
     expect(decrireComposition(composition, CATALOGUE_DE_TEST)).toBe(
-      'Chaudron en fonte. Au centre, une fougère. ' +
+      'Bocal en verre clair. Au centre, une fougère. ' +
         'À l’avant gauche, trois touffes de mousse et un groupe de champignons luminescents. ' +
         'À l’arrière, une améthyste.',
     )

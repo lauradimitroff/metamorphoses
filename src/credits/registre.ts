@@ -62,7 +62,7 @@ export const REGISTRE: readonly Credit[] = [
     fichiers: ['models/fougere.glb'],
   },
 
-  // Environnements lumineux (HDRI) : une seule sera retenue à l'étape 2a
+  // Environnement lumineux (HDRI), retenu à l'étape 2a
   {
     id: 'hdri-workshop',
     titre: 'Workshop',
@@ -73,27 +73,6 @@ export const REGISTRE: readonly Credit[] = [
     modifications: null,
     fichiers: ['hdri/workshop_1k.hdr'],
   },
-  {
-    id: 'hdri-vestibule',
-    titre: 'Vestibule',
-    nature: 'environnement',
-    auteur: 'Sergej Majboroda',
-    source: 'https://polyhaven.com/a/vestibule',
-    licence: 'CC0',
-    modifications: null,
-    fichiers: ['hdri/vestibule_1k.hdr'],
-  },
-  {
-    id: 'hdri-moon-lab',
-    titre: 'Moon Lab',
-    nature: 'environnement',
-    auteur: 'Greg Zaal',
-    source: 'https://polyhaven.com/a/moon_lab',
-    licence: 'CC0',
-    modifications: null,
-    fichiers: ['hdri/moon_lab_1k.hdr'],
-  },
-
   // Textures
   {
     id: 'texture-noyer',
