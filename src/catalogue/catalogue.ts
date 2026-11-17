@@ -1,4 +1,4 @@
-import type { DefinitionChaudron, DefinitionElement, ElementId, FamilleId } from '../domaine/types'
+import type { Catalogue, DefinitionChaudron, DefinitionElement, ElementId, FamilleId } from '../domaine/types'
 
 /*
  * Les données du catalogue. Ajouter un élément revient à ajouter une entrée ici,
@@ -25,6 +25,7 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
   mousse: {
     id: 'mousse',
     nom: 'Touffe de mousse',
+    appellation: { singulier: 'touffe de mousse', pluriel: 'touffes de mousse', genre: 'feminin' },
     description: 'Un coussin vert et dense, qui garde l’humidité du sol.',
     famille: 'vegetal',
     prixCentimes: 300,
@@ -34,6 +35,7 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
   fougere: {
     id: 'fougere',
     nom: 'Petite fougère',
+    appellation: { singulier: 'fougère', pluriel: 'fougères', genre: 'feminin' },
     description: 'Ses frondes se déploient en éventail au-dessus de la mousse.',
     famille: 'vegetal',
     prixCentimes: 800,
@@ -43,6 +45,7 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
   galets: {
     id: 'galets',
     nom: 'Galets de rivière',
+    appellation: { singulier: 'poignée de galets', pluriel: 'poignées de galets', genre: 'feminin' },
     description: 'Trois pierres polies par l’eau, aux teintes de schiste.',
     famille: 'mineral',
     prixCentimes: 200,
@@ -52,6 +55,7 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
   amethyste: {
     id: 'amethyste',
     nom: 'Améthyste',
+    appellation: { singulier: 'améthyste', pluriel: 'améthystes', genre: 'feminin' },
     description: 'Une pointe de quartz violet, qui retient la lumière de la bougie.',
     famille: 'mineral',
     prixCentimes: 1200,
@@ -61,6 +65,11 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
   'champignons-luminescents': {
     id: 'champignons-luminescents',
     nom: 'Champignons luminescents',
+    appellation: {
+      singulier: 'groupe de champignons luminescents',
+      pluriel: 'groupes de champignons luminescents',
+      genre: 'masculin',
+    },
     description: 'Trois chapeaux pâles le jour, qui s’éveillent d’une lueur verte à la nuit tombée.',
     famille: 'champignons',
     prixCentimes: 700,
@@ -71,3 +80,5 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
 
 /** Les éléments dans l'ordre d'affichage du catalogue. */
 export const LISTE_ELEMENTS: readonly DefinitionElement[] = Object.values(ELEMENTS)
+
+export const CATALOGUE: Catalogue = { chaudron: CHAUDRON, elements: ELEMENTS }

@@ -18,9 +18,17 @@ export interface DefinitionChaudron {
   matieres: Readonly<Record<MatiereId, { nom: string; prixCentimes: number }>>
 }
 
+/** Comment nommer l'élément dans une phrase : « une fougère », « trois touffes de mousse ». */
+export interface Appellation {
+  singulier: string
+  pluriel: string
+  genre: 'masculin' | 'feminin'
+}
+
 export interface DefinitionElement {
   id: ElementId
   nom: string
+  appellation: Appellation
   /** Courte phrase pour la fiche du catalogue, dans la voix du cabinet. */
   description: string
   famille: FamilleId
@@ -30,6 +38,12 @@ export interface DefinitionElement {
   rayonEncombrement: number
   /** Ressources externes utilisées. Vide pour un élément entièrement généré dans le code. */
   creditIds: readonly string[]
+}
+
+/** Le catalogue est passé en paramètre aux règles : on peut ainsi les tester avec des données inventées. */
+export interface Catalogue {
+  chaudron: DefinitionChaudron
+  elements: Readonly<Record<ElementId, DefinitionElement>>
 }
 
 export interface ElementPose {
