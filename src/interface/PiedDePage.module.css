@@ -1,0 +1,60 @@
+.pied {
+  display: grid;
+  justify-items: center;
+  gap: var(--espace-5);
+  padding: var(--espace-8) var(--marge-page) var(--espace-6);
+  border-top: 1px solid var(--filet-leger);
+  color: var(--accent);
+  text-align: center;
+}
+
+.logo {
+  width: 5.5rem;
+  height: auto;
+}
+
+.devise {
+  display: grid;
+  gap: var(--espace-1);
+}
+
+.devise [lang='la'] {
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+}
+
+.traduction {
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
+
+.fleuron {
+  width: 10rem;
+  height: auto;
+  opacity: 0.7;
+}
+
+.liens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--espace-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--taille-petite);
+  color: var(--texte);
+}
+
+.liens a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--hauteur-cible);
+}
+
+.mention {
+  max-width: var(--largeur-texte);
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
