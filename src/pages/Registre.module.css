@@ -1,0 +1,225 @@
+.chapo {
+  max-width: var(--largeur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  color: var(--texte-discret);
+}
+
+.rubrique {
+  margin-top: var(--espace-8);
+}
+
+/* Intitulé de rubrique encadré d'un filet double, comme dans un registre relié */
+.intitule {
+  padding-bottom: var(--espace-3);
+  border-bottom: 3px double var(--filet);
+  font-size: var(--taille-titre-3);
+  letter-spacing: 0.02em;
+}
+
+.liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * Une ligne du registre : numéro | désignation | licence.
+ * Toute la ligne est cliquable : le lien du titre est étiré par-dessus (voir .lienLigne).
+ * La ligne déborde légèrement à gauche et à droite pour que le fond de survol respire,
+ * sans décaler le texte par rapport au reste de la page.
+ */
+.entree {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  gap: var(--espace-2) var(--espace-5);
+  align-items: baseline;
+  margin-inline: calc(-1 * var(--espace-4));
+  padding: var(--espace-5) var(--espace-4);
+  border-bottom: 1px solid var(--filet-leger);
+  transition: background-color var(--duree-courte) ease-out;
+}
+
+.entree:hover {
+  background: rgb(184 155 94 / 0.06);
+}
+
+/* Le contour de focus entoure toute la ligne, et non le seul titre */
+.entree:has(.lienLigne:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.lienLigne:focus-visible {
+  outline: none;
+}
+
+.lienLigne::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.fleche {
+  display: inline-block;
+  margin-left: 0.35em;
+  font-family: var(--police-texte);
+  font-size: 0.8em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-0.2em, 0.2em);
+  transition:
+    opacity var(--duree-courte) ease-out,
+    transform var(--duree-moyenne) var(--courbe-sortie);
+}
+
+.entree:hover .fleche,
+.entree:has(.lienLigne:focus-visible) .fleche {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.numero {
+  font-family: var(--police-titre);
+  font-size: 1.0625rem;
+  font-style: italic;
+  font-variant-numeric: oldstyle-nums;
+  color: var(--accent);
+}
+
+.corps {
+  display: grid;
+  gap: var(--espace-1);
+}
+
+.titre {
+  font-size: var(--taille-chapo);
+}
+
+.titre a {
+  text-decoration-color: transparent;
+}
+
+.entree:hover .titre a,
+.entree:has(.lienLigne:focus-visible) .titre a {
+  text-decoration-color: var(--accent);
+}
+
+.auteur {
+  color: var(--texte-discret);
+}
+
+.modifications {
+  max-width: var(--largeur-texte);
+  font-size: var(--taille-petite);
+  font-style: italic;
+  color: var(--texte-discret);
+}
+
+/*
+ * Une colonne d'information, pas un bouton : aucun cadre ni fond,
+ * pour ne pas suggérer une action au clic.
+ */
+.licence {
+  display: grid;
+  justify-items: end;
+  gap: 0.1rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.libelleLicence {
+  font-size: 0.75rem;
+  letter-spacing: var(--chasse-capitales);
+  text-transform: uppercase;
+  color: var(--texte-discret);
+}
+
+.sigleLicence {
+  font-family: var(--police-titre);
+  font-size: 1.125rem;
+  color: var(--accent);
+  /* Chiffres alignés : en chiffres elzéviriens, le zéro de « CC0 » se lirait « o » */
+  font-variant-numeric: lining-nums;
+}
+
+.texte {
+  margin-top: var(--espace-5);
+  max-width: var(--largeur-texte);
+  color: var(--texte-discret);
+}
+
+.pieces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--espace-3) var(--espace-6);
+  margin: var(--espace-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pieces li {
+  padding-left: var(--espace-5);
+  position: relative;
+}
+
+/* Petit losange de laiton en guise de puce */
+.pieces li::before {
+  content: '';
+  position: absolute;
+  top: 0.62em;
+  left: 0.2rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+.licences {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--espace-4) var(--espace-5);
+  margin: var(--espace-5) 0 0;
+}
+
+.licences dt {
+  font-family: var(--police-titre);
+  font-size: 1.125rem;
+  font-variant-numeric: lining-nums;
+}
+
+.licences dd {
+  margin: 0;
+  color: var(--texte-discret);
+}
+
+@media (max-width: 40rem) {
+  .entree {
+    grid-template-columns: 1fr auto;
+  }
+
+  .numero {
+    grid-column: 1 / -1;
+  }
+
+  /* Sur mobile, la licence passe sous l'auteur, alignée à gauche */
+  .licence {
+    grid-column: 1 / -1;
+    justify-items: start;
+    grid-template-columns: auto auto;
+    gap: var(--espace-2);
+    align-items: baseline;
+    text-align: left;
+  }
+
+  .licences {
+    grid-template-columns: 1fr;
+    gap: var(--espace-1);
+  }
+
+  .licences dd {
+    margin-bottom: var(--espace-3);
+  }
+}

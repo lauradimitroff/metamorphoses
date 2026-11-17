@@ -28,6 +28,9 @@ jobs:
       - name: Tests unitaires
         run: npm test
 
+      - name: CREDITS.md à jour
+        run: npm run credits:verifier
+
       - name: Construction
         run: npm run build
 

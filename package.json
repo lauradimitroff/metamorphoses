@@ -11,6 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "credits": "node scripts/generer-credits.ts",
+    "credits:verifier": "node scripts/generer-credits.ts --verifier",
     "preview": "vite preview"
   },
   "dependencies": {

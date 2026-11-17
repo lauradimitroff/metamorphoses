@@ -36,7 +36,17 @@ export function PiedDePage() {
             <Link to="/credits">Registre des crédits</Link>
           </li>
           <li>
-            <a href="https://laura-dimitroff.vercel.app/">Portfolio de Laura Dimitroff</a>
+            <a
+              href="https://laura-dimitroff.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Portfolio de Laura Dimitroff (nouvel onglet)"
+            >
+              Portfolio de Laura Dimitroff
+              <span className={styles.fleche} aria-hidden="true">
+                ↗
+              </span>
+            </a>
           </li>
         </ul>
       </nav>
