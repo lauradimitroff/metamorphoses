@@ -46,7 +46,7 @@
 }
 
 .titre {
-  font-size: var(--taille-titre-1);
+  font-size: 3.75rem; /* 60 px */
   letter-spacing: -0.012em;
 }
 

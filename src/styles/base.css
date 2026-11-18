@@ -88,6 +88,19 @@ textarea {
   border: 0;
 }
 
+/* Une image dont les bords se dissolvent dans le fond de la page, comme dans la pénombre */
+.bords-fondus {
+  --fondu: 9%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent);
+  mask-image:
+    linear-gradient(to right, transparent, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

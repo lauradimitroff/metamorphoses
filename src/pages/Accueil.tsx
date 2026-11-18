@@ -90,7 +90,7 @@ export default function Accueil() {
         </Apparition>
 
         <Apparition className={`${styles.etape} ${styles.etapeInversee}`}>
-          <div className={styles.illustration}>
+          <div className={`${styles.illustration} bords-fondus`}>
             <Photo
               nom="mousse"
               alt="Une butte de mousse à contre-jour, ses fines tiges éclairées sur un fond noir"
@@ -111,7 +111,7 @@ export default function Accueil() {
         </Apparition>
 
         <Apparition className={styles.etape}>
-          <div className={styles.illustration}>
+          <div className={`${styles.illustration} bords-fondus`}>
             <Photo
               nom="champignons"
               alt="Des champignons luminescents, d’un vert pâle, dans l’herbe d’une forêt nocturne"

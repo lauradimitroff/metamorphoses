@@ -25,7 +25,9 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 - **[Champignons luminescents](https://unsplash.com/fr/photos/un-groupe-de-champignons-rougeoyant-dans-la-foret-sombre-qu-upKvvRHg)** — Igor Omilaev · Licence Unsplash
   - Modifications : Recadrage, couleurs atténuées, grain léger, compression.
 - **[Papillon de nuit sur une fougère](https://unsplash.com/fr/photos/un-gros-plan-dune-feuille-avec-un-insecte-dessus-zaj4z_atuZA)** — Erik Karits · Licence Unsplash
+  - Modifications : Recadrage, couleurs atténuées, grain léger, compression.
 - **[Papillon dans la lumière](https://unsplash.com/fr/photos/papillon-dans-la-lumiere-JWKW9LOsdUg)** — Jack Chen · Licence Unsplash
+  - Modifications : Recadrage, couleurs atténuées, grain léger, compression.
 
 ## Polices de caractères
 

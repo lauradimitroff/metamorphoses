@@ -6,7 +6,7 @@ test.beforeEach(({ page }) => desactiverWebgl(page))
 const PAGES = [
   { chemin: '/', titre: 'Un jardin sous verre', onglet: 'Métamorphoses — Cabinet de terrariums à composer' },
   { chemin: '/composer', titre: 'Composer un terrarium', onglet: 'Composer — Métamorphoses' },
-  { chemin: '/a-propos', titre: 'Le cabinet', onglet: 'Le cabinet — Métamorphoses' },
+  { chemin: '/a-propos', titre: 'Le registre d’Hortense', onglet: 'Le cabinet — Métamorphoses' },
   { chemin: '/contact', titre: 'Écrire au cabinet', onglet: 'Contact — Métamorphoses' },
   { chemin: '/credits', titre: 'Registre d’inventaire', onglet: 'Registre des crédits — Métamorphoses' },
 ] as const
@@ -46,5 +46,13 @@ test('l’accueil présente le parcours et mène à l’atelier', async ({ page 
   await expect(page.getByRole('heading', { name: 'Comment naît un spécimen' })).toBeVisible()
   await expect(page.getByRole('img', { name: /champignons/i }).first()).toBeVisible()
   await page.getByRole('main').getByRole('link', { name: 'Composer mon terrarium' }).first().click()
+  await expect(page).toHaveURL(/\/composer$/)
+})
+
+test('le registre d’Hortense signale sa fiction et mène à l’atelier', async ({ page }) => {
+  await page.goto('/a-propos')
+  await expect(page.getByText(/sont imaginaires/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Une fougère que personne n’a semée' })).toBeVisible()
+  await page.getByRole('main').getByRole('link', { name: 'Composer mon terrarium' }).click()
   await expect(page).toHaveURL(/\/composer$/)
 })

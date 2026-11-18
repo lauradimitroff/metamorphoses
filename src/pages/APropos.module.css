@@ -1,0 +1,188 @@
+.chapo {
+  max-width: var(--largeur-texte);
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--texte-discret);
+}
+
+.chapitres {
+  display: grid;
+  gap: var(--espace-9);
+  margin-top: var(--espace-8);
+}
+
+/* Image et texte, en alternance d'un chapitre à l'autre */
+.chapitre {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--espace-8);
+  align-items: center;
+}
+
+.chapitre:nth-child(even) {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.chapitre:nth-child(even) .image {
+  order: 2;
+}
+
+/* L'image se dévoile de bas en haut, en reprenant doucement sa taille */
+.image {
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 500ms var(--courbe-douce);
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 500ms var(--courbe-douce);
+}
+
+[data-visible='true'] > .image {
+  clip-path: inset(0);
+  transition: clip-path 1.2s var(--courbe-sortie);
+}
+
+[data-visible='true'] > .image img {
+  transform: none;
+  transition: transform 1.6s var(--courbe-sortie);
+}
+
+.annee {
+  margin-bottom: var(--espace-3);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-style: italic;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 450ms ease-out;
+}
+
+.titreChapitre {
+  margin-bottom: var(--espace-5);
+  font-size: var(--taille-titre-2);
+}
+
+/* Chaque mot glisse depuis le bas de sa propre ligne, masquée */
+.mot {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  vertical-align: top;
+}
+
+.mot > span {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 450ms var(--courbe-douce);
+}
+
+.texte {
+  max-width: 30rem;
+  color: var(--texte-discret);
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 450ms ease-out,
+    transform 450ms var(--courbe-douce);
+}
+
+/*
+ * À l'entrée, tout s'enchaîne lentement : l'image, l'année, les mots un à un, puis le texte.
+ * À la sortie (règles ci-dessus), tout repart vite et sans délai.
+ */
+[data-visible='true'] .annee {
+  opacity: 1;
+  transition: opacity 800ms ease-out 350ms;
+}
+
+[data-visible='true'] .mot > span {
+  transform: none;
+  transition: transform 1.1s var(--courbe-sortie) calc(500ms + var(--rang) * 90ms);
+}
+
+[data-visible='true'] .texte {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 1s ease-out 1.05s,
+    transform 1s var(--courbe-sortie) 1.05s;
+}
+
+.fin {
+  max-width: var(--largeur-texte);
+  margin: var(--espace-9) auto 0;
+  text-align: center;
+}
+
+.fin h2 {
+  margin-bottom: var(--espace-5);
+  font-size: var(--taille-titre-2);
+}
+
+.appel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.25rem;
+  padding-inline: var(--espace-6);
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.appel:hover {
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+.verite {
+  margin-top: var(--espace-7);
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
+
+@media (max-width: 48rem) {
+  .chapitres {
+    gap: var(--espace-8);
+  }
+
+  .chapitre,
+  .chapitre:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: var(--espace-5);
+  }
+
+  .chapitre:nth-child(even) .image {
+    order: 0;
+  }
+}
+
+/* Moins d'animations : tout est affiché d'emblée, sans délai ni mouvement. */
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .image img,
+  .annee,
+  .texte,
+  .mot > span,
+  [data-visible] > .image,
+  [data-visible] > .image img,
+  [data-visible] .annee,
+  [data-visible] .texte,
+  [data-visible] .mot > span {
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+}

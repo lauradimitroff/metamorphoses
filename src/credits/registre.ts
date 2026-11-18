@@ -123,8 +123,13 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Erik Karits',
     source: 'https://unsplash.com/fr/photos/un-gros-plan-dune-feuille-avec-un-insecte-dessus-zaj4z_atuZA',
     licence: 'Licence Unsplash',
-    modifications: null,
-    fichiers: [],
+    modifications: 'Recadrage, couleurs atténuées, grain léger, compression.',
+    fichiers: [
+      'photos/papillon-fougere-800.avif',
+      'photos/papillon-fougere-800.webp',
+      'photos/papillon-fougere-1400.avif',
+      'photos/papillon-fougere-1400.webp',
+    ],
   },
   {
     id: 'photo-papillon-lumiere',
@@ -133,8 +138,13 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Jack Chen',
     source: 'https://unsplash.com/fr/photos/papillon-dans-la-lumiere-JWKW9LOsdUg',
     licence: 'Licence Unsplash',
-    modifications: null,
-    fichiers: [],
+    modifications: 'Recadrage, couleurs atténuées, grain léger, compression.',
+    fichiers: [
+      'photos/papillon-lumiere-800.avif',
+      'photos/papillon-lumiere-800.webp',
+      'photos/papillon-lumiere-1400.avif',
+      'photos/papillon-lumiere-1400.webp',
+    ],
   },
 
   // Polices
