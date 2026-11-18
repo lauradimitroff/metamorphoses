@@ -1,48 +1,87 @@
-/* Provisoire (étape 2a) : la mise en page du configurateur arrive à l'étape 3a. */
 .atelier {
-  height: clamp(24rem, 65vh, 44rem);
-  border: 1px solid var(--filet-leger);
+  --marge-panneau: var(--espace-5);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
+  align-items: start;
+  border-top: 1px solid var(--filet-leger);
+}
+
+/* La scène reste à l'écran pendant qu'on parcourt le catalogue. */
+.scene {
+  position: sticky;
+  top: 0;
+  height: 100svh;
 }
 
 .commandes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espace-5) var(--espace-7);
-  margin-top: var(--espace-5);
-}
-
-.bascule {
+  position: absolute;
+  bottom: var(--espace-5);
+  left: var(--espace-5);
   display: flex;
   flex-wrap: wrap;
   gap: var(--espace-2);
-  margin: 0;
-  padding: 0;
-  border: 0;
 }
 
-.bascule legend {
-  margin-bottom: var(--espace-2);
-  font-size: var(--taille-petite);
-  color: var(--texte-discret);
-}
-
-.bascule button {
+.commandes button {
   min-height: var(--hauteur-cible);
   padding-inline: var(--espace-4);
-  background: transparent;
-  border: 1px solid var(--filet);
+  border: 1px solid var(--accent);
+  background: rgb(18 22 26 / 0.82);
+  letter-spacing: 0.03em;
   cursor: pointer;
   transition:
     background-color var(--duree-courte) ease-out,
     color var(--duree-courte) ease-out;
 }
 
-.bascule button:hover {
-  border-color: var(--accent);
+.commandes button:hover {
+  background: var(--accent);
+  color: var(--encre-de-nuit);
 }
 
-.bascule button[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--encre-de-nuit);
+.panneau {
+  min-width: 0;
+  padding: var(--espace-6) var(--marge-panneau) 0;
+  border-left: 1px solid var(--filet-leger);
+}
+
+.entete {
+  margin-bottom: var(--espace-6);
+}
+
+.surtitre {
+  margin-bottom: var(--espace-2);
+  font-size: var(--taille-petite);
+  letter-spacing: var(--chasse-capitales);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.titre {
+  font-size: var(--taille-titre-2);
+}
+
+.titre:focus {
+  outline: none;
+}
+
+/* Provisoire : le vrai tiroir mobile arrive à l'étape 5a. */
+@media (max-width: 56rem) {
+  .atelier {
+    grid-template-columns: 1fr;
+  }
+
+  .scene {
+    position: relative;
+    height: 62svh;
+  }
+
+  .commandes {
+    bottom: var(--espace-3);
+    left: var(--espace-3);
+  }
+
+  .panneau {
+    border-left: 0;
+  }
 }

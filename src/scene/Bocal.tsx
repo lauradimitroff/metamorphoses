@@ -90,6 +90,8 @@ export const RAYON_PANSE = 0.625
 const DEVISE = 'VVLNERANT OMNES · VLTIMA NECAT'
 /** Sur le haut de la panse, juste sous l'épaule. */
 const HAUTEUR_DEVISE = 1.13
+/** La gravure du visiteur, plus grande, juste en dessous. */
+const HAUTEUR_GRAVURE = 1.03
 
 /** Le couvercle ouvert repose sur la table, à gauche du bocal. */
 const POSE_OUVERTE = { x: -1.1, y: 0, z: 0.4 }
@@ -176,7 +178,15 @@ function Couvercle({ ouvert }: { ouvert: boolean }) {
   )
 }
 
-export function Bocal({ matiere, couvercleOuvert = false }: { matiere: MatiereId; couvercleOuvert?: boolean }) {
+export function Bocal({
+  matiere,
+  couvercleOuvert = false,
+  gravure = null,
+}: {
+  matiere: MatiereId
+  couvercleOuvert?: boolean
+  gravure?: string | null
+}) {
   const sol = useMemo(() => creerSol(RAYON_INTERIEUR), [])
 
   return (
@@ -214,6 +224,7 @@ export function Bocal({ matiere, couvercleOuvert = false }: { matiere: MatiereId
       </mesh>
 
       <Gravure texte={DEVISE} rayon={RAYON_PANSE} hauteur={HAUTEUR_DEVISE} taille={0.042} />
+      {gravure && <Gravure texte={gravure} rayon={RAYON_PANSE} hauteur={HAUTEUR_GRAVURE} taille={0.066} espacement={0.05} />}
 
       <Couvercle ouvert={couvercleOuvert} />
     </group>

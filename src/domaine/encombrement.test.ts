@@ -5,6 +5,7 @@ import {
   estDansLeBocal,
   normaliserRotation,
   OCCUPATION_MAXIMALE,
+  remplissage,
   resteDeLaPlace,
   seChevauchent,
   tauxOccupation,
@@ -61,23 +62,26 @@ describe('tauxOccupation et resteDeLaPlace', () => {
     expect(tauxOccupation(composer([poser('fougere')]), CATALOGUE_DE_TEST)).toBeCloseTo(0.09)
   })
 
-  it('refuse un ajout qui dépasserait 70 % du sol', () => {
-    // Chaque améthyste couvre 0,2² = 4 % : 17 font 68 %, une 18e porterait à 72 %.
-    const dixSept = composer(Array.from({ length: 17 }, () => poser('amethyste')))
-    expect(resteDeLaPlace(dixSept, 'mousse', CATALOGUE_DE_TEST)).toBe(true) // 68 % + 1 % = 69 %
-    expect(resteDeLaPlace(dixSept, 'amethyste', CATALOGUE_DE_TEST)).toBe(false)
+  it('refuse un ajout qui dépasserait la moitié du sol', () => {
+    // Chaque améthyste couvre 0,2² = 4 % : 12 font 48 %, une 13e porterait à 52 %.
+    const douze = composer(Array.from({ length: 12 }, () => poser('amethyste')))
+    expect(resteDeLaPlace(douze, 'mousse', CATALOGUE_DE_TEST)).toBe(true) // 48 % + 1 % = 49 %
+    expect(resteDeLaPlace(douze, 'amethyste', CATALOGUE_DE_TEST)).toBe(false)
   })
 })
 
 /** Remplit le bocal en déposant l'élément jusqu'à ce qu'il n'y ait plus de place. */
-function remplir(elementId: ElementId, catalogue: Catalogue): Composition {
-  let composition = composer()
+function remplir(elementId: ElementId, catalogue: Catalogue, depart: Composition = composer()): Composition {
+  let composition = depart
+  const ajouts = []
   for (let i = 0; i < 500; i++) {
     const place = trouverPlaceLibre(composition, elementId, catalogue)
     if (!place) break
-    composition = composer([...composition.elements, poser(elementId, place.x, place.z)])
+    const pose = poser(elementId, place.x, place.z)
+    ajouts.push(pose)
+    composition = composer([...composition.elements, pose])
   }
-  return composition
+  return composer(ajouts)
 }
 
 describe('trouverPlaceLibre', () => {
@@ -111,6 +115,18 @@ describe('trouverPlaceLibre', () => {
     expect(place).not.toBeNull()
     expect(Number.isInteger(place?.x)).toBe(true)
     expect(Number.isInteger(place?.z)).toBe(true)
+  })
+})
+
+describe('remplissage', () => {
+  it('part de zéro et ne vaut 1 que lorsque plus rien ne peut entrer', () => {
+    expect(remplissage(composer(), CATALOGUE_DE_TEST)).toBe(0)
+    let composition = composer()
+    for (const elementId of ['fougere', 'amethyste', 'mousse', 'galets', 'champignons-luminescents'] as const) {
+      composition = composer([...composition.elements, ...remplir(elementId, CATALOGUE_DE_TEST, composition).elements])
+      expect(remplissage(composition, CATALOGUE_DE_TEST)).toBeLessThanOrEqual(1)
+    }
+    expect(remplissage(composition, CATALOGUE_DE_TEST)).toBe(1)
   })
 })
 

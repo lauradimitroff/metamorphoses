@@ -88,4 +88,8 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
 /** Les éléments dans l'ordre d'affichage du catalogue. */
 export const LISTE_ELEMENTS: readonly DefinitionElement[] = Object.values(ELEMENTS)
 
-export const CATALOGUE: Catalogue = { bocal: BOCAL, elements: ELEMENTS }
+export const CATALOGUE: Catalogue = {
+  bocal: BOCAL,
+  gravure: { prixCentimes: 600, longueurMax: 24 },
+  elements: ELEMENTS,
+}

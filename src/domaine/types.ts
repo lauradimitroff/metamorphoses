@@ -45,6 +45,7 @@ export interface DefinitionElement {
 /** Le catalogue est passé en paramètre aux règles : on peut ainsi les tester avec des données inventées. */
 export interface Catalogue {
   bocal: DefinitionBocal
+  gravure: { prixCentimes: number; longueurMax: number }
   elements: Readonly<Record<ElementId, DefinitionElement>>
 }
 
@@ -62,4 +63,6 @@ export interface ElementPose {
 export interface Composition {
   matiere: MatiereId
   elements: readonly ElementPose[]
+  /** Texte gravé sous la devise (D11), ou null. */
+  gravure: string | null
 }

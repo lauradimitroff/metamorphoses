@@ -1,0 +1,305 @@
+.section {
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 var(--espace-6);
+  border: 0;
+}
+
+.intitule {
+  width: 100%;
+  margin: 0 0 var(--espace-4);
+  padding: 0 0 var(--espace-2);
+  border-bottom: 3px double var(--filet);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-weight: 400;
+  line-height: var(--interligne-titre);
+}
+
+.prix {
+  color: var(--accent);
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
+}
+
+/* Le verre */
+.verres {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espace-3);
+}
+
+.verre {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 var(--espace-3);
+  align-items: center;
+  padding: var(--espace-3);
+  border: 1px solid var(--filet-leger);
+  cursor: pointer;
+  transition: border-color var(--duree-courte) ease-out;
+}
+
+.verre:hover,
+.verre:has(input:checked) {
+  border-color: var(--accent);
+}
+
+.verre:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.verre input {
+  position: absolute;
+  opacity: 0;
+}
+
+.nuancier {
+  grid-row: span 2;
+  width: 1.75rem;
+  height: 2.25rem;
+  border: 1px solid var(--filet);
+  border-radius: 0.5rem 0.5rem 0.2rem 0.2rem;
+}
+
+.nuancier[data-verre='verre-clair'] {
+  background: rgb(233 240 233 / 0.14);
+}
+
+.nuancier[data-verre='verre-ambre'] {
+  background: var(--ambre);
+}
+
+/* Le catalogue */
+.famille + .famille {
+  margin-top: var(--espace-5);
+}
+
+.nomFamille {
+  margin-bottom: var(--espace-2);
+  font-size: 0.75rem;
+  letter-spacing: var(--chasse-capitales);
+  text-transform: uppercase;
+  color: var(--texte-discret);
+}
+
+.fiches {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fiche {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr;
+  gap: var(--espace-3);
+  padding-block: var(--espace-3);
+  border-bottom: 1px solid var(--filet-leger);
+}
+
+.vignette {
+  width: 3.25rem;
+  height: 3.25rem;
+  color: var(--accent);
+}
+
+.ficheTexte {
+  min-width: 0;
+}
+
+.nomElement {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-2);
+  font-size: 1.3125rem;
+}
+
+/* Une cible tactile de 44 px autour d'une pastille discrète */
+.info {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  padding: 0;
+  border: 1px solid var(--filet);
+  border-radius: 50%;
+  background: none;
+  font-family: var(--police-titre);
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1;
+  color: var(--texte-discret);
+  cursor: pointer;
+}
+
+.info::after {
+  content: '';
+  position: absolute;
+  inset: -0.8rem;
+}
+
+.info:hover,
+.info[aria-expanded='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.description,
+.provenance,
+.aide {
+  font-size: var(--taille-petite);
+  line-height: 1.45;
+  color: var(--texte-discret);
+}
+
+.provenance {
+  margin-top: var(--espace-1);
+  font-style: italic;
+  font-variant-numeric: lining-nums;
+}
+
+.ficheBas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--espace-1);
+}
+
+.compteur {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-2);
+  font-variant-numeric: lining-nums;
+}
+
+.compteur button {
+  width: var(--hauteur-cible);
+  height: var(--hauteur-cible);
+  border: 1px solid var(--filet);
+  background: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    border-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.compteur button:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+/* La gravure */
+.champ {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.champ input {
+  min-height: var(--hauteur-cible);
+  width: 100%;
+  padding-inline: var(--espace-3);
+  border: 1px solid var(--filet);
+  border-radius: 0;
+  background: var(--fond-releve);
+  font-family: var(--police-titre);
+  font-size: 1.25rem;
+}
+
+.champ input::placeholder {
+  color: rgb(233 223 200 / 0.62);
+}
+
+.champ input:focus-visible {
+  border-color: var(--accent);
+}
+
+.aide {
+  margin-top: var(--espace-2);
+  font-variant-numeric: lining-nums;
+}
+
+/* La barre du spécimen, qui reste en bas du panneau pendant le défilement */
+.barre {
+  position: sticky;
+  bottom: 0;
+  margin-inline: calc(-1 * var(--marge-panneau));
+  padding: var(--espace-3) var(--marge-panneau);
+  border-top: 1px solid var(--filet);
+  background: var(--fond);
+}
+
+.jauge {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--espace-3);
+  align-items: center;
+  font-size: var(--taille-petite);
+  font-variant-numeric: lining-nums;
+  color: var(--texte-discret);
+}
+
+.jauge [role='meter'] {
+  height: 3px;
+  overflow: hidden;
+  background: var(--filet-leger);
+}
+
+.jauge [role='meter'] span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform var(--duree-moyenne) var(--courbe-sortie);
+}
+
+.message {
+  min-height: 1.3em;
+  margin-block: var(--espace-1);
+  font-size: var(--taille-petite);
+  line-height: 1.3;
+  color: var(--accent);
+}
+
+.message:empty {
+  min-height: 0;
+  margin-block: var(--espace-1) 0;
+}
+
+.lignes {
+  display: grid;
+  gap: var(--espace-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--taille-petite);
+  font-variant-numeric: lining-nums;
+}
+
+.lignes li,
+.total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--espace-4);
+}
+
+.lignes li {
+  color: var(--texte-discret);
+}
+
+.total {
+  align-items: baseline;
+}
+
+.total strong {
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
+}

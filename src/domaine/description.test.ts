@@ -38,6 +38,12 @@ describe('decrireComposition', () => {
     expect(decrireComposition(composer([], 'verre-ambre'), CATALOGUE_DE_TEST)).toBe('Bocal en verre ambré, encore vide.')
   })
 
+  it('mentionne la gravure personnalisée', () => {
+    expect(decrireComposition(composer([], 'verre-clair', 'Pour Charlotte'), CATALOGUE_DE_TEST)).toBe(
+      'Bocal en verre clair, gravé «\u00a0Pour Charlotte\u00a0», encore vide.',
+    )
+  })
+
   it('décrit le centre, puis la scène de l’avant vers l’arrière et de gauche à droite', () => {
     const composition = composer([
       poser('amethyste', 0, -600),

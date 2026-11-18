@@ -24,6 +24,15 @@ export function detaillerPrix(composition: Composition, catalogue: Catalogue): L
     },
   ]
 
+  if (composition.gravure) {
+    lignes.push({
+      libelle: 'Gravure personnalisée',
+      quantite: 1,
+      prixUnitaireCentimes: catalogue.gravure.prixCentimes,
+      sousTotalCentimes: catalogue.gravure.prixCentimes,
+    })
+  }
+
   const quantites = new Map<ElementId, number>()
   for (const { elementId } of composition.elements) {
     quantites.set(elementId, (quantites.get(elementId) ?? 0) + 1)

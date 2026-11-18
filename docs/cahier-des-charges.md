@@ -1,10 +1,11 @@
 # Métamorphoses — Cahier des charges (V1)
 
-> Version 2.2 · 17/11/2026 · validé par Laura Dimitroff
+> Version 2.3 · 18/11/2026 · validé par Laura Dimitroff
 > 1.1 : origine des modèles après repérage (D6). 1.2 : page d'accueil vitrine.
 > **2.0 : périmètre recentré (D8)** sur un site vitrine avec un produit à configurer, pour environ 30 heures de travail.
 > 2.1 : le bocal d'apothicaire remplace le chaudron (D9) ; HDRI « Workshop » retenue (D10).
 > 2.2 : devise gravée à l'acide sur le verre ; gravure personnalisée en V1 (D11).
+> 2.3 : jauge calée sur la place réellement disponible (D13).
 > Boutique de démonstration : aucun produit n'est réellement vendu.
 
 ---
@@ -107,7 +108,7 @@ Les **lucioles** ne se placent pas : elles font partie de l'ambiance de nuit. Le
 - **Gravure personnalisée** : un champ de texte, avec un compteur des caractères restants (24 au plus). Le texte se grave dans le verre en direct, pendant la saisie. Les espaces superflus sont retirés ; un champ vide retire la gravure et son prix. Le texte gravé est repris dans la description textuelle.
 
 **F3. Jauge, prix et récapitulatif**
-- La jauge « Place restante » compare la surface occupée au sol disponible, avec un maximum de 70 %.
+- La jauge « Place occupée » compare la surface occupée à un maximum de 50 % du sol. Elle n'annonce « Bocal plein » que lorsque plus aucun élément ne trouve de place.
 - Le prix total est mis à jour à chaque action et affiché au format français (« 90,00 € »).
 - Le récapitulatif liste le verre du bocal, la gravure personnalisée s'il y en a une, puis les éléments regroupés avec leur quantité et leur sous-total.
 
@@ -222,7 +223,7 @@ Le site doit être **ultra soigné**, avec l'aspect d'un objet artisanal et non 
 - **Prix total** = prix du bocal + gravure personnalisée éventuelle (6 €) + somme des prix des éléments posés.
 - **Stockage en centimes**, en nombres entiers.
 - **Affichage** avec `Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })`.
-- **Limite de place** : la surface des cercles d'encombrement ne peut pas dépasser 70 % du sol.
+- **Limite de place** : la surface des cercles d'encombrement ne peut pas dépasser 50 % du sol.
 
 ## 8. Ressources et crédits
 

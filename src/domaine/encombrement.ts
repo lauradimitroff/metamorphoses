@@ -6,8 +6,11 @@ import type { Catalogue, Composition, ElementId } from './types'
  * (des entiers) ; les calculs se font en unités de scène.
  */
 
-/** Part maximale du sol que les éléments peuvent couvrir. */
-export const OCCUPATION_MAXIMALE = 0.7
+/**
+ * Part maximale du sol que les emprises peuvent couvrir. Des cercles laissent toujours
+ * des vides entre eux : au-delà de la moitié du sol, on ne trouve presque plus de place (D13).
+ */
+export const OCCUPATION_MAXIMALE = 0.5
 
 /** Tolérance pour les comparaisons : deux cercles qui se touchent tout juste ne se chevauchent pas. */
 const EPSILON = 1e-9
@@ -107,6 +110,16 @@ export function trouverPlaceLibre(
   }
 
   return null
+}
+
+/**
+ * Remplissage affiché par la jauge, de 0 à 1. Il ne vaut 1 que si plus aucun élément du
+ * catalogue ne trouve de place : la jauge ne dit jamais « plein » à tort, ni l'inverse.
+ */
+export function remplissage(composition: Composition, catalogue: Catalogue): number {
+  const elements = Object.values(catalogue.elements)
+  if (elements.every(({ id }) => trouverPlaceLibre(composition, id, catalogue) === null)) return 1
+  return Math.min(0.95, tauxOccupation(composition, catalogue) / OCCUPATION_MAXIMALE)
 }
 
 /** Ramène une rotation entre 0 et 23 crans, dans un sens comme dans l'autre. */

@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react'
-import { formaterTitre } from './titre'
+import type { ReactNode } from 'react'
+import { useTitrePage } from './useTitrePage'
 import styles from './Page.module.css'
 
 /**
@@ -19,9 +19,7 @@ export function Page({
   surtitre?: string
   children?: ReactNode
 }) {
-  useEffect(() => {
-    document.title = formaterTitre(titreOnglet)
-  }, [titreOnglet])
+  useTitrePage(titreOnglet)
 
   return (
     <article className={styles.page}>

@@ -37,6 +37,7 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 - **[React Three Fiber, drei et @react-three/postprocessing](https://github.com/pmndrs/react-three-fiber)** — Poimandres · MIT
 - **[postprocessing](https://github.com/pmndrs/postprocessing)** — Raoul van Rüschen · Zlib
 - **[React](https://github.com/facebook/react)** — Meta et les contributeurs de React · MIT
+- **[Zustand](https://github.com/pmndrs/zustand)** — Poimandres · MIT
 - **[React Router](https://github.com/remix-run/react-router)** — Remix Software · MIT
 
 ## Pièces façonnées au cabinet

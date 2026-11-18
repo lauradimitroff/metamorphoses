@@ -1,7 +1,7 @@
 # Métamorphoses — Architecture (V1)
 
 > Version 1.3 · 17/11/2026 · validée par Laura Dimitroff
-> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.2) et le [journal de décisions](decisions.md) (D1 à D12).
+> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.2) et le [journal de décisions](decisions.md) (D1 à D13).
 > 1.1 : quatre pages, un produit, cinq éléments ; partage et étiquette reportés en V2.
 > 1.2 : le bocal remplace le chaudron (D9), HDRI « Workshop » (D10).
 > 1.3 : gravure personnalisée (D11).
@@ -164,7 +164,7 @@ Ce même tableau produit la page `/credits`, le fichier `CREDITS.md` (par `scrip
 
 - **Dans le bocal** : `distance(centre) + rayonVisuel ≤ rayonSol`.
 - **Pas de chevauchement** : pour chaque autre élément, `distance(a, b) ≥ rayonA + rayonB`.
-- **Jauge** : `Σ rayon² / rayonSol² ≤ 0,70`. C'est un rapport de surfaces : les π se simplifient.
+- **Jauge** : `Σ rayon² / rayonSol² ≤ 0,50`. C'est un rapport de surfaces : les π se simplifient. Elle n'affiche 100 % que si plus aucun élément ne trouve de place (D13).
 - **Place libre** pour le dépôt automatique : on essaie des points sur une **spirale de Vogel** (des points répartis selon l'angle d'or, comme les graines d'un tournesol), du centre vers le bord, et on garde le premier valide. Le résultat est déterministe et bien réparti. Si aucun point ne convient, on renvoie `null` et l'interface affiche « Plus de place dans le bocal ».
 
 ### 5.2 Description textuelle (accessibilité)

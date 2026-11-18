@@ -91,7 +91,8 @@ const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice
 
 export function decrireComposition(composition: Composition, catalogue: Catalogue): string {
   const matiere = catalogue.bocal.matieres[composition.matiere].nom.toLowerCase()
-  if (composition.elements.length === 0) return `Bocal en ${matiere}, encore vide.`
+  const gravure = composition.gravure ? `, gravé «\u00a0${composition.gravure}\u00a0»` : ''
+  if (composition.elements.length === 0) return `Bocal en ${matiere}${gravure}, encore vide.`
 
   // Pour chaque zone, le nombre de chaque élément qui s'y trouve.
   const parZone = new Map<Zone, Map<ElementId, number>>()
@@ -112,5 +113,5 @@ export function decrireComposition(composition: Composition, catalogue: Catalogu
     return [`${majuscule(EXPRESSIONS[zone])}, ${enumerer(parties)}.`]
   })
 
-  return [`Bocal en ${matiere}.`, ...phrases].join(' ')
+  return [`Bocal en ${matiere}${gravure}.`, ...phrases].join(' ')
 }

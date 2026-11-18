@@ -36,6 +36,8 @@ interface ProprietesVitrine {
   rotationAuto?: boolean
   /** Couvercle soulevé et posé sur la table, pour composer. */
   couvercleOuvert?: boolean
+  /** Texte gravé par le visiteur sous la devise. */
+  gravure?: string | null
   /** Ce qui est posé dans le bocal. */
   children?: ReactNode
 }
@@ -50,6 +52,7 @@ export function Vitrine({
   description,
   rotationAuto = false,
   couvercleOuvert = false,
+  gravure = null,
   children,
 }: ProprietesVitrine) {
   return (
@@ -67,6 +70,7 @@ export function Vitrine({
             moment={moment}
             matiere={matiere}
             couvercleOuvert={couvercleOuvert}
+            gravure={gravure}
             rotationAuto={rotationAuto && !reduireAnimations}
           >
             {children}
@@ -83,6 +87,7 @@ function Scene({
   matiere,
   rotationAuto,
   couvercleOuvert,
+  gravure,
   children,
 }: Required<Omit<ProprietesVitrine, 'description' | 'children'>> & { children?: ReactNode }) {
   // Si la scène s'ouvre de nuit (accueil), elle y est déjà : pas de transition au chargement.
@@ -137,7 +142,7 @@ function Scene({
       <hemisphereLight ref={clairDeLune} args={['#3a4a66', '#120e0b', 0.18 * depart]} />
 
       <Table />
-      <Bocal matiere={matiere} couvercleOuvert={couvercleOuvert} />
+      <Bocal matiere={matiere} couvercleOuvert={couvercleOuvert} gravure={gravure} />
       {children}
       <Bougie />
       <Lucioles />

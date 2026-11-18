@@ -33,6 +33,19 @@ describe('detaillerPrix', () => {
   })
 })
 
+describe('gravure personnalisée', () => {
+  it('ajoute sa ligne après le bocal et compte dans le total', () => {
+    const composition = composer([poser('mousse')], 'verre-clair', 'Pour Charlotte')
+    expect(detaillerPrix(composition, CATALOGUE)[1]).toEqual({
+      libelle: 'Gravure personnalisée',
+      quantite: 1,
+      prixUnitaireCentimes: 600,
+      sousTotalCentimes: 600,
+    })
+    expect(calculerTotal(composition, CATALOGUE)).toBe(5400 + 600 + 300)
+  })
+})
+
 describe('formaterPrix', () => {
   it('affiche les euros à la française, avec une espace insécable avant le symbole', () => {
     expect(formaterPrix(9000)).toBe('90,00 €')

@@ -192,3 +192,15 @@ Les deux HDRI écartées sont retirées du projet et du registre des crédits.
 **Leçons techniques** :
 - Un objet transmissif n'apparaît pas à travers un autre : l'améthyste utilise un matériau opaque aux faces très lisses.
 - Les objets transparents sont dessinés après le verre, qui les masque. La lueur au sol est donc un disque opaque en mélange additif, ce qui évite aussi d'ajouter une vraie lumière par groupe de champignons.
+
+## D13 · Une jauge qui dit vrai — 18/11/2026
+
+**Contexte** : avec un plafond de 70 %, le bocal était déjà plein entre 33 % et 47 % d'occupation : des cercles laissent toujours des vides entre eux. La jauge aurait annoncé de la place alors qu'on ne pouvait plus rien poser.
+
+**Décision** :
+- Le plafond passe à **50 %** du sol.
+- La jauge affiche la part de ce plafond, sans dépasser 95 %.
+- Elle n'atteint **100 % (« Bocal plein ») que si plus aucun élément du catalogue ne trouve de place**.
+- Si un seul élément ne rentre plus, un message l'explique au moment du clic : une petite mousse peut encore entrer là où une fougère ne le peut plus.
+
+**Pourquoi** : la jauge doit correspondre à ce que le visiteur peut réellement faire.

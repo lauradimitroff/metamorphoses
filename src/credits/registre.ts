@@ -201,6 +201,16 @@ export const REGISTRE: readonly Credit[] = [
     fichiers: [],
   },
   {
+    id: 'bibliotheque-zustand',
+    titre: 'Zustand',
+    nature: 'bibliothèque',
+    auteur: 'Poimandres',
+    source: 'https://github.com/pmndrs/zustand',
+    licence: 'MIT',
+    modifications: null,
+    fichiers: [],
+  },
+  {
     id: 'bibliotheque-react-router',
     titre: 'React Router',
     nature: 'bibliothèque',

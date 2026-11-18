@@ -1,89 +1,54 @@
-import { useState } from 'react'
 import { CATALOGUE } from '../catalogue/catalogue'
-import { COMPOSITION_VITRINE } from '../catalogue/compositions'
 import { decrireComposition } from '../domaine/description'
-import type { MatiereId } from '../domaine/types'
-import { Page } from '../interface/Page'
-import type { Moment } from '../scene/ambiance'
+import { useComposition } from '../etat/composition'
+import { useInterface } from '../etat/interface'
+import { PanneauAtelier } from '../interface/atelier/PanneauAtelier'
+import { useTitrePage } from '../interface/useTitrePage'
 import { ElementsPoses } from '../scene/elements/ElementsPoses'
 import { Vitrine } from '../scene/Vitrine'
 import styles from './Composer.module.css'
 
-/*
- * Provisoire (étape 2a) : la vitrine avec une composition fixe et des commandes de test.
- * Le vrai configurateur arrive aux étapes 3a et 3b.
- */
-
-function Bascule<T extends string>({
-  legende,
-  options,
-  valeur,
-  onChange,
-}: {
-  legende: string
-  options: ReadonlyArray<{ id: T; nom: string }>
-  valeur: T
-  onChange: (valeur: T) => void
-}) {
-  return (
-    <fieldset className={styles.bascule}>
-      <legend>{legende}</legend>
-      {options.map((option) => (
-        <button key={option.id} type="button" aria-pressed={option.id === valeur} onClick={() => onChange(option.id)}>
-          {option.nom}
-        </button>
-      ))}
-    </fieldset>
-  )
-}
-
 export default function Composer() {
-  const [moment, setMoment] = useState<Moment>('jour')
-  const [matiere, setMatiere] = useState<MatiereId>('verre-clair')
-  const [couvercle, setCouvercle] = useState<'ferme' | 'ouvert'>('ferme')
+  useTitrePage('Composer')
+  const composition = useComposition((etat) => etat.composition)
+  const { moment, couvercleOuvert, basculerMoment, basculerCouvercle } = useInterface()
+  const description = decrireComposition(composition, CATALOGUE)
 
   return (
-    <Page titre="Composer un terrarium" titreOnglet="Composer" surtitre="L’atelier">
-      <div className={styles.atelier}>
+    <div className={styles.atelier}>
+      <div className={styles.scene}>
         <Vitrine
           moment={moment}
-          matiere={matiere}
-          couvercleOuvert={couvercle === 'ouvert'}
-          description={decrireComposition({ ...COMPOSITION_VITRINE, matiere }, CATALOGUE)}
+          matiere={composition.matiere}
+          couvercleOuvert={couvercleOuvert}
+          gravure={composition.gravure}
+          description="Votre terrarium en trois dimensions, posé sur une table en noyer."
         >
-          <ElementsPoses elements={COMPOSITION_VITRINE.elements} />
+          <ElementsPoses elements={composition.elements} />
         </Vitrine>
+        <div className={styles.commandes}>
+          <button type="button" onClick={basculerMoment}>
+            {moment === 'jour' ? 'Attendre la nuit' : 'Revenir au jour'}
+          </button>
+          <button type="button" onClick={basculerCouvercle}>
+            {couvercleOuvert ? 'Refermer le bocal' : 'Rouvrir le bocal'}
+          </button>
+        </div>
+        {/* La scène racontée aux lecteurs d'écran, à chaque changement. */}
+        <p className="visuellement-cache" aria-live="polite" data-testid="description-scene">
+          {description}
+        </p>
       </div>
 
-      <div className={styles.commandes}>
-        <Bascule
-          legende="Moment"
-          options={[
-            { id: 'jour', nom: 'Jour' },
-            { id: 'nuit', nom: 'Nuit' },
-          ]}
-          valeur={moment}
-          onChange={setMoment}
-        />
-        <Bascule
-          legende="Verre"
-          options={[
-            { id: 'verre-clair', nom: 'Clair' },
-            { id: 'verre-ambre', nom: 'Ambré' },
-          ]}
-          valeur={matiere}
-          onChange={setMatiere}
-        />
-        <Bascule
-          legende="Couvercle"
-          options={[
-            { id: 'ferme', nom: 'Fermé' },
-            { id: 'ouvert', nom: 'Ouvert' },
-          ]}
-          valeur={couvercle}
-          onChange={setCouvercle}
-        />
+      <div className={styles.panneau}>
+        <header className={styles.entete}>
+          <p className={styles.surtitre}>L’atelier</p>
+          <h1 tabIndex={-1} data-titre-page className={styles.titre}>
+            Composer un terrarium
+          </h1>
+        </header>
+        <PanneauAtelier />
       </div>
-    </Page>
+    </div>
   )
 }
