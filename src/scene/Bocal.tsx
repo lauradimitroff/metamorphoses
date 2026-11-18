@@ -1,8 +1,21 @@
 import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
-import { MathUtils, SplineCurve, Vector2, type Group } from 'three'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import {
+  Color,
+  IcosahedronGeometry,
+  MathUtils,
+  Matrix4,
+  Quaternion,
+  SplineCurve,
+  Vector2,
+  Vector3,
+  type Group,
+  type InstancedMesh,
+} from 'three'
 import { BOCAL } from '../catalogue/catalogue'
 import type { MatiereId } from '../domaine/types'
+import { creerSol } from './generateurs/formes'
+import { generateur } from './generateurs/hasard'
 import { Gravure } from './Gravure'
 
 /*
@@ -51,13 +64,15 @@ const PROFIL_FLEURON = profilLisse(
 /** Hauteur où le couvercle repose sur le bocal. */
 const HAUTEUR_COUVERCLE = 1.635
 
-/** Hauteur du sol, dans la scène comme dans le catalogue : le bocal est posé à même la table. */
-export const HAUTEUR_DU_SOL = BOCAL.hauteurSol
-
 /** Rayon intérieur de la panse : le substrat le touche, pour qu'on le voie à travers le verre. */
 const RAYON_INTERIEUR = 0.609
 const FOND_INTERIEUR = 0.06
 const HAUT_DU_DRAINAGE = 0.15
+/**
+ * Le bloc de terre s'arrête sous les creux du sol vallonné. À la même hauteur, les deux
+ * surfaces se disputeraient l'affichage, et des taches à bords nets apparaîtraient.
+ */
+const HAUT_DE_LA_TERRE = BOCAL.hauteurSol - 0.012
 
 const VERRES: Record<MatiereId, { color: string; attenuationColor: string; attenuationDistance: number }> = {
   // Un verre à peine verdi, comme le verre ancien.
@@ -82,6 +97,49 @@ const DUREE_OUVERTURE = 0.9 // secondes
 
 const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+const NOMBRE_DE_GRAVIERS = 300
+
+/**
+ * Les graviers de drainage, plaqués contre le verre. Une seule géométrie, répétée
+ * 300 fois par la carte graphique (instanciation) : un seul appel de dessin.
+ */
+function Graviers() {
+  const maillage = useRef<InstancedMesh>(null)
+  const geometrie = useMemo(() => new IcosahedronGeometry(1, 1), [])
+
+  useLayoutEffect(() => {
+    const instances = maillage.current
+    if (!instances) return
+    const hasard = generateur(19)
+    const matrice = new Matrix4()
+    const rotation = new Quaternion()
+    const couleur = new Color()
+    for (let i = 0; i < NOMBRE_DE_GRAVIERS; i++) {
+      const angle = hasard() * Math.PI * 2
+      const rayon = RAYON_INTERIEUR - 0.012 - hasard() * 0.012
+      const hauteur = FOND_INTERIEUR + 0.012 + hasard() * (HAUT_DU_DRAINAGE - FOND_INTERIEUR - 0.012)
+      const taille = 0.012 + hasard() * 0.012
+      rotation.setFromAxisAngle(new Vector3(hasard(), hasard(), hasard()).normalize(), hasard() * Math.PI)
+      matrice.compose(
+        new Vector3(Math.cos(angle) * rayon, hauteur, Math.sin(angle) * rayon),
+        rotation,
+        new Vector3(taille, taille * (0.7 + hasard() * 0.3), taille * (0.8 + hasard() * 0.3)),
+      )
+      instances.setMatrixAt(i, matrice)
+      const gris = 0.035 + hasard() * 0.13
+      instances.setColorAt(i, couleur.setRGB(gris, gris * 1.01, gris * (1 + hasard() * 0.08)))
+    }
+    instances.instanceMatrix.needsUpdate = true
+    if (instances.instanceColor) instances.instanceColor.needsUpdate = true
+  }, [])
+
+  return (
+    <instancedMesh ref={maillage} args={[geometrie, undefined, NOMBRE_DE_GRAVIERS]} receiveShadow>
+      <meshStandardMaterial roughness={0.72} />
+    </instancedMesh>
+  )
+}
+
 function Couvercle({ ouvert }: { ouvert: boolean }) {
   const groupe = useRef<Group>(null)
   const avancement = useRef(ouvert ? 1 : 0)
@@ -105,7 +163,8 @@ function Couvercle({ ouvert }: { ouvert: boolean }) {
 
   return (
     <group ref={groupe} position={ouvert ? [POSE_OUVERTE.x, POSE_OUVERTE.y, POSE_OUVERTE.z] : [0, HAUTEUR_COUVERCLE, 0]}>
-      <mesh castShadow receiveShadow>
+      {/* Il ne reçoit pas d'ombre : son dôme, presque plat, s'ombrerait lui-même par taches. */}
+      <mesh castShadow>
         <latheGeometry args={[PROFIL_COUVERCLE, 128]} />
         <meshStandardMaterial {...LAITON} />
       </mesh>
@@ -118,6 +177,8 @@ function Couvercle({ ouvert }: { ouvert: boolean }) {
 }
 
 export function Bocal({ matiere, couvercleOuvert = false }: { matiere: MatiereId; couvercleOuvert?: boolean }) {
+  const sol = useMemo(() => creerSol(RAYON_INTERIEUR), [])
+
   return (
     <group>
       {/*
@@ -140,12 +201,16 @@ export function Bocal({ matiere, couvercleOuvert = false }: { matiere: MatiereId
       {/* Couche de drainage : petits graviers gris, au fond */}
       <mesh position={[0, (FOND_INTERIEUR + HAUT_DU_DRAINAGE) / 2, 0]} receiveShadow>
         <cylinderGeometry args={[RAYON_INTERIEUR, RAYON_INTERIEUR, HAUT_DU_DRAINAGE - FOND_INTERIEUR, 96]} />
-        <meshStandardMaterial color="#5c6168" roughness={0.95} />
+        <meshStandardMaterial color="#26292d" roughness={0.95} />
       </mesh>
+      <Graviers />
       {/* Terre, jusqu'à la hauteur du sol */}
-      <mesh position={[0, (HAUT_DU_DRAINAGE + BOCAL.hauteurSol) / 2, 0]} receiveShadow>
-        <cylinderGeometry args={[RAYON_INTERIEUR, RAYON_INTERIEUR, BOCAL.hauteurSol - HAUT_DU_DRAINAGE, 96]} />
-        <meshStandardMaterial color="#2a1e16" roughness={1} />
+      <mesh position={[0, (HAUT_DU_DRAINAGE + HAUT_DE_LA_TERRE) / 2, 0]} receiveShadow>
+        <cylinderGeometry args={[RAYON_INTERIEUR, RAYON_INTERIEUR, HAUT_DE_LA_TERRE - HAUT_DU_DRAINAGE, 96]} />
+        <meshStandardMaterial color="#21170f" roughness={1} />
+      </mesh>
+      <mesh geometry={sol} position={[0, BOCAL.hauteurSol, 0]} receiveShadow>
+        <meshStandardMaterial vertexColors roughness={1} />
       </mesh>
 
       <Gravure texte={DEVISE} rayon={RAYON_PANSE} hauteur={HAUTEUR_DEVISE} taille={0.042} />

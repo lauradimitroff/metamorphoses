@@ -26,7 +26,7 @@ export interface Emplacement {
 
 const enUnites = (milliemes: number) => milliemes / 1000
 
-/** Le cercle entier de l'élément reste-t-il sur le sol du bocal ? */
+/** La forme entière de l'élément reste-t-elle à l'intérieur du verre ? */
 export function estDansLeBocal(emplacement: Emplacement, rayon: number, rayonSol: number): boolean {
   const distanceAuCentre = Math.hypot(enUnites(emplacement.x), enUnites(emplacement.z))
   return distanceAuCentre + rayon <= rayonSol + EPSILON
@@ -48,8 +48,8 @@ export function emplacementValide(
   catalogue: Catalogue,
   uidIgnore?: string,
 ): boolean {
-  const rayon = catalogue.elements[elementId].rayonEncombrement
-  if (!estDansLeBocal(emplacement, rayon, catalogue.bocal.rayonSol)) return false
+  const { rayonEncombrement: rayon, rayonVisuel } = catalogue.elements[elementId]
+  if (!estDansLeBocal(emplacement, rayonVisuel, catalogue.bocal.rayonSol)) return false
 
   return composition.elements.every(
     (voisin) =>
@@ -92,7 +92,7 @@ export function trouverPlaceLibre(
 ): Emplacement | null {
   if (!resteDeLaPlace(composition, elementId, catalogue)) return null
 
-  const rayonUtile = catalogue.bocal.rayonSol - catalogue.elements[elementId].rayonEncombrement
+  const rayonUtile = catalogue.bocal.rayonSol - catalogue.elements[elementId].rayonVisuel
   if (rayonUtile < 0) return null
 
   for (let i = 0; i < POINTS_DE_SPIRALE; i++) {

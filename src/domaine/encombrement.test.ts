@@ -37,6 +37,19 @@ describe('emplacementValide', () => {
     expect(emplacementValide(composition, 'mousse', { x: 400, z: 0 }, CATALOGUE_DE_TEST)).toBe(true)
   })
 
+  it('laisse un feuillage passer au-dessus d’un voisin, mais jamais à travers le verre', () => {
+    const elements = {
+      ...CATALOGUE_DE_TEST.elements,
+      fougere: { ...CATALOGUE_DE_TEST.elements.fougere, rayonEncombrement: 0.1, rayonVisuel: 0.4 },
+    }
+    const catalogue = { ...CATALOGUE_DE_TEST, elements }
+    const avecMousse = composer([poser('mousse', 0, 0)])
+    // Les pieds sont à 0,25 l'un de l'autre : le feuillage (0,4) recouvre la mousse, c'est permis.
+    expect(emplacementValide(avecMousse, 'fougere', { x: 250, z: 0 }, catalogue)).toBe(true)
+    // 0,7 + 0,4 dépasse le sol de rayon 1, alors que le pied seul y tiendrait.
+    expect(emplacementValide(avecMousse, 'fougere', { x: 700, z: 0 }, catalogue)).toBe(false)
+  })
+
   it('ignore l’élément lui-même quand on le déplace', () => {
     expect(emplacementValide(composition, 'fougere', { x: 50, z: 0 }, CATALOGUE_DE_TEST, fougere.uid)).toBe(true)
   })

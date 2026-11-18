@@ -7,7 +7,7 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 ## Modèles 3D
 
 - **[Fern](https://poly.pizza/m/jqcanvH7D6)** — Quaternius · CC0
-  - Modifications : Couleurs par sommet ignorées, transparence remplacée par un seuil, aspect métallique retiré, mise à l’échelle.
+  - Modifications : Couleurs par sommet ignorées, transparence remplacée par un seuil, aspect métallique retiré, mise à l’échelle, géométrie et texture compressées.
 
 ## Environnements lumineux
 

@@ -1,7 +1,8 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
-import type { MeshStandardMaterial, PointLight } from 'three'
+import { AdditiveBlending, Color, type MeshBasicMaterial, type MeshStandardMaterial } from 'three'
 import { useAmbiance } from '../ambiance'
+import { textureLueurAuSol } from '../generateurs/formes'
 
 /** Chaque champignon : position relative, taille, inclinaison. */
 const GROUPE = [
@@ -10,13 +11,20 @@ const GROUPE = [
   { x: -0.05, z: 0.065, taille: 0.55, inclinaison: 0.25 },
 ] as const
 
-const LUEUR_MAX = 3.5
+/*
+ * Un vert plus saturé que la couleur « lueur » de la palette : à forte intensité, le rendu
+ * final pâlit les couleurs, et c'est ainsi que le halo perçu retrouve la teinte voulue.
+ */
+const VERT_LUEUR = '#25d68f'
+const LUEUR_MAX = 3.4
+const LUEUR_AU_SOL = 0.32
+const COULEUR_LUEUR = new Color(VERT_LUEUR)
 
-export function Champignons({ position }: { position: readonly [number, number, number] }) {
+export function Champignons() {
   const ambiance = useAmbiance()
   // Une ref par chapeau : on anime leur lueur à chaque image, hors du cycle de rendu React.
   const chapeaux = useRef<Array<MeshStandardMaterial | null>>([])
-  const halo = useRef<PointLight>(null)
+  const auSol = useRef<MeshBasicMaterial>(null)
 
   useFrame(({ clock }) => {
     const { nuit } = ambiance.current
@@ -25,17 +33,17 @@ export function Champignons({ position }: { position: readonly [number, number, 
     for (const chapeau of chapeaux.current) {
       if (chapeau) chapeau.emissiveIntensity = LUEUR_MAX * nuit * souffle
     }
-    if (halo.current) halo.current.intensity = 0.35 * nuit * souffle
+    auSol.current?.color.copy(COULEUR_LUEUR).multiplyScalar(LUEUR_AU_SOL * nuit * souffle)
   })
 
   return (
-    <group position={position} scale={1.4}>
+    <group scale={1.5}>
       {GROUPE.map(({ x, z, taille, inclinaison }, index) => (
         <group key={`${x}-${z}`} position={[x, 0, z]} rotation={[inclinaison, 0, inclinaison / 2]} scale={taille}>
           {/* Pied légèrement évasé */}
           <mesh position={[0, 0.06, 0]} castShadow>
             <cylinderGeometry args={[0.012, 0.018, 0.12, 16]} />
-            <meshStandardMaterial color="#e6dcc4" roughness={0.7} />
+            <meshStandardMaterial color="#d9d3bf" roughness={0.7} />
           </mesh>
           {/* Chapeau : une demi-sphère aplatie */}
           <mesh position={[0, 0.118, 0]} scale={[1, 0.6, 1]} castShadow>
@@ -44,16 +52,28 @@ export function Champignons({ position }: { position: readonly [number, number, 
               ref={(materiau) => {
                 chapeaux.current[index] = materiau
               }}
-              color="#d8d2bd"
+              color="#bfc8b4"
               roughness={0.5}
-              emissive="#9fe3c9"
+              emissive={VERT_LUEUR}
               emissiveIntensity={0}
             />
           </mesh>
         </group>
       ))}
-      {/* Une petite lumière verte au ras du sol : la lueur éclaire ce qui l'entoure */}
-      <pointLight ref={halo} position={[0, 0.12, 0.03]} color="#9fe3c9" intensity={0} distance={0.8} decay={2} />
+      {/*
+        La lueur sur la terre est un disque flou, et non une vraie lumière : chaque lumière
+        ajoutée alourdit tous les matériaux, et un visiteur peut poser beaucoup de champignons.
+      */}
+      <mesh position={[0.005, 0.012, 0.03]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={1}>
+        <planeGeometry args={[0.36, 0.36]} />
+        <meshBasicMaterial
+          ref={auSol}
+          map={textureLueurAuSol()}
+          color="#000000"
+          depthWrite={false}
+          blending={AdditiveBlending}
+        />
+      </mesh>
     </group>
   )
 }

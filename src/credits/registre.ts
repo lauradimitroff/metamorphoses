@@ -58,7 +58,7 @@ export const REGISTRE: readonly Credit[] = [
     source: 'https://poly.pizza/m/jqcanvH7D6',
     licence: 'CC0',
     modifications:
-      'Couleurs par sommet ignorées, transparence remplacée par un seuil, aspect métallique retiré, mise à l’échelle.',
+      'Couleurs par sommet ignorées, transparence remplacée par un seuil, aspect métallique retiré, mise à l’échelle, géométrie et texture compressées.',
     fichiers: ['models/fougere.glb'],
   },
 

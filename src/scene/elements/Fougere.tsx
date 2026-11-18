@@ -3,12 +3,14 @@ import { useMemo } from 'react'
 import { DoubleSide, Mesh, MeshStandardMaterial } from 'three'
 
 const CHEMIN = '/models/fougere.glb'
-/** Le modèle d'origine mesure environ 9 unités de large : on le ramène à environ 0,7. */
-const ECHELLE = 0.078
+/** Le modèle d'origine mesure environ 9 unités de large : on le ramène à 0,6 (rayon visuel 0,3). */
+const ECHELLE = 0.064
+/** Les frondes d'origine sont presque à plat : on les redresse en étirant la hauteur. */
+const ETIREMENT_VERTICAL = 1.55
 /** Le pied du modèle est 0,25 unité sous son origine : on le remonte d'autant. */
-const DECALAGE_PIED = 0.25 * ECHELLE
+const DECALAGE_PIED = 0.25 * ECHELLE * ETIREMENT_VERTICAL
 
-export function Fougere({ position }: { position: readonly [number, number, number] }) {
+export function Fougere() {
   const { scene } = useGLTF(CHEMIN)
 
   const fougere = useMemo(() => {
@@ -16,9 +18,7 @@ export function Fougere({ position }: { position: readonly [number, number, numb
     copie.traverse((objet) => {
       if (!(objet instanceof Mesh) || !(objet.material instanceof MeshStandardMaterial)) return
       objet.castShadow = true
-      // Les frondes sont presque à plat : si elles recevaient les ombres, chacune
-      // s'assombrirait sous sa propre ombre (le défaut appelé « acné d'ombre »).
-      objet.receiveShadow = false
+      objet.receiveShadow = true
       // Le fichier d'origine utilise la transparence « mélangée » (BLEND), qui pose
       // des problèmes d'ordre d'affichage. Un seuil (alphaTest) découpe
       // net les feuilles, et chaque pixel est alors soit opaque, soit invisible.
@@ -40,8 +40,9 @@ export function Fougere({ position }: { position: readonly [number, number, numb
     return copie
   }, [scene])
 
-  const [x, y, z] = position
-  return <primitive object={fougere} position={[x, y + DECALAGE_PIED, z]} scale={ECHELLE} />
+  return (
+    <primitive object={fougere} position={[0, DECALAGE_PIED, 0]} scale={[ECHELLE, ECHELLE * ETIREMENT_VERTICAL, ECHELLE]} />
+  )
 }
 
 useGLTF.preload(CHEMIN)

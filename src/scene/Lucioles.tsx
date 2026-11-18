@@ -1,11 +1,14 @@
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef } from 'react'
-import { AdditiveBlending, CanvasTexture, Color, type Points } from 'three'
+import { useMemo, useRef } from 'react'
+import { AdditiveBlending, Color, type Points } from 'three'
 import { useAmbiance } from './ambiance'
+import { textureHalo } from './generateurs/formes'
+import { generateur } from './generateurs/hasard'
 
 const NOMBRE = 28
-const LUEUR = new Color('#9fe3c9')
-const INTENSITE = 4
+// Plus saturé que la palette : voir la note dans Champignons.tsx.
+const LUEUR = new Color('#37dc9b')
+const INTENSITE = 2.6
 
 interface Luciole {
   x: number
@@ -14,15 +17,6 @@ interface Luciole {
   amplitude: number
   vitesse: number
   phase: number
-}
-
-/** Tirage pseudo-aléatoire reproductible : les lucioles sont les mêmes à chaque chargement. */
-function generateur(graine: number): () => number {
-  let etat = graine
-  return () => {
-    etat = (etat * 16807) % 2147483647
-    return etat / 2147483647
-  }
 }
 
 function creerLucioles(): Luciole[] {
@@ -42,30 +36,10 @@ function creerLucioles(): Luciole[] {
   })
 }
 
-/** Petit disque flou dessiné une fois dans un canevas : la forme de chaque luciole. */
-function creerHalo(): CanvasTexture {
-  const taille = 64
-  const canevas = document.createElement('canvas')
-  canevas.width = taille
-  canevas.height = taille
-  const contexte = canevas.getContext('2d')
-  if (contexte) {
-    const degrade = contexte.createRadialGradient(taille / 2, taille / 2, 0, taille / 2, taille / 2, taille / 2)
-    degrade.addColorStop(0, 'rgba(255,255,255,1)')
-    degrade.addColorStop(0.25, 'rgba(255,255,255,0.6)')
-    degrade.addColorStop(1, 'rgba(255,255,255,0)')
-    contexte.fillStyle = degrade
-    contexte.fillRect(0, 0, taille, taille)
-  }
-  return new CanvasTexture(canevas)
-}
-
 export function Lucioles() {
   const ambiance = useAmbiance()
   const points = useRef<Points>(null)
   const lucioles = useMemo(() => creerLucioles(), [])
-  const halo = useMemo(() => creerHalo(), [])
-  useEffect(() => () => halo.dispose(), [halo])
 
   // Deux tableaux réécrits à chaque image : positions (x, y, z) et couleurs (r, v, b).
   const positions = useMemo(() => new Float32Array(NOMBRE * 3), [])
@@ -106,7 +80,7 @@ export function Lucioles() {
       </bufferGeometry>
       {/* Mélange additif : les lumières s'ajoutent au fond au lieu de le recouvrir. */}
       <pointsMaterial
-        map={halo}
+        map={textureHalo()}
         size={0.045}
         sizeAttenuation
         vertexColors

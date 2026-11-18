@@ -19,7 +19,7 @@ export const CATALOGUE_DE_TEST: Catalogue = {
   elements: Object.fromEntries(
     Object.values(CATALOGUE.elements).map((element) => [
       element.id,
-      { ...element, rayonEncombrement: RAYONS_DE_TEST[element.id] },
+      { ...element, rayonEncombrement: RAYONS_DE_TEST[element.id], rayonVisuel: RAYONS_DE_TEST[element.id] },
     ]),
   ) as Catalogue['elements'],
 }

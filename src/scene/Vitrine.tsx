@@ -147,9 +147,11 @@ function Scene({
         target={[0, 0.85, 0]}
         enableDamping
         enablePan={false}
-        minDistance={2}
+        minDistance={1.45}
         maxDistance={8}
-        minPolarAngle={0.35}
+        // Presque à la verticale, pour regarder dans le bocal par son ouverture.
+        // Pas exactement 0 : à l'aplomb parfait, la rotation de la caméra devient instable.
+        minPolarAngle={0.03}
         maxPolarAngle={1.32}
         autoRotate={rotationAuto}
         autoRotateSpeed={0.35}

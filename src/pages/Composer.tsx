@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { BOCAL } from '../catalogue/catalogue'
+import { CATALOGUE } from '../catalogue/catalogue'
+import { COMPOSITION_VITRINE } from '../catalogue/compositions'
+import { decrireComposition } from '../domaine/description'
 import type { MatiereId } from '../domaine/types'
 import { Page } from '../interface/Page'
 import type { Moment } from '../scene/ambiance'
-import { HAUTEUR_DU_SOL } from '../scene/Bocal'
-import { Champignons } from '../scene/elements/Champignons'
-import { Fougere } from '../scene/elements/Fougere'
+import { ElementsPoses } from '../scene/elements/ElementsPoses'
 import { Vitrine } from '../scene/Vitrine'
 import styles from './Composer.module.css'
 
@@ -49,10 +49,9 @@ export default function Composer() {
           moment={moment}
           matiere={matiere}
           couvercleOuvert={couvercle === 'ouvert'}
-          description={`Bocal en ${BOCAL.matieres[matiere].nom.toLowerCase()} posé sur une table en noyer, avec une fougère et des champignons.`}
+          description={decrireComposition({ ...COMPOSITION_VITRINE, matiere }, CATALOGUE)}
         >
-          <Fougere position={[-0.2, HAUTEUR_DU_SOL, 0.08]} />
-          <Champignons position={[0.24, HAUTEUR_DU_SOL, -0.16]} />
+          <ElementsPoses elements={COMPOSITION_VITRINE.elements} />
         </Vitrine>
       </div>
 

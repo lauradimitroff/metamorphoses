@@ -176,3 +176,19 @@ Les deux HDRI écartées sont retirées du projet et du registre des crédits.
 **Règles** (dans le domaine, testées) : espaces superflus retirés, 24 caractères au plus (au-delà, le texte ferait le tour du bocal et deviendrait illisible), un champ vide retire la gravure et son prix.
 
 **Ce qu'on accepte** : environ 2 h de plus, à l'étape 3a.
+
+## D12 · Deux rayons par élément — 18/11/2026
+
+**Contexte** : un seul rayon ne convenait pas à la fougère. Assez grand pour contenir ses frondes, il empêchait d'en poser deux ; assez petit pour son pied, il laissait les frondes traverser le verre.
+
+**Décision** : chaque élément a deux rayons.
+- `rayonEncombrement`, l'emprise du pied au sol : deux emprises ne se chevauchent jamais, et c'est elle qui compte pour la jauge.
+- `rayonVisuel`, la forme vue de dessus : elle doit rester à l'intérieur du verre, mais peut passer au-dessus d'un voisin.
+
+**Pourquoi** : c'est ce qui se passe dans un vrai terrarium, où une fronde surplombe la mousse sans jamais traverser la paroi.
+
+**Point ouvert pour l'étape 3a** : en remplissage automatique, le bocal est plein entre 33 % et 47 % d'occupation selon les éléments. Le plafond de 70 % n'est donc jamais atteint : il faudra caler la jauge sur la place réellement disponible.
+
+**Leçons techniques** :
+- Un objet transmissif n'apparaît pas à travers un autre : l'améthyste utilise un matériau opaque aux faces très lisses.
+- Les objets transparents sont dessinés après le verre, qui les masque. La lueur au sol est donc un disque opaque en mélange additif, ce qui évite aussi d'ajouter une vraie lumière par groupe de champignons.

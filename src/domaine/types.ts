@@ -34,8 +34,10 @@ export interface DefinitionElement {
   famille: FamilleId
   /** Prix en centimes, toujours un entier (D4). */
   prixCentimes: number
-  /** Rayon du cercle occupé au sol, en unités de scène (D1). */
+  /** Rayon de l'emprise au sol : deux emprises ne se chevauchent jamais (D1). */
   rayonEncombrement: number
+  /** Rayon de la forme vue de dessus, feuillage compris : elle ne doit pas traverser le verre (D12). */
+  rayonVisuel: number
   /** Ressources externes utilisées. Vide pour un élément entièrement généré dans le code. */
   creditIds: readonly string[]
 }

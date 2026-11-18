@@ -2,12 +2,13 @@ import type { Catalogue, DefinitionBocal, DefinitionElement, ElementId, FamilleI
 
 /*
  * Les données du catalogue. Ajouter un élément revient à ajouter une entrée ici,
- * puis son générateur 3D. Les rayons d'encombrement sont provisoires : ils seront
- * ajustés à l'écran quand chaque élément aura sa forme définitive (étape 2b).
+ * puis son générateur 3D. Deux rayons par élément : l'emprise de son pied au sol, et
+ * sa forme vue de dessus. Un feuillage peut ainsi passer au-dessus d'un voisin (D12).
  */
 
 export const BOCAL: DefinitionBocal = {
-  rayonSol: 0.56,
+  // Limite utile : juste avant la paroi intérieure du verre (rayon 0,609).
+  rayonSol: 0.6,
   // Au-dessus des couches de drainage et de terre, visibles à travers le verre.
   hauteurSol: 0.36,
   matieres: {
@@ -30,7 +31,8 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
     description: 'Un coussin vert et dense, qui garde l’humidité du sol.',
     famille: 'vegetal',
     prixCentimes: 300,
-    rayonEncombrement: 0.09,
+    rayonEncombrement: 0.1,
+    rayonVisuel: 0.13,
     creditIds: [],
   },
   fougere: {
@@ -40,7 +42,8 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
     description: 'Ses frondes se déploient en éventail au-dessus de la mousse.',
     famille: 'vegetal',
     prixCentimes: 800,
-    rayonEncombrement: 0.2,
+    rayonEncombrement: 0.14,
+    rayonVisuel: 0.3,
     creditIds: ['modele-fougere'],
   },
   galets: {
@@ -50,7 +53,8 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
     description: 'Trois pierres polies par l’eau, aux teintes de schiste.',
     famille: 'mineral',
     prixCentimes: 200,
-    rayonEncombrement: 0.08,
+    rayonEncombrement: 0.09,
+    rayonVisuel: 0.12,
     creditIds: [],
   },
   amethyste: {
@@ -60,7 +64,8 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
     description: 'Une pointe de quartz violet, qui retient la lumière de la bougie.',
     famille: 'mineral',
     prixCentimes: 1200,
-    rayonEncombrement: 0.11,
+    rayonEncombrement: 0.1,
+    rayonVisuel: 0.14,
     creditIds: [],
   },
   'champignons-luminescents': {
@@ -75,6 +80,7 @@ export const ELEMENTS: Readonly<Record<ElementId, DefinitionElement>> = {
     famille: 'champignons',
     prixCentimes: 700,
     rayonEncombrement: 0.1,
+    rayonVisuel: 0.18,
     creditIds: [],
   },
 }
