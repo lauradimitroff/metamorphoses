@@ -1,0 +1,19 @@
+.apparition {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity var(--duree-longue) var(--courbe-sortie),
+    transform var(--duree-longue) var(--courbe-sortie);
+}
+
+.apparition[data-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apparition {
+    opacity: 1;
+    transform: none;
+  }
+}

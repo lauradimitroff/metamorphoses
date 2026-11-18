@@ -1,8 +1,8 @@
 import { Environment, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
-import { ToneMappingMode, type BloomEffect } from 'postprocessing'
-import { Suspense, useRef, useState, type ReactNode } from 'react'
+import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing'
+import { BlendFunction, ToneMappingMode, type BloomEffect } from 'postprocessing'
+import { Suspense, useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { MathUtils, type DirectionalLight, type HemisphereLight } from 'three'
 import type { MatiereId } from '../domaine/types'
 import { EcranAttente } from '../interface/EcranAttente'
@@ -30,6 +30,18 @@ function adoucir(t: number): number {
   return t * t * (3 - 2 * t)
 }
 
+/** La scène est-elle à l'écran ? Hors de vue, inutile de calculer des images. */
+function useEnVue(cible: RefObject<HTMLElement | null>): boolean {
+  const [enVue, setEnVue] = useState(true)
+  useEffect(() => {
+    if (!cible.current) return
+    const observateur = new IntersectionObserver(([entree]) => setEnVue(entree?.isIntersecting ?? true))
+    observateur.observe(cible.current)
+    return () => observateur.disconnect()
+  }, [cible])
+  return enVue
+}
+
 interface ProprietesVitrine {
   moment: Moment
   matiere: MatiereId
@@ -37,6 +49,10 @@ interface ProprietesVitrine {
   description: string
   /** Rotation lente de la caméra (page d'accueil). Désactivée si l'on demande moins d'animations. */
   rotationAuto?: boolean
+  /** Le visiteur peut-il tourner et zoomer ? Non sur l'accueil, où le défilement doit passer. */
+  pilotable?: boolean
+  /** Ce qui remplace la scène si WebGL est indisponible. */
+  repli?: ReactNode
   /** Couvercle soulevé et posé sur la table, pour composer. */
   couvercleOuvert?: boolean
   /** Appelé après un clic dans la scène qui ne touche aucun élément. */
@@ -58,6 +74,8 @@ export function Vitrine({
   matiere,
   description,
   rotationAuto = false,
+  pilotable = true,
+  repli,
   couvercleOuvert = false,
   onClicVide,
   demandeVue = null,
@@ -66,8 +84,11 @@ export function Vitrine({
 }: ProprietesVitrine) {
   // Vérifié une seule fois : sans WebGL, le reste de la page doit continuer à fonctionner.
   const [scenePossible] = useState(webglDisponible)
+  const cadre = useRef<HTMLDivElement>(null)
+  const enVue = useEnVue(cadre)
 
   if (!scenePossible) {
+    if (repli) return repli
     return (
       <div className={styles.repli}>
         <Logo variante="gravure" className={styles.repliLogo} />
@@ -80,9 +101,10 @@ export function Vitrine({
   }
 
   return (
-    <div className={styles.vitrine}>
+    <div ref={cadre} className={styles.vitrine} data-pilotable={pilotable}>
       <Canvas
         className={styles.scene}
+        frameloop={enVue ? 'always' : 'never'}
         shadows="percentage"
         dpr={[1, 2]}
         camera={{ position: [3.2, 2.9, 4], fov: 32, near: 0.1, far: 30 }}
@@ -98,6 +120,7 @@ export function Vitrine({
             gravure={gravure}
             demandeVue={demandeVue}
             rotationAuto={rotationAuto && !reduireAnimations}
+            pilotable={pilotable}
           >
             {children}
           </Scene>
@@ -112,11 +135,12 @@ function Scene({
   moment,
   matiere,
   rotationAuto,
+  pilotable,
   couvercleOuvert,
   gravure,
   demandeVue,
   children,
-}: Required<Omit<ProprietesVitrine, 'description' | 'children' | 'onClicVide'>> & { children?: ReactNode }) {
+}: Required<Omit<ProprietesVitrine, 'description' | 'children' | 'onClicVide' | 'repli'>> & { children?: ReactNode }) {
   // Si la scène s'ouvre de nuit (accueil), elle y est déjà : pas de transition au chargement.
   const depart = moment === 'nuit' ? 1 : 0
   const ambiance = useRef<Ambiance>({ progression: depart, nuit: depart })
@@ -179,6 +203,8 @@ function Scene({
         target={[0, 0.85, 0]}
         enableDamping
         enablePan={false}
+        enableRotate={pilotable}
+        enableZoom={pilotable}
         minDistance={1.45}
         maxDistance={8}
         // Presque à la verticale, pour regarder dans le bocal par son ouverture.
@@ -199,6 +225,8 @@ function Scene({
       <EffectComposer>
         <Bloom ref={halo} mipmapBlur luminanceThreshold={1} luminanceSmoothing={0.2} intensity={0.15} />
         <ToneMapping mode={ToneMappingMode.AGX} />
+        {/* Un grain à peine visible, qui évite les bandes dans les dégradés très sombres. */}
+        <Noise premultiply blendFunction={BlendFunction.SCREEN} opacity={0.035} />
       </EffectComposer>
     </AmbianceContexte>
   )

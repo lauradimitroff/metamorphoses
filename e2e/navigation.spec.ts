@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test'
+import { desactiverWebgl } from './outils.ts'
+
+test.beforeEach(({ page }) => desactiverWebgl(page))
 
 const PAGES = [
-  { chemin: '/', titre: 'Métamorphoses', onglet: 'Métamorphoses — Cabinet de terrariums à composer' },
+  { chemin: '/', titre: 'Un jardin sous verre', onglet: 'Métamorphoses — Cabinet de terrariums à composer' },
   { chemin: '/composer', titre: 'Composer un terrarium', onglet: 'Composer — Métamorphoses' },
   { chemin: '/a-propos', titre: 'Le cabinet', onglet: 'Le cabinet — Métamorphoses' },
   { chemin: '/contact', titre: 'Écrire au cabinet', onglet: 'Contact — Métamorphoses' },
@@ -36,4 +39,12 @@ test('après une navigation, le focus est placé sur le titre de la nouvelle pag
   await page.goto('/')
   await page.getByRole('navigation', { name: 'Navigation principale' }).getByRole('link', { name: 'Contact' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Écrire au cabinet' })).toBeFocused()
+})
+
+test('l’accueil présente le parcours et mène à l’atelier', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: 'Comment naît un spécimen' })).toBeVisible()
+  await expect(page.getByRole('img', { name: /champignons/i }).first()).toBeVisible()
+  await page.getByRole('main').getByRole('link', { name: 'Composer mon terrarium' }).first().click()
+  await expect(page).toHaveURL(/\/composer$/)
 })

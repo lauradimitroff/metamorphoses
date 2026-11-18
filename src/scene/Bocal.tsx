@@ -203,6 +203,8 @@ export function Bocal({
           transmission={1}
           thickness={0.03}
           roughness={0.04}
+          // Atténue l'éclat de la flamme sur le verre, qui ressemblait à une seconde lumière.
+          specularIntensity={0.4}
           ior={1.5}
           envMapIntensity={1.2}
         />

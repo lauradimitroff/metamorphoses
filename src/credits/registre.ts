@@ -93,8 +93,13 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Lucas van Oort',
     source: 'https://unsplash.com/fr/photos/une-photo-floue-dun-oiseau-sur-une-colline-herbeuse-upq1bkSh9Ww',
     licence: 'Licence Unsplash',
-    modifications: null,
-    fichiers: [],
+    modifications: 'Recadrage, couleurs atténuées, grain léger, compression.',
+    fichiers: [
+      'photos/mousse-800.avif',
+      'photos/mousse-800.webp',
+      'photos/mousse-1400.avif',
+      'photos/mousse-1400.webp',
+    ],
   },
   {
     id: 'photo-champignons',
@@ -103,8 +108,13 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Igor Omilaev',
     source: 'https://unsplash.com/fr/photos/un-groupe-de-champignons-rougeoyant-dans-la-foret-sombre-qu-upKvvRHg',
     licence: 'Licence Unsplash',
-    modifications: null,
-    fichiers: [],
+    modifications: 'Recadrage, couleurs atténuées, grain léger, compression.',
+    fichiers: [
+      'photos/champignons-800.avif',
+      'photos/champignons-800.webp',
+      'photos/champignons-1400.avif',
+      'photos/champignons-1400.webp',
+    ],
   },
   {
     id: 'photo-papillon-fougere',

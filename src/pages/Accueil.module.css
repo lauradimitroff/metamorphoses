@@ -1,0 +1,246 @@
+/* L'ouverture : le texte à gauche, le bocal de nuit à droite, sans frontière visible. */
+.ouverture {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: calc(100svh - 7.5rem);
+  overflow: hidden;
+  border-top: 1px solid var(--filet-leger);
+}
+
+.scene {
+  position: absolute;
+  inset: 0 0 0 30%;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%);
+  mask-image: linear-gradient(to right, transparent, #000 24%);
+}
+
+.repliPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.accroche {
+  position: relative;
+  width: min(100% - 2 * var(--marge-page), var(--largeur-page));
+  margin-inline: auto;
+  padding-block: var(--espace-8);
+  pointer-events: none;
+}
+
+.accroche > * {
+  max-width: 35rem;
+}
+
+.accroche a {
+  pointer-events: auto;
+}
+
+.surtitre {
+  margin-bottom: var(--espace-4);
+  font-size: var(--taille-petite);
+  letter-spacing: var(--chasse-capitales);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.titre {
+  font-size: var(--taille-titre-1);
+  letter-spacing: -0.012em;
+}
+
+.titre:focus {
+  outline: none;
+}
+
+.chapo {
+  margin-top: var(--espace-5);
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--texte-discret);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-4) var(--espace-6);
+  margin-top: var(--espace-6);
+}
+
+.appel,
+.appelSecondaire {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.25rem;
+  padding-inline: var(--espace-6);
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.appel {
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+.appel:hover {
+  background: transparent;
+  color: var(--texte);
+}
+
+.appelSecondaire:hover {
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+.lienDiscret {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--hauteur-cible);
+  text-underline-offset: 0.3em;
+}
+
+/* Les trois temps */
+.temps {
+  width: min(100% - 2 * var(--marge-page), var(--largeur-page));
+  margin-inline: auto;
+  padding-block: var(--espace-9);
+}
+
+.titreSection {
+  font-size: var(--taille-titre-2);
+}
+
+.etape {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--espace-8);
+  align-items: center;
+  margin-top: var(--espace-8);
+}
+
+.etapeInversee {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+.etapeInversee .illustration {
+  order: 2;
+}
+
+.illustration {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.illustrationGravure {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--filet-leger);
+  outline: 1px solid var(--filet-leger);
+  outline-offset: -8px;
+  color: var(--accent);
+}
+
+.gravure {
+  height: 82%;
+  width: auto;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.numero {
+  margin-bottom: var(--espace-2);
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-style: italic;
+  color: var(--accent);
+}
+
+.texteEtape h3 {
+  margin-bottom: var(--espace-4);
+  font-size: var(--taille-titre-2);
+}
+
+.texteEtape > p:last-child {
+  max-width: 28rem;
+  color: var(--texte-discret);
+}
+
+/* Le cabinet */
+.cabinet {
+  padding: var(--espace-9) var(--marge-page);
+  border-block: 1px solid var(--filet-leger);
+  background: var(--fond-releve);
+  text-align: center;
+}
+
+.devise {
+  font-size: var(--taille-titre-1);
+  font-style: italic;
+}
+
+.traduction {
+  margin-top: var(--espace-3);
+  color: var(--accent);
+}
+
+.texteCabinet {
+  max-width: var(--largeur-texte);
+  margin: var(--espace-6) auto var(--espace-4);
+  color: var(--texte-discret);
+}
+
+.fin {
+  padding: var(--espace-9) var(--marge-page);
+  text-align: center;
+}
+
+.fin .titreSection {
+  margin-bottom: var(--espace-6);
+}
+
+@media (max-width: 48rem) {
+  .ouverture {
+    align-items: end;
+    min-height: calc(100svh - 8rem);
+  }
+
+  .scene {
+    inset: 0 0 40% 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent);
+  }
+
+  .accroche {
+    padding-block: var(--espace-6);
+  }
+
+  .titre {
+    font-size: var(--taille-titre-2);
+  }
+
+  .etape {
+    grid-template-columns: 1fr;
+    gap: var(--espace-5);
+    margin-top: var(--espace-7);
+  }
+
+  .etapeInversee {
+    grid-template-columns: 1fr;
+  }
+
+  .etapeInversee .illustration {
+    order: 0;
+  }
+}

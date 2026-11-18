@@ -76,7 +76,7 @@ Ces lignes alimenteront la source unique des crédits (F7) lors de l'architectur
 
 ## 7. Photos d'ambiance retenues (16/11/2026)
 
-Licence Unsplash : usage libre, y compris commercial, sans obligation de crédit. On les crédite quand même dans le registre. Elles ne montrent ni personne ni marque. **Pas encore téléchargées** : elles le seront au moment de leur intégration, retraitées pour s'accorder à la palette (désaturation légère, ombres vers l'encre de nuit, grain discret).
+Licence Unsplash : usage libre, y compris commercial, sans obligation de crédit. On les crédite quand même dans le registre. Elles ne montrent ni personne ni marque. Les photos de la mousse et des champignons sont intégrées à l'accueil (`scripts/traiter-photos.ts`) ; les deux papillons le seront avec la page À propos, retraités pour s'accorder à la palette (désaturation légère, ombres vers l'encre de nuit, grain discret).
 
 | Photo | Auteur | Usage pressenti |
 |---|---|---|
