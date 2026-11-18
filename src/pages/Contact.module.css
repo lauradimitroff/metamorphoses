@@ -1,0 +1,175 @@
+.disposition {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: var(--espace-8);
+  align-items: start;
+}
+
+.introduction {
+  display: grid;
+  gap: var(--espace-4);
+  color: var(--texte-discret);
+}
+
+.chapo {
+  font-family: var(--police-titre);
+  font-size: var(--taille-chapo);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.formulaire {
+  display: grid;
+  gap: var(--espace-5);
+}
+
+.ligne {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-5);
+}
+
+.champ {
+  display: grid;
+  align-content: start;
+  gap: var(--espace-2);
+}
+
+.champ label {
+  font-size: var(--taille-petite);
+  letter-spacing: 0.04em;
+  color: var(--texte-discret);
+}
+
+.champ input,
+.champ select,
+.champ textarea {
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--espace-3);
+  border: 0;
+  border-bottom: 1px solid var(--filet);
+  border-radius: 0;
+  background: var(--fond-releve);
+  font-size: 1.0625rem;
+  transition: border-color var(--duree-courte) ease-out;
+}
+
+.champ textarea {
+  display: block;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.champ select {
+  appearance: none;
+  padding-right: var(--espace-7);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--laiton) 50%),
+    linear-gradient(135deg, var(--laiton) 50%, transparent 50%);
+  background-position:
+    right 1.3rem center,
+    right 0.95rem center;
+  background-size: 0.375rem 0.375rem;
+  background-repeat: no-repeat;
+}
+
+.champ input:hover,
+.champ select:hover,
+.champ textarea:hover {
+  border-color: var(--accent);
+}
+
+.champ :is(input, select, textarea):focus-visible {
+  border-color: var(--accent);
+  outline-offset: 1px;
+}
+
+/* L'erreur ne repose pas que sur la couleur : un message l'accompagne toujours. */
+.champ[data-erreur='true'] :is(input, select, textarea) {
+  border-bottom: 2px solid var(--erreur);
+}
+
+.erreur {
+  font-size: var(--taille-petite);
+  color: var(--erreur);
+}
+
+.aide {
+  font-size: var(--taille-petite);
+  font-variant-numeric: lining-nums;
+  color: var(--texte-discret);
+}
+
+.envoyer,
+.confirmation button {
+  justify-self: start;
+  min-height: 3.25rem;
+  padding-inline: var(--espace-6);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.envoyer:hover {
+  background: transparent;
+  color: var(--texte);
+}
+
+.confirmation {
+  display: grid;
+  justify-items: start;
+  gap: var(--espace-4);
+  padding: var(--espace-7);
+  border: 1px solid var(--filet-leger);
+  outline: 1px solid var(--filet-leger);
+  outline-offset: -7px;
+}
+
+.papillon {
+  width: 5rem;
+  height: auto;
+  color: var(--accent);
+}
+
+.confirmation h2 {
+  font-size: var(--taille-titre-3);
+}
+
+.confirmation h2:focus {
+  outline: none;
+}
+
+.confirmation p {
+  color: var(--texte-discret);
+}
+
+.confirmation button {
+  background: none;
+  color: var(--texte);
+}
+
+.confirmation button:hover {
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+@media (max-width: 48rem) {
+  .disposition,
+  .ligne {
+    grid-template-columns: 1fr;
+  }
+
+  .disposition {
+    gap: var(--espace-6);
+  }
+
+  .confirmation {
+    padding: var(--espace-5);
+  }
+}

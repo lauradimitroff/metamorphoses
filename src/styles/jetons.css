@@ -20,6 +20,7 @@
   --accent: var(--laiton);
   --filet: rgb(184 155 94 / 0.35);
   --filet-leger: rgb(184 155 94 / 0.16);
+  --erreur: #f0a58f;
 
   /* Typographies */
   --police-titre: 'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
