@@ -61,6 +61,13 @@ test('un message prévient quand le bocal n’a plus de place', async ({ page })
   await expect(page.getByRole('status').filter({ hasText: 'Plus de place pour une fougère' })).toBeVisible()
 })
 
+test('un bouton bascule entre la vue de face et la vue du dessus', async ({ page }) => {
+  await page.goto('/composer')
+  await page.getByRole('button', { name: 'Voir du dessus' }).click()
+  await page.getByRole('button', { name: 'Revenir de face' }).click()
+  await expect(page.getByRole('button', { name: 'Voir du dessus' })).toBeVisible()
+})
+
 test('la provenance d’un élément s’affiche à la demande', async ({ page }) => {
   await page.goto('/composer')
   await expect(page.getByText('Quaternius')).toBeHidden()

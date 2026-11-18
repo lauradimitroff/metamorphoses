@@ -5,6 +5,9 @@
   height: 100%;
   min-height: 20rem;
   background: var(--encre-de-nuit);
+  /* Un glisser sur la scène fait tourner la caméra : il ne doit pas sélectionner le texte voisin. */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .scene {

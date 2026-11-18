@@ -11,7 +11,7 @@ import styles from './Composer.module.css'
 export default function Composer() {
   useTitrePage('Composer')
   const composition = useComposition((etat) => etat.composition)
-  const { moment, couvercleOuvert, basculerMoment, basculerCouvercle } = useInterface()
+  const { moment, couvercleOuvert, demandeVue, basculerMoment, basculerCouvercle, basculerVue } = useInterface()
   const description = decrireComposition(composition, CATALOGUE)
 
   return (
@@ -21,6 +21,7 @@ export default function Composer() {
           moment={moment}
           matiere={composition.matiere}
           couvercleOuvert={couvercleOuvert}
+          demandeVue={demandeVue}
           gravure={composition.gravure}
           description="Votre terrarium en trois dimensions, posé sur une table en noyer."
         >
@@ -29,6 +30,9 @@ export default function Composer() {
         <div className={styles.commandes}>
           <button type="button" onClick={basculerMoment}>
             {moment === 'jour' ? 'Attendre la nuit' : 'Revenir au jour'}
+          </button>
+          <button type="button" onClick={basculerVue}>
+            {demandeVue?.vue === 'dessus' ? 'Revenir de face' : 'Voir du dessus'}
           </button>
           <button type="button" onClick={basculerCouvercle}>
             {couvercleOuvert ? 'Refermer le bocal' : 'Rouvrir le bocal'}

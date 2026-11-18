@@ -11,6 +11,7 @@ import { AmbianceContexte, COULEURS, type Ambiance, type Moment } from './ambian
 import { Bocal } from './Bocal'
 import { Bougie } from './Bougie'
 import { Lucioles } from './Lucioles'
+import { PiloteCamera, type DemandeVue } from './PiloteCamera'
 import { Table } from './Table'
 import { webglDisponible } from './webgl'
 import styles from './Vitrine.module.css'
@@ -38,6 +39,8 @@ interface ProprietesVitrine {
   rotationAuto?: boolean
   /** Couvercle soulevé et posé sur la table, pour composer. */
   couvercleOuvert?: boolean
+  /** Dernière vue demandée par un bouton de l'atelier. */
+  demandeVue?: DemandeVue | null
   /** Texte gravé par le visiteur sous la devise. */
   gravure?: string | null
   /** Ce qui est posé dans le bocal. */
@@ -54,6 +57,7 @@ export function Vitrine({
   description,
   rotationAuto = false,
   couvercleOuvert = false,
+  demandeVue = null,
   gravure = null,
   children,
 }: ProprietesVitrine) {
@@ -88,6 +92,7 @@ export function Vitrine({
             matiere={matiere}
             couvercleOuvert={couvercleOuvert}
             gravure={gravure}
+            demandeVue={demandeVue}
             rotationAuto={rotationAuto && !reduireAnimations}
           >
             {children}
@@ -105,6 +110,7 @@ function Scene({
   rotationAuto,
   couvercleOuvert,
   gravure,
+  demandeVue,
   children,
 }: Required<Omit<ProprietesVitrine, 'description' | 'children'>> & { children?: ReactNode }) {
   // Si la scène s'ouvre de nuit (accueil), elle y est déjà : pas de transition au chargement.
@@ -178,6 +184,8 @@ function Scene({
         autoRotate={rotationAuto}
         autoRotateSpeed={0.35}
       />
+
+      <PiloteCamera demande={demandeVue} />
 
       {/*
         Post-traitement. Le halo (bloom) ne touche que ce qui dépasse une luminosité de 1 :
