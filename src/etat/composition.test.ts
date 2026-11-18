@@ -31,6 +31,18 @@ describe('état de la composition', () => {
     expect(etat().composition.elements).not.toContain(deuxiemeMousse)
   })
 
+  it('déplace, tourne et retire un élément précis', () => {
+    etat().ajouter('mousse')
+    const uid = etat().composition.elements[0]?.uid ?? ''
+    expect(etat().deplacer(uid, { x: 200, z: -100 })).toBe(true)
+    expect(etat().composition.elements[0]).toMatchObject({ x: 200, z: -100 })
+    expect(etat().deplacer(uid, { x: 200, z: -100 })).toBe(false)
+    etat().tourner(uid, -1)
+    expect(etat().composition.elements[0]?.rotation).toBe(23)
+    etat().retirer(uid)
+    expect(etat().composition.elements).toHaveLength(0)
+  })
+
   it('enregistre la gravure nettoyée, et l’efface si le champ est vide', () => {
     etat().graver('  Pour   Charlotte ')
     expect(etat().composition.gravure).toBe('Pour Charlotte')

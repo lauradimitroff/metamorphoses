@@ -5,6 +5,7 @@ import {
   estDansLeBocal,
   normaliserRotation,
   OCCUPATION_MAXIMALE,
+  rejoindreEmplacement,
   remplissage,
   resteDeLaPlace,
   seChevauchent,
@@ -115,6 +116,35 @@ describe('trouverPlaceLibre', () => {
     expect(place).not.toBeNull()
     expect(Number.isInteger(place?.x)).toBe(true)
     expect(Number.isInteger(place?.z)).toBe(true)
+  })
+})
+
+describe('rejoindreEmplacement', () => {
+  it('atteint un emplacement libre', () => {
+    const pose = poser('mousse', 0, 0)
+    expect(rejoindreEmplacement(composer([pose]), pose, { x: 300, z: 100 }, CATALOGUE_DE_TEST)).toEqual({ x: 300, z: 100 })
+  })
+
+  it('s’arrête contre le verre', () => {
+    const pose = poser('mousse', 0, 0)
+    expect(rejoindreEmplacement(composer([pose]), pose, { x: 2000, z: 0 }, CATALOGUE_DE_TEST)).toEqual({ x: 900, z: 0 })
+  })
+
+  it('bute contre un voisin sans le traverser', () => {
+    const pose = poser('mousse', 0, 0)
+    const voisin = poser('mousse', 400, 0)
+    const composition = composer([pose, voisin])
+    const arrivee = rejoindreEmplacement(composition, pose, { x: 800, z: 0 }, CATALOGUE_DE_TEST)
+    expect(arrivee.x).toBeLessThanOrEqual(200)
+    expect(arrivee.x).toBeGreaterThan(150)
+    expect(emplacementValide(composition, 'mousse', arrivee, CATALOGUE_DE_TEST, pose.uid)).toBe(true)
+  })
+
+  it('glisse le long d’un obstacle quand la cible est sur le côté', () => {
+    const pose = poser('mousse', 0, 0)
+    const voisin = poser('mousse', 200, 0)
+    const arrivee = rejoindreEmplacement(composer([pose, voisin]), pose, { x: 100, z: 300 }, CATALOGUE_DE_TEST)
+    expect(arrivee.z).toBeGreaterThan(200)
   })
 })
 

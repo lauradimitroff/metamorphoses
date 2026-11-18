@@ -6,11 +6,14 @@ interface EtatInterface {
   moment: Moment
   couvercleOuvert: boolean
   demandeVue: DemandeVue | null
+  /** Identifiant de l'élément sélectionné, ou null. */
+  selection: string | null
   /** Message d'information de l'atelier, ou null. */
   message: string | null
   basculerMoment: () => void
   basculerCouvercle: () => void
   basculerVue: () => void
+  selectionner: (uid: string | null) => void
   afficherMessage: (message: string | null) => void
 }
 
@@ -20,6 +23,7 @@ export const useInterface = create<EtatInterface>((set) => ({
   // On compose bocal ouvert : le couvercle attend sur la table.
   couvercleOuvert: true,
   demandeVue: null,
+  selection: null,
   message: null,
   basculerMoment: () => set(({ moment }) => ({ moment: moment === 'jour' ? 'nuit' : 'jour' })),
   basculerCouvercle: () => set(({ couvercleOuvert }) => ({ couvercleOuvert: !couvercleOuvert })),
@@ -32,5 +36,6 @@ export const useInterface = create<EtatInterface>((set) => ({
         couvercleOuvert: vue === 'dessus' ? true : couvercleOuvert,
       }
     }),
+  selectionner: (selection) => set({ selection }),
   afficherMessage: (message) => set({ message }),
 }))

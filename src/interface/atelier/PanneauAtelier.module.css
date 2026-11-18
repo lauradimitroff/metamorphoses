@@ -195,6 +195,40 @@
   color: var(--encre-de-nuit);
 }
 
+/* Les pièces posées */
+.poses {
+  display: grid;
+  gap: var(--espace-1);
+  margin: 0 0 var(--espace-3);
+  padding: 0;
+  list-style: none;
+}
+
+.pose {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--espace-3);
+  width: 100%;
+  min-height: var(--hauteur-cible);
+  align-items: center;
+  padding-inline: var(--espace-3);
+  border: 1px solid var(--filet-leger);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--duree-courte) ease-out;
+}
+
+.pose:hover,
+.pose[aria-pressed='true'] {
+  border-color: var(--accent);
+}
+
+.lieu {
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
+
 /* La gravure */
 .champ {
   display: grid;

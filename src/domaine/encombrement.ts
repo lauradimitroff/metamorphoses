@@ -1,4 +1,4 @@
-import type { Catalogue, Composition, ElementId } from './types'
+import type { Catalogue, Composition, ElementId, ElementPose } from './types'
 
 /*
  * Les règles de place (D1, D4). Chaque élément occupe au sol un cercle de rayon
@@ -110,6 +110,49 @@ export function trouverPlaceLibre(
   }
 
   return null
+}
+
+const ETAPES_DE_DEPLACEMENT = 32
+
+/** Avance de `depart` vers `cible` et s'arrête juste avant le premier obstacle. */
+function avancer(
+  composition: Composition,
+  pose: ElementPose,
+  depart: Emplacement,
+  cible: Emplacement,
+  catalogue: Catalogue,
+): Emplacement {
+  let atteint = depart
+  for (let i = 1; i <= ETAPES_DE_DEPLACEMENT; i++) {
+    const t = i / ETAPES_DE_DEPLACEMENT
+    const essai = {
+      x: Math.round(depart.x + (cible.x - depart.x) * t),
+      z: Math.round(depart.z + (cible.z - depart.z) * t),
+    }
+    if (!emplacementValide(composition, pose.elementId, essai, catalogue, pose.uid)) break
+    atteint = essai
+  }
+  return atteint
+}
+
+/**
+ * Où l'élément peut-il aller en direction de `cible` ? Il s'arrête contre le verre,
+ * bute contre ses voisins, puis glisse le long de l'obstacle s'il reste de la marge.
+ */
+export function rejoindreEmplacement(
+  composition: Composition,
+  pose: ElementPose,
+  cible: Emplacement,
+  catalogue: Catalogue,
+): Emplacement {
+  const limite = (catalogue.bocal.rayonSol - catalogue.elements[pose.elementId].rayonVisuel) * 1000
+  const distance = Math.hypot(cible.x, cible.z)
+  const echelle = distance > limite ? limite / distance : 1
+  const vise = { x: Math.trunc(cible.x * echelle), z: Math.trunc(cible.z * echelle) }
+
+  const direct = avancer(composition, pose, pose, vise, catalogue)
+  const surX = avancer(composition, pose, direct, { x: vise.x, z: direct.z }, catalogue)
+  return avancer(composition, pose, surX, { x: surX.x, z: vise.z }, catalogue)
 }
 
 /**

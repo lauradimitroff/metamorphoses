@@ -39,6 +39,8 @@ interface ProprietesVitrine {
   rotationAuto?: boolean
   /** Couvercle soulevé et posé sur la table, pour composer. */
   couvercleOuvert?: boolean
+  /** Appelé après un clic dans la scène qui ne touche aucun élément. */
+  onClicVide?: () => void
   /** Dernière vue demandée par un bouton de l'atelier. */
   demandeVue?: DemandeVue | null
   /** Texte gravé par le visiteur sous la devise. */
@@ -57,6 +59,7 @@ export function Vitrine({
   description,
   rotationAuto = false,
   couvercleOuvert = false,
+  onClicVide,
   demandeVue = null,
   gravure = null,
   children,
@@ -85,6 +88,7 @@ export function Vitrine({
         camera={{ position: [3.2, 2.9, 4], fov: 32, near: 0.1, far: 30 }}
         role="img"
         aria-label={description}
+        onPointerMissed={onClicVide}
       >
         <Suspense fallback={null}>
           <Scene
@@ -112,7 +116,7 @@ function Scene({
   gravure,
   demandeVue,
   children,
-}: Required<Omit<ProprietesVitrine, 'description' | 'children'>> & { children?: ReactNode }) {
+}: Required<Omit<ProprietesVitrine, 'description' | 'children' | 'onClicVide'>> & { children?: ReactNode }) {
   // Si la scène s'ouvre de nuit (accueil), elle y est déjà : pas de transition au chargement.
   const depart = moment === 'nuit' ? 1 : 0
   const ambiance = useRef<Ambiance>({ progression: depart, nuit: depart })

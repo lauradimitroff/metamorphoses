@@ -73,6 +73,11 @@ export function zoneDe(x: number, z: number, rayonSol: number): Zone {
   return SECTEURS[(secteur + 8) % 8] ?? 'avant'
 }
 
+/** « à l’avant gauche » : où se trouve un élément, vu par le visiteur. */
+export function situer(x: number, z: number, rayonSol: number): string {
+  return EXPRESSIONS[zoneDe(x, z, rayonSol)]
+}
+
 const NOMBRES = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix'] as const
 
 /** « une fougère », « trois touffes de mousse », « 12 poignées de galets ». */

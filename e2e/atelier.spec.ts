@@ -74,3 +74,24 @@ test('la provenance d’un élément s’affiche à la demande', async ({ page }
   await page.getByRole('button', { name: 'Provenance : Petite fougère' }).click()
   await expect(page.getByText(/Quaternius · CC0/)).toBeVisible()
 })
+
+test('au clavier, on sélectionne, déplace, tourne et retire une pièce', async ({ page }) => {
+  await page.goto('/composer')
+  await page.getByRole('button', { name: 'Ajouter : Améthyste' }).click()
+  const piece = page.getByRole('button', { name: /^Améthyste/ })
+  await piece.focus()
+  await expect(piece).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('group', { name: /Pièce sélectionnée/ })).toBeVisible()
+  await expect(piece).toContainText('au centre')
+
+  for (let i = 0; i < 12; i++) await page.keyboard.press('ArrowRight')
+  await expect(piece).toContainText('à droite')
+  await expect(page.getByTestId('description-scene')).toContainText('À droite, une améthyste.')
+  await page.keyboard.press('r')
+  await page.keyboard.press('Escape')
+  await expect(piece).toHaveAttribute('aria-pressed', 'false')
+
+  await page.keyboard.press('Delete')
+  await expect(page.getByText('Le bocal attend sa première pièce.')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Dans le bocal' })).toBeFocused()
+})

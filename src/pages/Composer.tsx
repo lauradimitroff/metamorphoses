@@ -2,6 +2,7 @@ import { CATALOGUE } from '../catalogue/catalogue'
 import { decrireComposition } from '../domaine/description'
 import { useComposition } from '../etat/composition'
 import { useInterface } from '../etat/interface'
+import { BarreSelection } from '../interface/atelier/BarreSelection'
 import { PanneauAtelier } from '../interface/atelier/PanneauAtelier'
 import { useTitrePage } from '../interface/useTitrePage'
 import { ElementsPoses } from '../scene/elements/ElementsPoses'
@@ -11,7 +12,8 @@ import styles from './Composer.module.css'
 export default function Composer() {
   useTitrePage('Composer')
   const composition = useComposition((etat) => etat.composition)
-  const { moment, couvercleOuvert, demandeVue, basculerMoment, basculerCouvercle, basculerVue } = useInterface()
+  const { moment, couvercleOuvert, demandeVue, selection, selectionner, basculerMoment, basculerCouvercle, basculerVue } =
+    useInterface()
   const description = decrireComposition(composition, CATALOGUE)
 
   return (
@@ -22,11 +24,13 @@ export default function Composer() {
           matiere={composition.matiere}
           couvercleOuvert={couvercleOuvert}
           demandeVue={demandeVue}
+          onClicVide={() => selectionner(null)}
           gravure={composition.gravure}
           description="Votre terrarium en trois dimensions, posé sur une table en noyer."
         >
-          <ElementsPoses elements={composition.elements} />
+          <ElementsPoses elements={composition.elements} interactif selection={selection} onSelection={selectionner} />
         </Vitrine>
+        <BarreSelection />
         <div className={styles.commandes}>
           <button type="button" onClick={basculerMoment}>
             {moment === 'jour' ? 'Attendre la nuit' : 'Revenir au jour'}
