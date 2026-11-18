@@ -1,5 +1,28 @@
 import { expect, test } from '@playwright/test'
 
+/*
+ * Ces tests vérifient l'interface et les règles, pas l'image. Sans carte graphique
+ * (comme en CI), le rendu logiciel de la scène sature le navigateur : on la désactive,
+ * ce qui vérifie au passage le repli sans WebGL.
+ */
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...reste: unknown[]) {
+      if (type.includes('webgl')) return null
+      return Reflect.apply(original, this, [type, ...reste])
+    } as typeof HTMLCanvasElement.prototype.getContext
+  })
+})
+
+test('sans WebGL, un message remplace la scène et l’atelier reste utilisable', async ({ page }) => {
+  await page.goto('/composer')
+  await expect(page.getByText(/ne peut pas éclairer le cabinet/)).toBeVisible()
+  await expect(page.locator('canvas')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Ajouter : Améthyste' }).click()
+  await expect(page.getByTestId('description-scene')).toContainText('une améthyste')
+})
+
 test('composer un terrarium met à jour le prix, la jauge et la description', async ({ page }) => {
   await page.goto('/composer')
   const description = page.getByTestId('description-scene')

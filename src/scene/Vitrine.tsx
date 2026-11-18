@@ -2,15 +2,17 @@ import { Environment, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
 import { ToneMappingMode, type BloomEffect } from 'postprocessing'
-import { Suspense, useRef, type ReactNode } from 'react'
+import { Suspense, useRef, useState, type ReactNode } from 'react'
 import { MathUtils, type DirectionalLight, type HemisphereLight } from 'three'
 import type { MatiereId } from '../domaine/types'
 import { EcranAttente } from '../interface/EcranAttente'
+import { Logo } from '../interface/Logo'
 import { AmbianceContexte, COULEURS, type Ambiance, type Moment } from './ambiance'
 import { Bocal } from './Bocal'
 import { Bougie } from './Bougie'
 import { Lucioles } from './Lucioles'
 import { Table } from './Table'
+import { webglDisponible } from './webgl'
 import styles from './Vitrine.module.css'
 
 const DUREE_TRANSITION = 2.5 // secondes
@@ -55,6 +57,21 @@ export function Vitrine({
   gravure = null,
   children,
 }: ProprietesVitrine) {
+  // Vérifié une seule fois : sans WebGL, le reste de la page doit continuer à fonctionner.
+  const [scenePossible] = useState(webglDisponible)
+
+  if (!scenePossible) {
+    return (
+      <div className={styles.repli}>
+        <Logo variante="gravure" className={styles.repliLogo} />
+        <p>
+          Ce navigateur ne peut pas éclairer le cabinet en trois dimensions. Vous pouvez tout de même composer votre
+          terrarium : son détail s’affiche dans le panneau.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.vitrine}>
       <Canvas
