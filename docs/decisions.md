@@ -204,3 +204,21 @@ Les deux HDRI écartées sont retirées du projet et du registre des crédits.
 - Si un seul élément ne rentre plus, un message l'explique au moment du clic : une petite mousse peut encore entrer là où une fougère ne le peut plus.
 
 **Pourquoi** : la jauge doit correspondre à ce que le visiteur peut réellement faire.
+
+## D14 · Un panier fictif dès la V1 — 19/11/2026
+
+**Contexte** : le parcours s'arrêtait sur un total sans suite. Pour une boutique, même imaginaire, il manquait la fin de l'histoire.
+
+**Décision** : un **panier simple**.
+- « Ajouter au panier » dans l'atelier, un compteur dans l'en-tête.
+- Un aperçu latéral avec chaque bocal, son retrait, le total et un lien « Voir mon panier ».
+- Une page `/panier` : le détail de chaque bocal, un récapitulatif, puis « Valider la commande », qui vide le panier et affiche une confirmation avec un numéro de commande.
+
+Une première version finissait la commande dans le panneau latéral ; Laura l'a trouvée trop légère. Une vraie page donne au geste le poids d'une fin de parcours, et la place de tout relire avant de valider.
+
+**Choix techniques** :
+- L'aperçu est un `<dialog>` natif, ouvert en mode modal : le navigateur garde le focus à l'intérieur, ferme avec Échap et rend le focus au bouton d'origine.
+- Le panier est conservé dans le navigateur (`localStorage`, par le middleware `persist` de Zustand). Ce qui en est relu passe par `lirePanier()`, qui écarte toute donnée abîmée ou inconnue.
+- Si le stockage est indisponible (navigation privée), le panier fonctionne quand même, sans survivre au rechargement.
+
+**Ce qu'on écarte** : la livraison, le mot d'accompagnement, les miniatures des bocaux, la reprise d'un bocal pour le modifier, le tunnel de commande.

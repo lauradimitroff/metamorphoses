@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import { EnTete } from './EnTete'
+import { PanierLateral } from './panier/PanierLateral'
 import { PiedDePage } from './PiedDePage'
 import styles from './MiseEnPage.module.css'
 
@@ -41,6 +42,7 @@ export function MiseEnPage() {
         <Outlet />
       </main>
       <PiedDePage />
+      <PanierLateral />
     </div>
   )
 }

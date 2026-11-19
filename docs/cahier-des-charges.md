@@ -1,11 +1,12 @@
 # Métamorphoses — Cahier des charges (V1)
 
-> Version 2.3 · 18/11/2026 · validé par Laura Dimitroff
+> Version 2.4 · 19/11/2026 · validé par Laura Dimitroff
 > 1.1 : origine des modèles après repérage (D6). 1.2 : page d'accueil vitrine.
 > **2.0 : périmètre recentré (D8)** sur un site vitrine avec un produit à configurer, pour environ 30 heures de travail.
 > 2.1 : le bocal d'apothicaire remplace le chaudron (D9) ; HDRI « Workshop » retenue (D10).
 > 2.2 : devise gravée à l'acide sur le verre ; gravure personnalisée en V1 (D11).
 > 2.3 : jauge calée sur la place réellement disponible (D13).
+> 2.4 : panier fictif en V1 (D14).
 > Boutique de démonstration : aucun produit n'est réellement vendu.
 
 ---
@@ -138,6 +139,13 @@ Les **lucioles** ne se placent pas : elles font partie de l'ambiance de nuit. Le
 - Une validation accessible : messages d'erreur clairs, reliés à leur champ et annoncés aux lecteurs d'écran ; le focus revient sur le premier champ en erreur.
 - À l'envoi : un message de confirmation précise « Boutique de démonstration : votre message n'a pas été envoyé ». Aucune donnée ne quitte le navigateur.
 
+**F10. Panier fictif**
+- Un bouton « Ajouter au panier » dans l'atelier ajoute la composition en cours ; on peut continuer à composer.
+- Un compteur dans l'en-tête ouvre un aperçu latéral : chaque bocal (verre, gravure, pièces, prix), son retrait, le total et « Voir mon panier ».
+- La page `/panier` détaille chaque bocal ligne à ligne, avec son retrait, et un récapitulatif avec le total et « Valider la commande ».
+- La validation vide le panier et affiche une confirmation : un numéro de commande, le récapitulatif, la mention « rien n'est vendu, aucun paiement n'a eu lieu », et deux suites (composer un autre bocal, revenir à l'accueil).
+- Le panier est conservé dans le navigateur ; ce qui en est relu est vérifié, et rien ne part sur un serveur.
+
 **F9. Qualité transversale**
 - Responsive : sur mobile, le panneau du configurateur devient un tiroir en bas de l'écran, et la scène occupe le reste.
 - Si WebGL est indisponible, un message dans l'esprit du cabinet remplace la scène, et le reste du site fonctionne normalement.
@@ -247,7 +255,7 @@ Le site doit être **ultra soigné**, avec l'aspect d'un objet artisanal et non 
 - **Partage** : la composition dans l'URL, le lien de partage, la capture PNG.
 - **Étiquette de spécimen** (numéro, nom, PNG) : la première à ajouter.
 - **Accueil** : les spécimens tout faits.
-- Plus tard : panier fictif, réalité augmentée, comparaison de compositions, sons d'ambiance.
+- Plus tard : réalité augmentée, comparaison de compositions, sons d'ambiance.
 
 ## 11. Critères de réussite
 

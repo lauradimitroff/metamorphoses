@@ -1,10 +1,11 @@
 # Métamorphoses — Architecture (V1)
 
-> Version 1.3 · 17/11/2026 · validée par Laura Dimitroff
-> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.2) et le [journal de décisions](decisions.md) (D1 à D13).
+> Version 1.4 · 19/11/2026 · validée par Laura Dimitroff
+> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.4) et le [journal de décisions](decisions.md) (D1 à D14).
 > 1.1 : quatre pages, un produit, cinq éléments ; partage et étiquette reportés en V2.
 > 1.2 : le bocal remplace le chaudron (D9), HDRI « Workshop » (D10).
 > 1.3 : gravure personnalisée (D11).
+> 1.4 : panier fictif et page `/panier` (D14).
 
 ---
 
@@ -69,15 +70,16 @@ metamorphoses/
 ├─ e2e/                      tests Playwright
 ├─ src/
 │  ├─ main.tsx · App.tsx     point d'entrée et routes
-│  ├─ pages/                 Accueil, Composer, APropos, Contact, Registre, Introuvable
+│  ├─ pages/                 Accueil, Composer, APropos, Contact, Registre, Panier, Introuvable
 │  ├─ domaine/               TypeScript pur, testé (*.test.ts à côté de chaque fichier)
 │  │  ├─ types.ts            Composition, ElementPose…
 │  │  ├─ prix.ts             total, sous-totaux, formatage
 │  │  ├─ encombrement.ts     jauge, chevauchements, recherche de place libre
-│  │  └─ description.ts      description textuelle (lecteurs d'écran)
+│  │  ├─ description.ts      description textuelle (lecteurs d'écran)
+│  │  └─ panier.ts           total du panier, relecture sûre du stockage
 │  ├─ catalogue/             DONNÉES : bocal, éléments
 │  ├─ credits/registre.ts    source unique des crédits (F5)
-│  ├─ etat/                  magasins Zustand : composition, interface
+│  ├─ etat/                  magasins Zustand : composition, interface, panier
 │  ├─ scene/                 tout ce qui est 3D
 │  │  ├─ Vitrine.tsx         Canvas, éclairage, table, caméra, post-traitement
 │  │  ├─ ambiance/           jour/nuit, bougie, lucioles (repris de l'essai)
@@ -203,6 +205,7 @@ Chaque action de `composition` passe par le domaine. `deplacer` refuse une posit
 | `/a-propos` | à la demande | **non** |
 | `/contact` | à la demande | **non** |
 | `/credits` | à la demande | **non** |
+| `/panier` | à la demande | **non** |
 
 Three.js, qui représente l'essentiel du poids du site, n'est chargé que par l'accueil et le configurateur. Les autres pages s'ouvrent instantanément.
 
@@ -238,6 +241,7 @@ Chaque sous-étape se termine par une vérification dans le navigateur, une sect
 | 4a | Accueil vitrine | 4 h à 5 h |
 | 4b | À propos : rédaction du lore et mise en page | 2 h à 3 h |
 | 4c | Contact : formulaire et validation accessible | 1 h 30 à 2 h |
+| 4d | Panier fictif : règles et relecture sûre du stockage, compteur, aperçu latéral, page `/panier` et confirmation de démonstration | 4 h |
 | **5 · Finitions** | | |
 | 5a | Mobile, repli sans WebGL, réduction des animations, test Playwright | 2 h |
 | 5b | README, captures, mise en ligne sur Vercel | 1 h |

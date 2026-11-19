@@ -8,12 +8,15 @@ interface EtatInterface {
   demandeVue: DemandeVue | null
   /** Identifiant de l'élément sélectionné, ou null. */
   selection: string | null
+  panierOuvert: boolean
   /** Message d'information de l'atelier, ou null. */
   message: string | null
   basculerMoment: () => void
   basculerCouvercle: () => void
   basculerVue: () => void
   selectionner: (uid: string | null) => void
+  ouvrirPanier: () => void
+  fermerPanier: () => void
   afficherMessage: (message: string | null) => void
 }
 
@@ -24,6 +27,7 @@ export const useInterface = create<EtatInterface>((set) => ({
   couvercleOuvert: true,
   demandeVue: null,
   selection: null,
+  panierOuvert: false,
   message: null,
   basculerMoment: () => set(({ moment }) => ({ moment: moment === 'jour' ? 'nuit' : 'jour' })),
   basculerCouvercle: () => set(({ couvercleOuvert }) => ({ couvercleOuvert: !couvercleOuvert })),
@@ -37,5 +41,7 @@ export const useInterface = create<EtatInterface>((set) => ({
       }
     }),
   selectionner: (selection) => set({ selection }),
+  ouvrirPanier: () => set({ panierOuvert: true }),
+  fermerPanier: () => set({ panierOuvert: false }),
   afficherMessage: (message) => set({ message }),
 }))

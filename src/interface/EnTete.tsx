@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router'
 import { Logo } from './Logo'
+import { BoutonPanier } from './panier/BoutonPanier'
 import styles from './EnTete.module.css'
 
 const LIENS = [
@@ -8,7 +9,7 @@ const LIENS = [
 ] as const
 
 /**
- * Deux liens et un bouton : un menu « hamburger » serait une complication inutile.
+ * Deux liens, le panier et un bouton : un menu « hamburger » serait une complication inutile.
  * Sur mobile, la navigation passe simplement sur une seconde ligne.
  */
 export function EnTete() {
@@ -31,6 +32,8 @@ export function EnTete() {
           ))}
         </ul>
       </nav>
+
+      <BoutonPanier className={styles.panier} />
 
       <Link to="/composer" className={styles.appel}>
         Composer

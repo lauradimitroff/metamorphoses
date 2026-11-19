@@ -9,6 +9,7 @@ const Composer = lazy(() => import('./pages/Composer'))
 const APropos = lazy(() => import('./pages/APropos'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Registre = lazy(() => import('./pages/Registre'))
+const Panier = lazy(() => import('./pages/Panier'))
 const Introuvable = lazy(() => import('./pages/Introuvable'))
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="a-propos" element={<APropos />} />
           <Route path="contact" element={<Contact />} />
           <Route path="credits" element={<Registre />} />
+          <Route path="panier" element={<Panier />} />
           <Route path="*" element={<Introuvable />} />
         </Route>
       </Routes>

@@ -4,8 +4,8 @@
  */
 .entete {
   display: grid;
-  grid-template-areas: 'marque navigation appel';
-  grid-template-columns: 1fr auto auto;
+  grid-template-areas: 'marque navigation panier appel';
+  grid-template-columns: 1fr auto auto auto;
   align-items: center;
   gap: var(--espace-3) var(--espace-6);
   width: min(100% - 2 * var(--marge-page), var(--largeur-page));
@@ -88,6 +88,10 @@
   transform: scaleX(1);
 }
 
+.panier {
+  grid-area: panier;
+}
+
 .appel {
   grid-area: appel;
   display: inline-flex;
@@ -113,7 +117,7 @@
   .entete {
     grid-template-areas:
       'marque appel'
-      'navigation navigation';
+      'navigation panier';
     grid-template-columns: 1fr auto;
     padding-block: var(--espace-4) var(--espace-2);
   }

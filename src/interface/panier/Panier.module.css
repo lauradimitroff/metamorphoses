@@ -1,0 +1,237 @@
+/* Le bouton de l'en-tête */
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-2);
+  min-height: var(--hauteur-cible);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--texte-discret);
+  cursor: pointer;
+  transition: color var(--duree-courte) ease-out;
+}
+
+.bouton:hover {
+  color: var(--texte);
+}
+
+.compte {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding-inline: 0.35rem;
+  border: 1px solid var(--filet);
+  border-radius: 1rem;
+  font-size: 0.8125rem;
+  font-variant-numeric: lining-nums;
+}
+
+.compte[data-plein='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+}
+
+/* Le panneau latéral */
+.panneau {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(100%, 28rem);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--filet);
+  background: var(--encre-de-nuit);
+  color: var(--texte);
+  transform: translateX(100%);
+  transition:
+    transform var(--duree-moyenne) var(--courbe-sortie),
+    overlay var(--duree-moyenne) allow-discrete,
+    display var(--duree-moyenne) allow-discrete;
+}
+
+.panneau[open] {
+  transform: none;
+}
+
+@starting-style {
+  .panneau[open] {
+    transform: translateX(100%);
+  }
+}
+
+.panneau::backdrop {
+  background: rgb(8 10 12 / 0.6);
+  opacity: 0;
+  transition:
+    opacity var(--duree-moyenne) ease-out,
+    overlay var(--duree-moyenne) allow-discrete,
+    display var(--duree-moyenne) allow-discrete;
+}
+
+.panneau[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .panneau[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.contenu {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--espace-5);
+}
+
+.entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--espace-3);
+  border-bottom: 3px double var(--filet);
+}
+
+.entete h2 {
+  font-size: var(--taille-titre-3);
+}
+
+.fermer,
+.retirer {
+  min-height: var(--hauteur-cible);
+  padding-inline: var(--espace-3);
+  border: 0;
+  background: none;
+  color: var(--texte-discret);
+  text-decoration: underline;
+  text-decoration-color: var(--filet);
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
+.fermer:hover,
+.retirer:hover {
+  color: var(--texte);
+  text-decoration-color: var(--accent);
+}
+
+.bocaux {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bocal {
+  display: grid;
+  gap: var(--espace-1);
+  padding-block: var(--espace-4);
+  border-bottom: 1px solid var(--filet-leger);
+}
+
+.numero {
+  font-family: var(--police-titre);
+  font-style: italic;
+  font-variant-numeric: oldstyle-nums;
+  color: var(--accent);
+}
+
+.ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--espace-3);
+}
+
+.ligne h3 {
+  font-size: 1.375rem;
+}
+
+.prix {
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
+}
+
+.gravure {
+  font-family: var(--police-titre);
+  font-size: 1.125rem;
+  font-style: italic;
+}
+
+.pieces {
+  font-size: var(--taille-petite);
+  color: var(--texte-discret);
+}
+
+.retirer {
+  justify-self: start;
+  margin-left: calc(-1 * var(--espace-3));
+}
+
+.pied {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  gap: var(--espace-3);
+  padding-top: var(--espace-4);
+  background: var(--encre-de-nuit);
+}
+
+.total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.total strong {
+  font-family: var(--police-titre);
+  font-size: var(--taille-titre-3);
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
+}
+
+.commander,
+.lienAtelier {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding-inline: var(--espace-6);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.commander:hover,
+.lienAtelier:hover {
+  background: transparent;
+  color: var(--texte);
+}
+
+.vide {
+  display: grid;
+  justify-items: start;
+  gap: var(--espace-4);
+  padding-top: var(--espace-6);
+  color: var(--texte-discret);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panneau,
+  .panneau::backdrop {
+    transition: none;
+  }
+}

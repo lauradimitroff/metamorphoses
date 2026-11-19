@@ -331,6 +331,37 @@
   align-items: baseline;
 }
 
+.conclusion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-3);
+}
+
+.conclusion .total {
+  flex: 1;
+  gap: var(--espace-4);
+}
+
+.ajouterPanier {
+  min-height: var(--hauteur-cible);
+  padding-inline: var(--espace-5);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--encre-de-nuit);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color var(--duree-courte) ease-out,
+    color var(--duree-courte) ease-out;
+}
+
+.ajouterPanier:hover {
+  background: transparent;
+  color: var(--texte);
+}
+
 .total strong {
   font-family: var(--police-titre);
   font-size: var(--taille-titre-3);

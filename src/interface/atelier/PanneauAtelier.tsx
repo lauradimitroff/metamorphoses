@@ -8,6 +8,7 @@ import { calculerTotal, detaillerPrix, formaterPrix } from '../../domaine/prix'
 import type { DefinitionElement, ElementPose, MatiereId } from '../../domaine/types'
 import { useComposition } from '../../etat/composition'
 import { useInterface } from '../../etat/interface'
+import { usePanier } from '../../etat/panier'
 import { retirerPose } from './actions'
 import { VignetteElement } from './VignetteElement'
 import styles from './PanneauAtelier.module.css'
@@ -284,6 +285,15 @@ function BarreDuSpecimen() {
   const composition = useComposition((etat) => etat.composition)
   const message = useInterface((etat) => etat.message)
   const part = useMemo(() => Math.round(remplissage(composition, CATALOGUE) * 100), [composition])
+  const ajouter = usePanier((etat) => etat.ajouter)
+  const afficherMessage = useInterface((etat) => etat.afficherMessage)
+  const ouvrirPanier = useInterface((etat) => etat.ouvrirPanier)
+
+  const ajouterAuPanier = () => {
+    ajouter(composition)
+    afficherMessage('Bocal ajouté au panier. Vous pouvez continuer à composer.')
+    ouvrirPanier()
+  }
 
   return (
     <div className={styles.barre}>
@@ -297,10 +307,15 @@ function BarreDuSpecimen() {
       <p className={styles.message} role="status">
         {message}
       </p>
-      <p className={styles.total}>
-        <span>Total</span>
-        <strong>{formaterPrix(calculerTotal(composition, CATALOGUE))}</strong>
-      </p>
+      <div className={styles.conclusion}>
+        <p className={styles.total}>
+          <span>Total</span>
+          <strong>{formaterPrix(calculerTotal(composition, CATALOGUE))}</strong>
+        </p>
+        <button type="button" className={styles.ajouterPanier} onClick={ajouterAuPanier}>
+          Ajouter au panier
+        </button>
+      </div>
     </div>
   )
 }
