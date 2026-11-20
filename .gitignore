@@ -29,3 +29,6 @@ dist-ssr
 # Playwright
 test-results/
 playwright-report/
+
+# Originaux des ressources (HDRI, textures, photos) : hors du dépôt, retraités par scripts/
+/*.hdr

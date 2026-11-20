@@ -59,7 +59,7 @@ Les pages À propos, Contact et Crédits n'utilisent ni l'état ni la scène : c
 
 ```
 metamorphoses/
-├─ docs/                     cahier des charges, architecture, décisions, repérage
+├─ docs/                     cahier des charges, architecture, décisions, repérage ; captures/ pour le README
 ├─ public/
 │  ├─ models/                fougère compressée
 │  ├─ hdri/                  l'HDRI « Workshop », en JPEG Ultra HDR (D10, D15)
@@ -72,6 +72,7 @@ metamorphoses/
 │  ├─ compresser-textures.ts textures du noyer en WebP
 │  ├─ encoder-hdri.ts        HDRI en JPEG Ultra HDR, encodé dans Chromium
 │  ├─ mesurer-chargement.ts  temps d'affichage de la scène en 4G simulée
+│  ├─ capturer-ecrans.ts     captures du README, sur la version de production
 │  └─ hdri/                  la page outil que ce script ouvre
 ├─ e2e/                      tests Playwright
 ├─ src/
@@ -97,7 +98,7 @@ metamorphoses/
 │  │                         Catalogue, Recapitulatif, Jauge, ChampFormulaire, Apparition
 │  └─ styles/                jetons.css (palette, typographies, espacements), base.css
 ├─ CREDITS.md                généré, jamais modifié à la main
-└─ vercel.json               redirige toutes les routes vers index.html
+└─ vercel.json               routes vers index.html, cache long des fichiers versionnés, en-têtes de sécurité
 ```
 
 Le dossier `src/essai/` disparaîtra à l'étape 2a : son contenu sera repris dans `scene/`.
