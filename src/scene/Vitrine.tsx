@@ -170,7 +170,7 @@ function Scene({
       <fog attach="fog" args={[COULEURS.encreDeNuit, 5.5, 11]} />
 
       {/* L'HDRI « Workshop » (Poly Haven), choisie pour les reflets qu'elle donne au verre (D10). */}
-      <Environment files="/hdri/workshop_1k.hdr" />
+      <Environment files="/hdri/workshop.jpg" />
 
       {/* Lumière principale du jour : une fenêtre haute, sur la gauche. */}
       <directionalLight

@@ -3,9 +3,9 @@ import { RepeatWrapping, SRGBColorSpace, Vector2 } from 'three'
 
 const REPETITIONS = 5
 const TEXTURES = {
-  map: '/textures/noyer/couleur.jpg',
-  normalMap: '/textures/noyer/normale.jpg',
-  roughnessMap: '/textures/noyer/rugosite.jpg',
+  map: '/textures/noyer/couleur.webp',
+  normalMap: '/textures/noyer/normale.webp',
+  roughnessMap: '/textures/noyer/rugosite.webp',
 }
 const RELIEF = new Vector2(0.6, 0.6)
 

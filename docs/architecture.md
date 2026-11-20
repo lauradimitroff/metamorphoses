@@ -1,11 +1,12 @@
 # Métamorphoses — Architecture (V1)
 
-> Version 1.4 · 19/11/2026 · validée par Laura Dimitroff
-> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.4) et le [journal de décisions](decisions.md) (D1 à D14).
+> Version 1.5 · 20/11/2026 · validée par Laura Dimitroff
+> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.4) et le [journal de décisions](decisions.md) (D1 à D15).
 > 1.1 : quatre pages, un produit, cinq éléments ; partage et étiquette reportés en V2.
 > 1.2 : le bocal remplace le chaudron (D9), HDRI « Workshop » (D10).
 > 1.3 : gravure personnalisée (D11).
 > 1.4 : panier fictif et page `/panier` (D14).
+> 1.5 : tiroir mobile de l'atelier ; HDRI et textures allégés (D15).
 
 ---
 
@@ -61,12 +62,16 @@ metamorphoses/
 ├─ docs/                     cahier des charges, architecture, décisions, repérage
 ├─ public/
 │  ├─ models/                fougère compressée
-│  ├─ hdri/                  l'HDRI « Workshop » (D10)
-│  ├─ textures/              noyer, terre
+│  ├─ hdri/                  l'HDRI « Workshop », en JPEG Ultra HDR (D10, D15)
+│  ├─ textures/              noyer, en WebP (D15)
 │  └─ photos/                photos d'ambiance retraitées (AVIF + WebP)
 ├─ scripts/
 │  ├─ generer-credits.ts     produit CREDITS.md à partir du registre
-│  └─ optimiser-ressources.sh  compresse modèles et photos
+│  ├─ optimiser-modele.sh    compresse la fougère (gltf-transform)
+│  ├─ traiter-photos.ts      retraite les photos d'ambiance (AVIF + WebP)
+│  ├─ compresser-textures.ts textures du noyer en WebP
+│  ├─ encoder-hdri.ts        HDRI en JPEG Ultra HDR, encodé dans Chromium
+│  └─ hdri/                  la page outil que ce script ouvre
 ├─ e2e/                      tests Playwright
 ├─ src/
 │  ├─ main.tsx · App.tsx     point d'entrée et routes

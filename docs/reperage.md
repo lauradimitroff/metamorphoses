@@ -67,10 +67,10 @@ Toutes sont en CC0. Ce sont des fichiers bruts, à compresser avant la mise en l
 | Fichier dans `public/` | Origine | Auteur | Licence | Poids |
 |---|---|---|---|---|
 | `models/fougere.glb` | [Poly Pizza — Fern](https://poly.pizza/m/jqcanvH7D6) | Quaternius | CC0 | 693 Ko |
-| `hdri/workshop_1k.hdr` | [Poly Haven — Workshop](https://polyhaven.com/a/workshop) | Poly Haven | CC0 | 1,8 Mo |
+| `hdri/workshop_1k.hdr` (devenu `workshop.jpg`, D15) | [Poly Haven — Workshop](https://polyhaven.com/a/workshop) | Poly Haven | CC0 | 1,8 Mo |
 | `hdri/vestibule_1k.hdr` | [Poly Haven — Vestibule](https://polyhaven.com/a/vestibule) | Poly Haven | CC0 | 1,7 Mo |
 | `hdri/moon_lab_1k.hdr` | [Poly Haven — Moon Lab](https://polyhaven.com/a/moon_lab) | Poly Haven | CC0 | 1,8 Mo |
-| `textures/noyer/{couleur,normale,rugosite}.jpg` | [Poly Haven — Smoked Walnut Veneer](https://polyhaven.com/a/smoked_walnut_veneer) (1K) | Poly Haven | CC0 | 1,3 Mo |
+| `textures/noyer/{couleur,normale,rugosite}.jpg` (devenues `.webp`, D15) | [Poly Haven — Smoked Walnut Veneer](https://polyhaven.com/a/smoked_walnut_veneer) (1K) | Poly Haven | CC0 | 1,3 Mo |
 
 Ces lignes alimenteront la source unique des crédits (F7) lors de l'architecture.
 

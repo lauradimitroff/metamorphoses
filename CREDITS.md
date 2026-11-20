@@ -12,11 +12,12 @@ Métamorphoses est une boutique imaginaire, conçue et développée par Laura Di
 ## Environnements lumineux
 
 - **[Workshop](https://polyhaven.com/a/workshop)** — Dimitrios Savva et Jarod Guest · CC0
+  - Modifications : Version 1K encodée en JPEG Ultra HDR (image et carte de gain).
 
 ## Textures
 
 - **[Smoked Walnut Veneer](https://polyhaven.com/a/smoked_walnut_veneer)** — Jenelle van Heerden · CC0
-  - Modifications : Teinte assombrie à l’affichage pour obtenir un noyer foncé.
+  - Modifications : Converties en WebP ; teinte assombrie à l’affichage pour obtenir un noyer foncé.
 
 ## Photographies
 

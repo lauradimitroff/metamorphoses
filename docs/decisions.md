@@ -222,3 +222,18 @@ Une première version finissait la commande dans le panneau latéral ; Laura l'a
 - Si le stockage est indisponible (navigation privée), le panier fonctionne quand même, sans survivre au rechargement.
 
 **Ce qu'on écarte** : la livraison, le mot d'accompagnement, les miniatures des bocaux, la reprise d'un bocal pour le modifier, le tunnel de commande.
+
+## D15 · L'HDRI en JPEG Ultra HDR, les textures en WebP — 20/11/2026
+
+**Contexte** : l'objectif est de moins de 3 Mo pour les modèles, les textures et l'HDRI (cahier des charges, § 5.2). On en était à 3,1 Mo : l'HDRI pesait 1,76 Mo (format `.hdr`, presque pas compressé) et les trois textures du noyer 1,3 Mo (JPEG exportés en qualité maximale).
+
+**Décision** :
+- L'HDRI devient un **JPEG Ultra HDR** de 157 Ko. C'est une image JPEG ordinaire, accompagnée d'une « carte de gain » : pour chaque pixel, de combien la lumière dépasse ce qu'un JPEG sait montrer. Toute la plage de lumière est conservée, et drei le relit directement.
+- Les textures passent en **WebP**, à la même taille (1024 px) : 120 Ko pour les trois. La carte de normales garde une qualité plus haute, la rugosité passe en niveaux de gris.
+- Total des ressources 3D : **348 Ko**, contre 3,1 Mo.
+
+**Vérification** : captures de la scène avant et après, de jour et de nuit, sur une composition garnie. L'écart moyen est de 0,6 sur 255 ; les seules différences visibles sont les lucioles, qui bougent.
+
+**Choix techniques** : l'encodage Ultra HDR a besoin de WebGL. `scripts/encoder-hdri.ts` lance donc un serveur Vite et Chromium (par Playwright), y ouvre une page outil, et récupère le fichier produit. Les originaux restent hors du dépôt, comme pour les photos.
+
+**Ce qu'on écarte** : réduire l'HDRI à 512 px (reflets du verre plus flous, pour un gain moindre) ; le format KTX2 (un décodeur de plus à charger, pour trois textures).

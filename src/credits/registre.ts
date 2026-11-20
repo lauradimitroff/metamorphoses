@@ -70,8 +70,8 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Dimitrios Savva et Jarod Guest',
     source: 'https://polyhaven.com/a/workshop',
     licence: 'CC0',
-    modifications: null,
-    fichiers: ['hdri/workshop_1k.hdr'],
+    modifications: 'Version 1K encodée en JPEG Ultra HDR (image et carte de gain).',
+    fichiers: ['hdri/workshop.jpg'],
   },
   // Textures
   {
@@ -81,8 +81,8 @@ export const REGISTRE: readonly Credit[] = [
     auteur: 'Jenelle van Heerden',
     source: 'https://polyhaven.com/a/smoked_walnut_veneer',
     licence: 'CC0',
-    modifications: 'Teinte assombrie à l’affichage pour obtenir un noyer foncé.',
-    fichiers: ['textures/noyer/couleur.jpg', 'textures/noyer/normale.jpg', 'textures/noyer/rugosite.jpg'],
+    modifications: 'Converties en WebP ; teinte assombrie à l’affichage pour obtenir un noyer foncé.',
+    fichiers: ['textures/noyer/couleur.webp', 'textures/noyer/normale.webp', 'textures/noyer/rugosite.webp'],
   },
 
   // Photographies (fichiers ajoutés à leur intégration, étapes 4a et 4b)
