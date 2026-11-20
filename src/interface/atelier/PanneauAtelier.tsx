@@ -280,8 +280,11 @@ function Recapitulatif() {
   )
 }
 
-/** Toujours visible en bas du panneau : la place occupée, le dernier message et le total. */
-function BarreDuSpecimen() {
+/**
+ * Toujours visible en bas du panneau : la place occupée, le dernier message et le total.
+ * Sur mobile, elle reste sous le tiroir, même replié.
+ */
+export function BarreDuSpecimen() {
   const composition = useComposition((etat) => etat.composition)
   const message = useInterface((etat) => etat.message)
   const part = useMemo(() => Math.round(remplissage(composition, CATALOGUE) * 100), [composition])
@@ -320,6 +323,7 @@ function BarreDuSpecimen() {
   )
 }
 
+/** Le contenu du panneau, sans la barre du spécimen, que la page place elle-même. */
 export function PanneauAtelier() {
   return (
     <>
@@ -328,7 +332,6 @@ export function PanneauAtelier() {
       <PiecesDuBocal />
       <ChampGravure />
       <Recapitulatif />
-      <BarreDuSpecimen />
     </>
   )
 }

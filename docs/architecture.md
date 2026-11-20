@@ -243,6 +243,8 @@ Chaque sous-étape se termine par une vérification dans le navigateur, une sect
 | 4c | Contact : formulaire et validation accessible | 1 h 30 à 2 h |
 | 4d | Panier fictif : règles et relecture sûre du stockage, compteur, aperçu latéral, page `/panier` et confirmation de démonstration | 4 h |
 | **5 · Finitions** | | |
-| 5a | Mobile, repli sans WebGL, réduction des animations, test Playwright | 2 h |
+| 5a-1 | Atelier mobile : tiroir en bas de l'écran, scène qui se resserre au-dessus, commandes raccourcies, test Playwright sur téléphone | 2 h 30 |
+| 5a-2 | Allègement : HDRI et textures compressés, sous les 3 Mo | 1 h 30 |
+| 5a-3 | Fluidité : résolution adaptée à l'appareil, préchargement de la scène, mesure en 4G | 1 h 30 à 2 h |
 | 5b | README, captures, mise en ligne sur Vercel | 1 h |
 | | **Total** | **environ 30 h** |

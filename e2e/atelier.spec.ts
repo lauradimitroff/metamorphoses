@@ -83,3 +83,29 @@ test('au clavier, on sélectionne, déplace, tourne et retire une pièce', async
   await expect(page.getByText('Le bocal attend sa première pièce.')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Dans le bocal' })).toBeFocused()
 })
+
+test.describe('sur un écran de téléphone', () => {
+  test.use({ viewport: { width: 375, height: 812 } })
+
+  test('le tiroir de l’atelier s’ouvre, se replie, et sa barre reste à portée', async ({ page }) => {
+    await page.goto('/composer')
+    const poignee = page.getByRole('button', { name: 'Choisir les pièces' })
+    const ajouterMousse = page.getByRole('button', { name: 'Ajouter : Touffe de mousse' })
+    const corps = page.locator('#corps-atelier')
+
+    // Replié : le catalogue est hors de portée (inert), mais le total et l'ajout au panier restent visibles.
+    await expect(poignee).toHaveAttribute('aria-expanded', 'false')
+    await expect(corps).toHaveAttribute('inert')
+    await expect(page.getByRole('button', { name: 'Ajouter au panier' })).toBeInViewport()
+
+    await poignee.click()
+    await expect(page.getByRole('button', { name: 'Replier' })).toHaveAttribute('aria-expanded', 'true')
+    await expect(corps).not.toHaveAttribute('inert')
+    await ajouterMousse.click()
+    await expect(page.getByTestId('description-scene')).toContainText('une touffe de mousse')
+    await expect(page.getByText('Total').locator('..')).toContainText('57,00')
+
+    await page.getByRole('button', { name: 'Replier' }).click()
+    await expect(corps).toHaveAttribute('inert')
+  })
+})

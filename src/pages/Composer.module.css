@@ -65,23 +65,131 @@
   outline: none;
 }
 
-/* Provisoire : le vrai tiroir mobile arrive à l'étape 5a. */
+/* Sur grand écran, la poignée et les intitulés courts n'ont pas lieu d'être. */
+.poignee,
+.court {
+  display: none;
+}
+
+/*
+ * Sur mobile, l'atelier devient une colonne de la hauteur de l'écran :
+ * la scène prend la place restante, le tiroir s'ouvre en dessous et la repousse vers le haut.
+ * La scène rétrécit sans jamais être masquée : on voit la pièce se poser.
+ */
 @media (max-width: 56rem) {
   .atelier {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: max(32rem, var(--hauteur-atelier, 100svh));
+    overflow: hidden;
+  }
+
+  .atelier[data-tiroir='ouvert'] {
+    height: max(32rem, 100svh);
   }
 
   .scene {
     position: relative;
-    height: 62svh;
+    flex: 1;
+    min-height: 0;
+    height: auto;
   }
 
   .commandes {
     bottom: var(--espace-3);
     left: var(--espace-3);
+    flex-wrap: nowrap;
+  }
+
+  .commandes button {
+    padding-inline: var(--espace-3);
+  }
+
+  /* Tiroir ouvert, la scène est petite : on y voit les pièces, sans boutons par-dessus. */
+  [data-tiroir='ouvert'] .commandes {
+    display: none;
+  }
+
+  .long {
+    display: none;
+  }
+
+  .court {
+    display: inline;
   }
 
   .panneau {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--marge-panneau);
+    border-top: 1px solid var(--filet);
     border-left: 0;
+    background: var(--fond);
+  }
+
+  .entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espace-3);
+    margin: 0;
+    padding-block: var(--espace-2);
+  }
+
+  .surtitre {
+    margin-bottom: 0;
+    font-size: 0.6875rem;
+  }
+
+  .titre {
+    font-size: 1.375rem;
+  }
+
+  .poignee {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--espace-2);
+    min-height: var(--hauteur-cible);
+    padding-inline: var(--espace-4);
+    border: 1px solid var(--accent);
+    background: none;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+  }
+
+  /* Un chevron dessiné en CSS : il pointe vers le haut, puis se retourne une fois le tiroir ouvert. */
+  .chevron {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-top: 1px solid currentColor;
+    border-left: 1px solid currentColor;
+    transform: translateY(2px) rotate(45deg);
+    transition: transform var(--duree-moyenne) var(--courbe-sortie);
+  }
+
+  [data-tiroir='ouvert'] .chevron {
+    transform: translateY(-2px) rotate(225deg);
+  }
+
+  .corps {
+    height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transition: height var(--duree-moyenne) var(--courbe-sortie);
+  }
+
+  [data-tiroir='ouvert'] .corps {
+    height: min(30rem, 46svh);
+    padding-top: var(--espace-3);
+    border-top: 1px solid var(--filet-leger);
+  }
+}
+
+@media (max-width: 56rem) and (prefers-reduced-motion: reduce) {
+  .corps,
+  .chevron {
+    transition: none;
   }
 }
