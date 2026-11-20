@@ -22,6 +22,12 @@ import '@fontsource/pinyon-script/latin-ext-400.css'
 import './styles/jetons.css'
 import './styles/base.css'
 import App from './App'
+import { prechargerFichiersScene, surveillerIntentionDeComposer } from './interface/prechargement'
+
+// L'accueil et l'atelier montrent la scène : ses fichiers partent tout de suite, en même temps que le code.
+if (window.location.pathname === '/' || window.location.pathname === '/composer') prechargerFichiersScene()
+// Ailleurs, l'atelier se prépare dès qu'on survole, touche ou atteint au clavier un lien « Composer ».
+surveillerIntentionDeComposer()
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>

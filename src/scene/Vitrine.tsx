@@ -1,4 +1,4 @@
-import { Environment, OrbitControls } from '@react-three/drei'
+import { Environment, OrbitControls, PerformanceMonitor } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing'
 import { BlendFunction, ToneMappingMode, type BloomEffect } from 'postprocessing'
@@ -12,6 +12,7 @@ import { Bocal } from './Bocal'
 import { Bougie } from './Bougie'
 import { Lucioles } from './Lucioles'
 import { PiloteCamera, type DemandeVue } from './PiloteCamera'
+import { HDRI } from './ressources'
 import { Table } from './Table'
 import { webglDisponible } from './webgl'
 import styles from './Vitrine.module.css'
@@ -19,6 +20,19 @@ import styles from './Vitrine.module.css'
 const DUREE_TRANSITION = 2.5 // secondes
 
 const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/*
+ * Résolution de rendu : nombre de pixels calculés par pixel CSS.
+ * Un écran « Retina » en demande 2 (voire 3) ; au-delà de 2, la différence ne se voit plus.
+ * Si l'appareil peine, on descend jusqu'à 1 : l'image s'adoucit un peu, mais reste fluide.
+ */
+const RESOLUTION_MAX = Math.min(window.devicePixelRatio, 2)
+const RESOLUTION_MIN = Math.min(window.devicePixelRatio, 1)
+
+/** La résolution pour un facteur de performance entre 0 (l'appareil peine) et 1 (tout va bien), au quart près. */
+function resolutionPour(facteur: number): number {
+  return Math.round(MathUtils.lerp(RESOLUTION_MIN, RESOLUTION_MAX, facteur) * 4) / 4
+}
 
 /** Avance `valeur` vers `cible` d'au plus `pas`, sans la dépasser. */
 function avancerVers(valeur: number, cible: number, pas: number): number {
@@ -86,6 +100,7 @@ export function Vitrine({
   const [scenePossible] = useState(webglDisponible)
   const cadre = useRef<HTMLDivElement>(null)
   const enVue = useEnVue(cadre)
+  const [resolution, setResolution] = useState(RESOLUTION_MAX)
 
   if (!scenePossible) {
     if (repli) return repli
@@ -106,12 +121,23 @@ export function Vitrine({
         className={styles.scene}
         frameloop={enVue ? 'always' : 'never'}
         shadows="percentage"
-        dpr={[1, 2]}
+        dpr={resolution}
         camera={{ position: [3.2, 2.9, 4], fov: 32, near: 0.1, far: 30 }}
         role="img"
         aria-label={description}
         onPointerMissed={onClicVide}
       >
+        {/*
+          Mesure les images par seconde pendant quelques secondes. On part du maximum (facteur 1). Sous 50, le facteur baisse (et la
+          résolution avec) ; s'il remonte, la résolution aussi. Après trois allers-retours, on reste
+          sur la résolution minimale plutôt que d'osciller.
+        */}
+        <PerformanceMonitor
+          factor={1}
+          flipflops={3}
+          onChange={({ factor }) => setResolution(resolutionPour(factor))}
+          onFallback={() => setResolution(RESOLUTION_MIN)}
+        />
         <Suspense fallback={null}>
           <Scene
             moment={moment}
@@ -170,7 +196,7 @@ function Scene({
       <fog attach="fog" args={[COULEURS.encreDeNuit, 5.5, 11]} />
 
       {/* L'HDRI « Workshop » (Poly Haven), choisie pour les reflets qu'elle donne au verre (D10). */}
-      <Environment files="/hdri/workshop.jpg" />
+      <Environment files={HDRI} />
 
       {/* Lumière principale du jour : une fenêtre haute, sur la gauche. */}
       <directionalLight

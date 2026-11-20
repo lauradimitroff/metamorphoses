@@ -1,8 +1,8 @@
 import { useGLTF } from '@react-three/drei'
 import { useMemo } from 'react'
 import { DoubleSide, Mesh, MeshStandardMaterial } from 'three'
+import { MODELE_FOUGERE } from '../ressources'
 
-const CHEMIN = '/models/fougere.glb'
 /** Le modèle d'origine mesure environ 9 unités de large : on le ramène à 0,6 (rayon visuel 0,3). */
 const ECHELLE = 0.064
 /** Les frondes d'origine sont presque à plat : on les redresse en étirant la hauteur. */
@@ -11,7 +11,7 @@ const ETIREMENT_VERTICAL = 1.55
 const DECALAGE_PIED = 0.25 * ECHELLE * ETIREMENT_VERTICAL
 
 export function Fougere() {
-  const { scene } = useGLTF(CHEMIN)
+  const { scene } = useGLTF(MODELE_FOUGERE)
 
   const fougere = useMemo(() => {
     const copie = scene.clone(true)
@@ -45,4 +45,4 @@ export function Fougere() {
   )
 }
 
-useGLTF.preload(CHEMIN)
+useGLTF.preload(MODELE_FOUGERE)

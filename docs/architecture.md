@@ -1,12 +1,12 @@
 # Métamorphoses — Architecture (V1)
 
 > Version 1.5 · 20/11/2026 · validée par Laura Dimitroff
-> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.4) et le [journal de décisions](decisions.md) (D1 à D15).
+> S'appuie sur le [cahier des charges](cahier-des-charges.md) (v2.4) et le [journal de décisions](decisions.md) (D1 à D16).
 > 1.1 : quatre pages, un produit, cinq éléments ; partage et étiquette reportés en V2.
 > 1.2 : le bocal remplace le chaudron (D9), HDRI « Workshop » (D10).
 > 1.3 : gravure personnalisée (D11).
 > 1.4 : panier fictif et page `/panier` (D14).
-> 1.5 : tiroir mobile de l'atelier ; HDRI et textures allégés (D15).
+> 1.5 : tiroir mobile de l'atelier ; HDRI et textures allégés (D15) ; préchargement et résolution adaptative (D16).
 
 ---
 
@@ -71,6 +71,7 @@ metamorphoses/
 │  ├─ traiter-photos.ts      retraite les photos d'ambiance (AVIF + WebP)
 │  ├─ compresser-textures.ts textures du noyer en WebP
 │  ├─ encoder-hdri.ts        HDRI en JPEG Ultra HDR, encodé dans Chromium
+│  ├─ mesurer-chargement.ts  temps d'affichage de la scène en 4G simulée
 │  └─ hdri/                  la page outil que ce script ouvre
 ├─ e2e/                      tests Playwright
 ├─ src/
@@ -199,7 +200,8 @@ Chaque action de `composition` passe par le domaine. `deplacer` refuse une posit
 - **Instanciation** pour les éléments répétés (mousses, galets) : un seul appel de dessin pour toutes les copies.
 - **Interaction** : les évènements de pointeur de React Three Fiber donnent directement le point touché sur le sol. Le glisser utilise `setPointerCapture` pour ne pas « perdre » l'élément si la souris va trop vite.
 - **Caméra** : bornée comme dans l'essai.
-- **Performance** : `PerformanceMonitor` (drei) baisse la résolution si l'appareil peine. La scène ne calcule plus d'images quand l'onglet est caché.
+- **Performance** : `PerformanceMonitor` (drei) baisse la résolution de 2 à 1 si l'appareil passe sous 50 images par seconde, et la remonte s'il va mieux. La scène ne calcule plus d'images quand elle sort de l'écran (D16).
+- **Préchargement** : sur l'accueil et l'atelier, l'HDRI, les textures et la fougère sont demandés dès le code principal ; ailleurs, au survol d'un lien « Composer », avec le code de l'atelier (`src/interface/prechargement.ts`, D16). Les chemins de ces fichiers vivent dans `src/scene/ressources.ts`.
 
 ## 8. Pages et chargement
 

@@ -237,3 +237,28 @@ Une première version finissait la commande dans le panneau latéral ; Laura l'a
 **Choix techniques** : l'encodage Ultra HDR a besoin de WebGL. `scripts/encoder-hdri.ts` lance donc un serveur Vite et Chromium (par Playwright), y ouvre une page outil, et récupère le fichier produit. Les originaux restent hors du dépôt, comme pour les photos.
 
 **Ce qu'on écarte** : réduire l'HDRI à 512 px (reflets du verre plus flous, pour un gain moindre) ; le format KTX2 (un décodeur de plus à charger, pour trois textures).
+
+## D16 · Précharger la scène, adapter sa résolution — 20/11/2026
+
+**Contexte** : objectifs du cahier des charges (§ 5.2) : la scène en moins de 3 s sur une connexion 4G, 30 images par seconde au moins sur un mobile de milieu de gamme. Sans aide, le navigateur découvrait les fichiers de la scène en cascade : la page, puis le code 3D, puis seulement l'HDRI, les textures et la fougère.
+
+**Décision** :
+- **Préchargement** :
+  - sur l'accueil et l'atelier, les fichiers de la scène partent dès le code principal, en même temps que le code 3D ;
+  - ailleurs, le code de l'atelier et ses fichiers partent au survol, au focus ou au toucher d'un lien « Composer ».
+- **Résolution adaptative** : la scène part de la résolution de l'écran (2 au plus) et descend jusqu'à 1 si l'appareil passe sous 50 images par seconde. Après trois allers-retours, elle reste à 1 plutôt que d'osciller.
+
+**Mesures** (`scripts/mesurer-chargement.ts`, version de production, cache vide, une mesure par cas) :
+
+| Réseau | Arrivée directe sur l'atelier | Depuis « Le cabinet », survol puis clic |
+|---|---|---|
+| 4G rapide (9 Mbit/s, 165 ms) | 1,90 s → **1,79 s** | 2,15 s → **1,29 s** |
+| 4G lente (1,6 Mbit/s, 562 ms) | 7,98 s → **6,52 s** | 5,93 s → **4,80 s** |
+
+L'objectif des 3 s est tenu en 4G rapide. En 4G lente, le débit seul l'interdit : le code 3D (380 Ko compressés) et les fichiers (348 Ko) demandent déjà près de 4 s de transfert. L'écran d'attente, avec le papillon qui se dessine, accompagne cette attente.
+
+**Choix techniques** :
+- Le type de chaque préchargement correspond à la requête que fera Three.js (`image` pour les textures, `fetch` pour l'HDRI et le modèle), sinon le navigateur télécharge deux fois. Vérifié : chaque fichier n'est demandé qu'une fois.
+- Sur un MacBook M1 Pro, la scène tient 70 à 94 images par seconde en pleine résolution : la résolution n'y baisse pas.
+
+**Ce qu'on écarte** : précharger la scène sur toutes les pages, sans attendre de signe d'intérêt (700 Ko pour des visiteurs qui ne composeront peut-être pas) ; découper davantage le code 3D, chargé de toute façon d'un bloc par la scène.

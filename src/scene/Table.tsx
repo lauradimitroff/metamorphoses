@@ -1,18 +1,14 @@
 import { useTexture } from '@react-three/drei'
 import { RepeatWrapping, SRGBColorSpace, Vector2 } from 'three'
+import { TEXTURES_NOYER } from './ressources'
 
 const REPETITIONS = 5
-const TEXTURES = {
-  map: '/textures/noyer/couleur.webp',
-  normalMap: '/textures/noyer/normale.webp',
-  roughnessMap: '/textures/noyer/rugosite.webp',
-}
 const RELIEF = new Vector2(0.6, 0.6)
 
 /** Plateau en noyer fumé. Ses bords se perdent dans le brouillard, comme dans une vitrine. */
 export function Table() {
   // Le second argument est appelé une seule fois, au chargement : c'est là qu'on règle les textures.
-  const textures = useTexture(TEXTURES, (chargees) => {
+  const textures = useTexture(TEXTURES_NOYER, (chargees) => {
     // Seule la carte de couleur est une image « à regarder » (espace sRGB) ;
     // les cartes de normales et de rugosité sont des données brutes.
     chargees.map.colorSpace = SRGBColorSpace
